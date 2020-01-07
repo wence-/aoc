@@ -1,8 +1,9 @@
 # cython: language_level=3
 import cython
 import numpy as np
+from libc.stdint cimport int64_t
 
-cimport numpy as np
+from cython cimport view
 
 
 DEF ADD = 1
@@ -20,11 +21,11 @@ DEF BRK = 99
 @cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.overflowcheck(False)
-cdef inline np.int64_t get_val(np.int64_t[::1] mem,
-                               np.int64_t pc,
-                               np.int64_t rbase,
-                               np.int64_t m) nogil:
-    cdef np.int64_t r
+cdef inline int64_t get_val(int64_t[::1] mem,
+                            int64_t pc,
+                            int64_t rbase,
+                            int64_t m) nogil:
+    cdef int64_t r
     r = mem[pc]
     if m == 1:
         return r
@@ -39,34 +40,25 @@ cdef inline np.int64_t get_val(np.int64_t[::1] mem,
 @cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.overflowcheck(False)
-cdef inline np.int64_t[::1] put_val(np.int64_t val,
-                                    np.int64_t[::1] mem,
-                                    np.int64_t pc,
-                                    np.int64_t rbase,
-                                    np.int64_t m):
-    cdef np.int64_t r, n
-    cdef np.int64_t[::1] newmem
-    r = mem[pc]
-    n = mem.shape[0]
-    if m == 2:
-        r += rbase
+cdef inline int64_t[::1] maybe_realloc(int64_t[::1] mem, int64_t r):
+    cdef int64_t n = mem.shape[0]
+    cdef int64_t[::1] newmem
     if r >= n:
-        newmem = np.zeros(r*2, dtype=np.int64)
+        newmem = view.array((r*2, ), sizeof(int64_t), "l")
         newmem[:n] = mem[:]
-        mem = newmem
-    mem[r] = val
-    return mem
+        return newmem
+    else:
+        return mem
 
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.overflowcheck(False)
 @cython.cdivision(True)
-def evaluate_with_state(mem_,
+def evaluate_with_state(int64_t[::1] mem,
                         int pc, int rbase, halted, *,
                         inputs=None, outputs=None, int maxreads=-1):
-    cdef np.int64_t[::1] mem = mem_
-    cdef np.int64_t a, b, op, amode, bmode, cmode
+    cdef int64_t a, b, r, op, amode, bmode, cmode
     if halted:
         return mem, pc, rbase, True
     while True:
@@ -81,20 +73,28 @@ def evaluate_with_state(mem_,
         if op == BRK:
             return mem, pc, rbase, True
         elif op == ADD:
-            mem = put_val(a + b, mem, pc+2, rbase, cmode)
+            r = mem[pc+2] + (rbase if cmode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = a + b
             pc += 3
         elif op == MUL:
-            mem = put_val(a * b, mem, pc+2, rbase, cmode)
+            r = mem[pc+2] + (rbase if cmode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = a * b
             pc += 3
         elif op == JZ:
             pc = b if a == 0 else pc + 2
         elif op == JNZ:
             pc = b if a != 0 else pc + 2
         elif op == LT:
-            mem = put_val(<np.int64_t>(a < b), mem, pc+2, rbase, cmode)
+            r = mem[pc+2] + (rbase if cmode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = <int64_t>(a < b)
             pc += 3
         elif op == EQ:
-            mem = put_val(<np.int64_t>(a == b), mem, pc+2, rbase, cmode)
+            r = mem[pc+2] + (rbase if cmode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = <int64_t>(a == b)
             pc += 3
         elif op == IRB:
             rbase += a
@@ -104,13 +104,14 @@ def evaluate_with_state(mem_,
                 a = next(inputs)
             except StopIteration:
                 return mem, pc - 1, rbase, False
-            mem = put_val(a, mem, pc, rbase, amode)
+            r = mem[pc] + (rbase if amode == 2 else 0)
+            mem[r] = a
             pc += 1
             maxreads -= 1
             if maxreads == 0:
                 return mem, pc, rbase, False
         elif op == PUT:
-            outputs(get_val(mem, pc, rbase, amode))
+            outputs(a)
             pc += 1
         else:
             raise ValueError(f"Unknown opcode {op}")
@@ -120,9 +121,9 @@ def evaluate_with_state(mem_,
 @cython.wraparound(False)
 @cython.overflowcheck(False)
 @cython.cdivision(True)
-def evaluate_with_generator(mem_, *, inputs=None):
-    cdef np.int64_t[::1] mem = mem_.copy()
-    cdef np.int64_t a, b, op, pc = 0, rbase = 0, amode, bmode, cmode
+def evaluate_with_generator(int64_t[::1] mem, *, inputs=None):
+    cdef int64_t a, b, op, r, pc = 0, rbase = 0, amode, bmode, cmode
+    mem = mem.copy()
     if inputs is not None:
         inputs = iter(inputs)
     while True:
@@ -137,27 +138,37 @@ def evaluate_with_generator(mem_, *, inputs=None):
         if op == BRK:
             return
         elif op == ADD:
-            mem = put_val(a + b, mem, pc+2, rbase, cmode)
+            r = mem[pc+2] + (rbase if cmode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = a + b
             pc += 3
         elif op == MUL:
-            mem = put_val(a * b, mem, pc+2, rbase, cmode)
+            r = mem[pc+2] + (rbase if cmode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = a * b
             pc += 3
         elif op == JZ:
             pc = b if a == 0 else pc + 2
         elif op == JNZ:
             pc = b if a != 0 else pc + 2
         elif op == LT:
-            mem = put_val(<np.int64_t>(a < b), mem, pc+2, rbase, cmode)
+            r = mem[pc+2] + (rbase if cmode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = <int64_t>(a < b)
             pc += 3
         elif op == EQ:
-            mem = put_val(<np.int64_t>(a == b), mem, pc+2, rbase, cmode)
+            r = mem[pc+2] + (rbase if cmode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = <int64_t>(a == b)
             pc += 3
         elif op == IRB:
             rbase += a
             pc += 1
         elif op == GET:
             a = next(inputs)
-            mem = put_val(a, mem, pc, rbase, amode)
+            r = mem[pc] + (rbase if amode == 2 else 0)
+            mem = maybe_realloc(mem, r)
+            mem[r] = a
             pc += 1
         elif op == PUT:
             yield a
