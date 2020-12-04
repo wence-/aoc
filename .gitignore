@@ -1,6 +1,6 @@
 .DS_Store
 __pycache__/
 /intcode/cintcode.c
-/intcode/cintcode.cpython-37m-darwin.so
+/intcode/cintcode.cpython-*-darwin.so
 /build/
 /AOC.egg-info/
