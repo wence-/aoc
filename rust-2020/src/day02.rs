@@ -18,7 +18,7 @@ fn read(contents: &str) -> Vec<Field> {
                     lo: lo.parse().unwrap(),
                     hi: hi.parse().unwrap(),
                     chr: chr.chars().nth(0).unwrap(),
-                    passwd: passwd,
+                    passwd,
                 });
             }
             _ => panic!(),
