@@ -1,6 +1,3 @@
-use std::fs;
-use std::path::PathBuf;
-
 struct Field<'a> {
     lo: usize,
     hi: usize,
@@ -50,9 +47,7 @@ fn part2(data: &Vec<Field>) -> usize {
 }
 
 pub fn run() -> (usize, usize) {
-    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    d.push("inputs/day02.input");
-    let contents = fs::read_to_string(d).expect("ARGH, didn't read");
+    let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day02.input"));
     let data = read(&contents);
     return (part1(&data), part2(&data));
 }

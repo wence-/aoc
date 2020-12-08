@@ -1,7 +1,5 @@
 use itertools::Itertools;
 use std::collections;
-use std::fs;
-use std::path::PathBuf;
 
 fn parse(s: &str) -> Option<collections::HashMap<&str, &str>> {
     let p = s
@@ -89,9 +87,7 @@ fn part2(data: &Vec<collections::HashMap<&str, &str>>) -> usize {
 }
 
 pub fn run() -> (usize, usize) {
-    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    d.push("inputs/day04.input");
-    let contents = fs::read_to_string(d).expect("ARGH, didn't read");
+    let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day04.input"));
     let data = contents
         .trim()
         .split("\n\n")

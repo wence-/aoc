@@ -1,8 +1,6 @@
 use regex::Regex;
 use std::collections::HashMap;
 use std::collections::HashSet;
-use std::fs;
-use std::path::PathBuf;
 
 type Graph<'a> = HashMap<&'a str, Vec<(&'a str, usize)>>;
 type IGraph<'a> = HashMap<&'a str, HashSet<&'a str>>;
@@ -69,10 +67,8 @@ fn part2(data: &Graph) -> usize {
 }
 
 pub fn run() -> (usize, usize) {
-    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    d.push("inputs/day07.input");
-    let contents = fs::read_to_string(d).expect("ARGH, didn't read");
-    let (graph, invgraph) = read(contents.as_str());
+    let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day07.input"));
+    let (graph, invgraph) = read(contents);
     let p1 = part1(&invgraph);
     let p2 = part2(&graph);
     return (p1, p2);

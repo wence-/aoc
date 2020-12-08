@@ -1,25 +1,12 @@
-use std::collections;
-use std::fs;
-use std::path::PathBuf;
+use std::collections::HashSet;
+use std::iter::FromIterator;
 
-fn read() -> collections::HashSet<i32> {
-    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    d.push("inputs/day01.input");
-    let contents = fs::read_to_string(d).expect("ARGH, didn't read");
-    let mut data = collections::HashSet::<i32>::new();
-    for line in contents.lines() {
-        match line.parse::<i32>() {
-            Ok(n) => {
-                data.insert(n);
-            }
-            Err(_) => {
-                panic!("Could not parse {}", line);
-            }
-        }
-    }
-    return data;
+fn read() -> HashSet<i32> {
+    let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day01.input"));
+    return HashSet::from_iter(contents.lines().map(|line| line.parse::<i32>().unwrap()));
 }
-fn part1(data: &collections::HashSet<i32>) -> Option<i32> {
+
+fn part1(data: &HashSet<i32>) -> Option<i32> {
     for &n in data {
         if data.contains(&(2020 - n)) {
             return Some(n * (2020 - n));
@@ -28,7 +15,7 @@ fn part1(data: &collections::HashSet<i32>) -> Option<i32> {
     return None;
 }
 
-fn part2(data: &collections::HashSet<i32>) -> Option<i32> {
+fn part2(data: &HashSet<i32>) -> Option<i32> {
     for &n in data {
         for &p in data {
             if data.contains(&(2020 - n - p)) {
