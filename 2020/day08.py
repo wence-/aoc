@@ -1,33 +1,38 @@
+from contextlib import contextmanager
 from enum import IntEnum
 
 
-class Op(IntEnum):
-    NOP = 1
-    ACC = 2
-    JMP = 3
-
-
-class HaltError(Exception):
-    pass
-
-
 class CPU:
+    class Op(IntEnum):
+        NOP = 1
+        ACC = 2
+        JMP = 3
+
+    NOP = Op.NOP
+    ACC = Op.ACC
+    JMP = Op.JMP
+
+    class HaltError(Exception):
+        pass
+
     def __init__(self, program):
         self.load(program)
         self.reset()
 
+    @staticmethod
+    def decode(ins):
+        op, n = ins.split(" ")
+        opmap = {"nop": CPU.NOP,
+                 "acc": CPU.ACC,
+                 "jmp": CPU.JMP}
+        try:
+            return opmap[op], int(n)
+        except KeyError:
+            raise RuntimeError(f"Unsupported instruction {op}")
+
     def load(self, program):
-        self.instructions = []
         with open(program, "r") as f:
-            for ins in f.readlines():
-                if ins[:3] == "nop":
-                    self.instructions.append((Op.NOP, int(ins[4:])))
-                elif ins[:3] == "acc":
-                    self.instructions.append((Op.ACC, int(ins[4:])))
-                elif ins[:3] == "jmp":
-                    self.instructions.append((Op.JMP, int(ins[4:])))
-                else:
-                    raise RuntimeError(f"Unsupported instruction {ins}")
+            self.instructions = list(map(self.decode, f.readlines()))
 
     def reset(self):
         self.ip = 0
@@ -35,29 +40,35 @@ class CPU:
 
     def isinf(self):
         seen = set()
-        while self.ip not in seen:
-            seen.add(self.ip)
-            try:
+        try:
+            while self.ip not in seen:
+                seen.add(self.ip)
                 self.step()
-            except HaltError:
-                return False
-        return True
+        except CPU.HaltError:
+            return False
+        else:
+            return True
+
+    @contextmanager
+    def modified_instruction(self, i, opmap):
+        op, v = self.instructions[i]
+        newop = opmap[op]
+        self.instructions[i] = (newop, v)
+        yield
+        self.instructions[i] = (op, v)
 
     def step(self):
         try:
             op, v = self.instructions[self.ip]
         except IndexError:
-            raise HaltError()
-        if op == Op.JMP:
+            raise CPU.HaltError()
+        if op == self.JMP:
             self.ip += v
-            return
-        elif op == Op.ACC:
+        elif op == self.ACC:
             self.accumulator += v
             self.ip += 1
-            return
-        elif op == Op.NOP:
+        elif op == self.NOP:
             self.ip += 1
-            return
         else:
             raise RuntimeError(f"Unhandled instruction {op}")
 
@@ -67,21 +78,21 @@ cpu = CPU("inputs/day08.input")
 
 def part1(cpu):
     cpu.reset()
-    assert cpu.isinf()
+    if not cpu.isinf():
+        raise RuntimeError("Expecting infinite loop")
     return cpu.accumulator
 
 
 def part2(cpu):
-    opmap = {Op.NOP: Op.JMP, Op.JMP: Op.NOP, Op.ACC: Op.ACC}
+    opmap = {CPU.NOP: CPU.JMP,
+             CPU.JMP: CPU.NOP,
+             CPU.ACC: CPU.ACC}
     for i in range(len(cpu.instructions)):
         cpu.reset()
-        op, v = cpu.instructions[i]
-        cpu.instructions[i] = (opmap[op], v)
-        if cpu.isinf():
-            cpu.instructions[i] = (op, v)
-        else:
-            cpu.instructions[i] = (op, v)
-            return cpu.accumulator
+        with cpu.modified_instruction(i, opmap):
+            if not cpu.isinf():
+                return cpu.accumulator
+    raise RuntimeError("Expected to terminate")
 
 
 print(f"Part 1: {part1(cpu)}")
