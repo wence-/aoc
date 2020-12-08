@@ -9,6 +9,7 @@ pub fn criterion_benchmark(c: &mut Criterion) {
     c.bench_function("Day 05", |b| b.iter(|| aoc::day05::run()));
     c.bench_function("Day 06", |b| b.iter(|| aoc::day06::run()));
     c.bench_function("Day 07", |b| b.iter(|| aoc::day07::run()));
+    c.bench_function("Day 08", |b| b.iter(|| aoc::day08::run()));
 }
 
 criterion_group!(benches, criterion_benchmark);
