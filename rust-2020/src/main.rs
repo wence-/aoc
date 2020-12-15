@@ -11,7 +11,7 @@ fn main() {
             _ => panic!("Couldn't handle argument"),
         }
     } else {
-        days = (1..9).collect()
+        days = (1..12).collect()
     }
 
     for d in days {
@@ -54,6 +54,31 @@ fn main() {
             }
             8 => {
                 let (a, b) = aoc::day08::run();
+                println!("Part 1: {}", a);
+                println!("Part 2: {}", b);
+            }
+            9 => {
+                let (a, b) = aoc::day09::run();
+                println!("Part 1: {}", a);
+                println!("Part 2: {}", b);
+            }
+            10 => {
+                let (a, b) = aoc::day10::run();
+                println!("Part 1: {}", a);
+                println!("Part 2: {}", b);
+            }
+            11 => {
+                let (a, b) = aoc::day11::run();
+                println!("Part 1: {}", a);
+                println!("Part 2: {}", b);
+            }
+            13 => {
+                let (a, b) = aoc::day13::run();
+                println!("Part 1: {}", a);
+                println!("Part 2: {}", b);
+            }
+            15 => {
+                let (a, b) = aoc::day15::run();
                 println!("Part 1: {}", a);
                 println!("Part 2: {}", b);
             }
