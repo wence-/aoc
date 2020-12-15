@@ -1,35 +1,44 @@
 import math
 from functools import reduce
-from operator import add, mul
+from operator import add, itemgetter, mul
 
 with open("inputs/day13.input", "r") as f:
-    target, busses = f.readlines()
+    target, buses = f.readlines()
     target = int(target)
-    busses = [int(n) if n != "x" else None for n in busses.split(",")]
+    buses = [(i, int(n)) for i, n in enumerate(buses.split(","))
+             if n != "x"]
 
 
-keep = lambda x: x is not None
-
-
-def part1(target, busses):
+def part1(target, buses):
     best = 10**10
     which = -1
-    for bus in filter(keep, busses):
-        n = int(math.ceil(target / bus))
-        if bus * n - target < best:
+    for _, bus in buses:
+        if (n := bus - target % bus) < best:
             which = bus
-            best = bus * n - target
+            best = n
     return best * which
 
 
-def part2(busses):
-    modulus = reduce(mul, filter(keep, busses))
+def part2(buses):
     # Chinese remainder theorem
-    ts = reduce(add, (-i * (modulus // bus) * pow(modulus // bus, -1, bus)
-                      for i, bus in enumerate(busses)
-                      if keep(bus)))
-    return ts % modulus
+    N = reduce(mul, map(itemgetter(1), buses))
+    return reduce(add, ((bus - i) * (N // bus)
+                        * pow(N // bus, -1, bus)
+                        for i, bus in buses)) % N
 
 
-print(f"Part 1: {part1(target, busses)}")
-print(f"Part 2: {part2(busses)}")
+def part2_alternate(buses):
+    # LCM
+    time = 0
+    lcm = 1
+    for i, bus in buses:
+        while (time + i) % bus:
+            time += lcm
+        # Since all buses are prime, could just be lcm *= bus
+        lcm = math.lcm(lcm, bus)
+    return time
+
+
+print(f"Part 1: {part1(target, buses)}")
+print(f"Part 2: {part2(buses)}")
+print(f"Part 2 (LCM): {part2_alternate(buses)}")

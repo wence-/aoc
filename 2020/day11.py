@@ -1,3 +1,4 @@
+from functools import partial
 from itertools import chain
 
 EMPTY = 0
@@ -31,8 +32,8 @@ def next_state_part1(grid, new_grid):
             else:
                 nocc = -int(grid[i][j] == OCC)
                 for k in range(max(0, i-1), min(a, i+2)):
-                    for l in range(max(0, j-1), min(b, j+2)):
-                        nocc += grid[k][l] == OCC
+                    for m in range(max(0, j-1), min(b, j+2)):
+                        nocc += grid[k][m] == OCC
                 if grid[i][j] == EMPTY and nocc == 0:
                     new_grid[i][j] = OCC
                 elif nocc >= 4:
@@ -40,18 +41,6 @@ def next_state_part1(grid, new_grid):
                 else:
                     new_grid[i][j] = grid[i][j]
     return new_grid, grid
-
-
-def part1(grid):
-    grid = [list(g) for g in grid]
-    next_grid = [[0 for _ in g] for g in grid]
-    while next_grid != grid:
-        grid, next_grid = next_state_part1(grid, next_grid)
-    return sum(chain(*((g == OCC for g in gridline)
-                       for gridline in grid)))
-
-
-print(f"Part 1: {part1(grid)}")
 
 
 def next_state_part2(grid, new_grid):
@@ -63,15 +52,15 @@ def next_state_part2(grid, new_grid):
             else:
                 nocc = 0
                 for k in (-1, 0, 1):
-                    for l in (-1, 0, 1):
-                        if k == l == 0:
+                    for m in (-1, 0, 1):
+                        if k == m == 0:
                             continue
-                        m = 1
-                        while 0 <= i + k*m < a and 0 <= j + l*m < b:
-                            if grid[i + k*m][j+l*m] != FLOOR:
-                                nocc += grid[i+k*m][j+l*m] == OCC
+                        n = 1
+                        while 0 <= i + k*n < a and 0 <= j + m*n < b:
+                            if grid[i + k*n][j+m*n] != FLOOR:
+                                nocc += grid[i+k*n][j+m*n] == OCC
                                 break
-                            m += 1
+                            n += 1
                 if grid[i][j] == EMPTY and nocc == 0:
                     new_grid[i][j] = OCC
                 elif nocc >= 5:
@@ -81,13 +70,18 @@ def next_state_part2(grid, new_grid):
     return new_grid, grid
 
 
-def part2(grid):
+def run(grid, update):
     grid = [list(g) for g in grid]
     next_grid = [[0 for _ in g] for g in grid]
     while next_grid != grid:
-        grid, next_grid = next_state_part2(grid, next_grid)
+        grid, next_grid = update(grid, next_grid)
     return sum(chain(*((g == OCC for g in gridline)
                        for gridline in grid)))
 
 
+part1 = partial(run, update=next_state_part1)
+part2 = partial(run, update=next_state_part2)
+
+
+print(f"Part 1: {part1(grid)}")
 print(f"Part 2: {part2(grid)}")
