@@ -1,4 +1,4 @@
-fn read(contents: &str) -> (u32, u32) {
+pub fn read(contents: &str) -> (u32, u32) {
     let mut a = 0_u32;
     let mut b = 0_u32;
     for group in contents.trim().split("\n\n") {
@@ -20,6 +20,12 @@ fn read(contents: &str) -> (u32, u32) {
     return (a, b);
 }
 
+pub fn part1(data: &(u32, u32)) -> u32 {
+    data.0
+}
+pub fn part2(data: &(u32, u32)) -> u32 {
+    data.1
+}
 pub fn run() -> (u32, u32) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day06.input"));
     return read(contents);

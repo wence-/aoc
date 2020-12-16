@@ -9,7 +9,7 @@ const FLOOR: i8 = 2;
 
 type Grid = Array2<State>;
 
-fn read(contents: &str) -> Grid {
+pub fn read(contents: &str) -> Grid {
     let lines = contents.lines().collect::<Vec<_>>();
     let nx = lines[0].len();
     let ny = lines.len();
@@ -103,7 +103,7 @@ fn step<T: Search>(current: &Grid, next: &mut Grid, full: usize, x: T) -> () {
     }
 }
 
-fn part1(data: &Grid) -> usize {
+pub fn part1(data: &Grid) -> usize {
     let mut current = data.clone();
     let mut next = Array2::<State>::default(data.dim());
     while next != current {
@@ -113,7 +113,7 @@ fn part1(data: &Grid) -> usize {
     return current.iter().filter(|c| **c == FULL).count();
 }
 
-fn part2(data: &Grid) -> usize {
+pub fn part2(data: &Grid) -> usize {
     let mut current = data.clone();
     let mut next = Array2::<State>::default(data.dim());
     while next != current {
@@ -125,6 +125,6 @@ fn part2(data: &Grid) -> usize {
 
 pub fn run() -> (usize, usize) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day11.input"));
-    let data = read(contents);
+    let data = read(&contents);
     return (part1(&data), part2(&data));
 }

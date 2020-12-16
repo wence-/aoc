@@ -1,4 +1,4 @@
-fn read(contents: &str) -> Vec<&str> {
+pub fn read(contents: &str) -> Vec<&str> {
     return contents.lines().collect();
 }
 
@@ -12,11 +12,11 @@ fn trees(grid: &Vec<&str>, row: usize, col: usize) -> usize {
         .count();
 }
 
-fn part1(data: &Vec<&str>) -> usize {
+pub fn part1(data: &Vec<&str>) -> usize {
     return trees(data, 3, 1);
 }
 
-fn part2(data: &Vec<&str>) -> usize {
+pub fn part2(data: &Vec<&str>) -> usize {
     let skips = vec![(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)];
     return skips
         .iter()

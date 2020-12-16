@@ -5,7 +5,7 @@ use std::collections::HashSet;
 type Graph<'a> = HashMap<&'a str, Vec<(&'a str, usize)>>;
 type IGraph<'a> = HashMap<&'a str, HashSet<&'a str>>;
 
-fn read(lines: &str) -> (Graph, IGraph) {
+pub fn read(lines: &str) -> (Graph, IGraph) {
     let mut graph = Graph::new();
     let mut invgraph = IGraph::new();
 
@@ -32,7 +32,8 @@ fn read(lines: &str) -> (Graph, IGraph) {
     return (graph, invgraph);
 }
 
-fn part1(data: &IGraph) -> usize {
+pub fn part1(data: &(Graph, IGraph)) -> usize {
+    let data = &data.1;
     let mut lifo = vec!["shiny gold"];
     let mut seen = HashSet::<&str>::new();
     while let Some(top) = lifo.pop() {
@@ -49,7 +50,8 @@ fn part1(data: &IGraph) -> usize {
     return seen.len();
 }
 
-fn part2(data: &Graph) -> usize {
+pub fn part2(data: &(Graph, IGraph)) -> usize {
+    let data = &data.0;
     let mut n: usize = 0;
     let mut lifo = vec![("shiny gold", 1)];
     while let Some((top, b)) = lifo.pop() {
@@ -68,8 +70,8 @@ fn part2(data: &Graph) -> usize {
 
 pub fn run() -> (usize, usize) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day07.input"));
-    let (graph, invgraph) = read(contents);
-    let p1 = part1(&invgraph);
-    let p2 = part2(&graph);
+    let data = read(&contents);
+    let p1 = part1(&data);
+    let p2 = part2(&data);
     return (p1, p2);
 }

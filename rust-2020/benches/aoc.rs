@@ -1,20 +1,42 @@
-use aoc;
+use aoc::*;
 use criterion::{criterion_group, criterion_main, Criterion};
 
+macro_rules! bench {
+    ($c:expr, $module:path) => {{
+        use $module::*;
+        let contents = include_str!(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/inputs/",
+            stringify!($module),
+            ".input"
+        ));
+        let data = read(&contents);
+        $c.bench_function(concat!(stringify!($module), "::read"), |b| {
+            b.iter(|| read(&contents))
+        });
+        $c.bench_function(concat!(stringify!($module), "::part1"), |b| {
+            b.iter(|| part1(&data))
+        });
+        $c.bench_function(concat!(stringify!($module), "::part2"), |b| {
+            b.iter(|| part2(&data))
+        });
+    }};
+}
+
 pub fn criterion_benchmark(c: &mut Criterion) {
-    c.bench_function("Day 01", |b| b.iter(|| aoc::day01::run()));
-    c.bench_function("Day 02", |b| b.iter(|| aoc::day02::run()));
-    c.bench_function("Day 03", |b| b.iter(|| aoc::day03::run()));
-    c.bench_function("Day 04", |b| b.iter(|| aoc::day04::run()));
-    c.bench_function("Day 05", |b| b.iter(|| aoc::day05::run()));
-    c.bench_function("Day 06", |b| b.iter(|| aoc::day06::run()));
-    c.bench_function("Day 07", |b| b.iter(|| aoc::day07::run()));
-    c.bench_function("Day 08", |b| b.iter(|| aoc::day08::run()));
-    c.bench_function("Day 09", |b| b.iter(|| aoc::day09::run()));
-    c.bench_function("Day 10", |b| b.iter(|| aoc::day10::run()));
-    c.bench_function("Day 11", |b| b.iter(|| aoc::day11::run()));
-    c.bench_function("Day 13", |b| b.iter(|| aoc::day13::run()));
-    c.bench_function("Day 15", |b| b.iter(|| aoc::day15::run()));
+    bench!(c, day01);
+    bench!(c, day02);
+    bench!(c, day03);
+    bench!(c, day04);
+    bench!(c, day05);
+    bench!(c, day06);
+    bench!(c, day07);
+    bench!(c, day08);
+    // bench!(c, day09);
+    bench!(c, day10);
+    bench!(c, day11);
+    bench!(c, day13);
+    bench!(c, day15);
 }
 
 criterion_group!(benches, criterion_benchmark);

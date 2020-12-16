@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-fn read(contents: &str) -> HashSet<usize> {
+pub fn read(contents: &str) -> HashSet<usize> {
     return HashSet::from_iter(contents.lines().map(|line| {
         line.chars()
             .enumerate()
@@ -14,11 +14,11 @@ fn read(contents: &str) -> HashSet<usize> {
     }));
 }
 
-fn part1(data: &HashSet<usize>) -> usize {
+pub fn part1(data: &HashSet<usize>) -> usize {
     return *data.iter().max().unwrap();
 }
 
-fn part2(data: &HashSet<usize>) -> usize {
+pub fn part2(data: &HashSet<usize>) -> usize {
     return (0..data.len())
         .filter(|x| !data.contains(x) && data.contains(&(x + 1)) && data.contains(&(x - 1)))
         .next()
@@ -27,6 +27,6 @@ fn part2(data: &HashSet<usize>) -> usize {
 
 pub fn run() -> (usize, usize) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day05.input"));
-    let data = read(contents);
+    let data = read(&contents);
     return (part1(&data), part2(&data));
 }

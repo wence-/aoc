@@ -1,10 +1,10 @@
-enum Op {
+pub enum Op {
     Acc(i32),
     Jmp(i32),
     Nop(i32),
 }
 
-fn read(lines: &str) -> Vec<Op> {
+pub fn read(lines: &str) -> Vec<Op> {
     lines
         .trim()
         .split("\n")
@@ -20,7 +20,7 @@ fn read(lines: &str) -> Vec<Op> {
         .collect()
 }
 
-fn part1(data: &Vec<Op>) -> i32 {
+pub fn part1(data: &Vec<Op>) -> i32 {
     let mut seen = vec![];
     let (mut acc, mut ip) = (0, 0);
     while !seen.contains(&ip) {
@@ -35,7 +35,7 @@ fn part1(data: &Vec<Op>) -> i32 {
     return acc;
 }
 
-fn part2(data: &Vec<Op>) -> i32 {
+pub fn part2(data: &Vec<Op>) -> i32 {
     let ninsn = data.len();
     for i in 0..ninsn {
         let mut seen = Vec::new();
@@ -59,7 +59,7 @@ fn part2(data: &Vec<Op>) -> i32 {
 
 pub fn run() -> (i32, i32) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day08.input"));
-    let instructions = read(contents);
+    let instructions = read(&contents);
     let p1 = part1(&instructions);
     let p2 = part2(&instructions);
     return (p1, p2);

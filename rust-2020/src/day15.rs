@@ -1,5 +1,9 @@
-fn read() -> Vec<u8> {
-    vec![7, 12, 1, 0, 16, 2]
+pub fn read(contents: &str) -> Vec<u8> {
+    contents
+        .trim()
+        .split(",")
+        .map(|n| n.parse::<u8>().unwrap())
+        .collect::<Vec<_>>()
 }
 
 fn solve(data: &Vec<u8>, max_turn: u32) -> u32 {
@@ -17,7 +21,16 @@ fn solve(data: &Vec<u8>, max_turn: u32) -> u32 {
     return last;
 }
 
+pub fn part1(data: &Vec<u8>) -> u32 {
+    solve(&data, 2020)
+}
+
+pub fn part2(data: &Vec<u8>) -> u32 {
+    solve(&data, 30_000_000)
+}
+
 pub fn run() -> (u32, u32) {
-    let data = read();
+    let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day15.input"));
+    let data = read(&contents);
     return (solve(&data, 2020), solve(&data, 30_000_000));
 }

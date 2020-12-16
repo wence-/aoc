@@ -1,4 +1,4 @@
-fn read(contents: &str) -> (i32, Vec<(i32, i32)>) {
+pub fn read(contents: &str) -> (i32, Vec<(i32, i32)>) {
     let lines = contents.lines().collect::<Vec<&str>>();
     let target = lines[0].parse::<i32>().unwrap();
     let buses = lines[1]
@@ -12,25 +12,14 @@ fn read(contents: &str) -> (i32, Vec<(i32, i32)>) {
     return (target, buses);
 }
 
-pub fn part1(target: i32, buses: &[(i32, i32)]) -> i32 {
+pub fn part1(data: &(i32, Vec<(i32, i32)>)) -> i32 {
+    let (target, buses) = data;
     let (bus, wait) = buses
         .iter()
         .map(|(_, bus)| (bus, bus - target % bus))
         .min_by_key(|k| k.1)
         .unwrap();
     return bus * wait;
-}
-
-pub fn part2_lcm(buses: &[(i32, i32)]) -> i64 {
-    let mut time: i64 = 0;
-    let mut lcm = 1;
-    for (i, bus) in buses {
-        while ((time + (*i as i64)) % (*bus as i64)) != 0 {
-            time += lcm;
-        }
-        lcm = lcm * (*bus as i64);
-    }
-    return time;
 }
 
 fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
@@ -66,8 +55,9 @@ fn chinese_remainder(residues: &[i64], modulii: &[i64]) -> Option<i64> {
     )
 }
 
-pub fn part2_crt(buses: &[(i32, i32)]) -> i64 {
-    let (a, n): (Vec<_>, Vec<_>) = buses
+pub fn part2(data: &(i32, Vec<(i32, i32)>)) -> i64 {
+    let (a, n): (Vec<_>, Vec<_>) = data
+        .1
         .iter()
         .map(|(i, bus)| ((bus - i) as i64, *bus as i64))
         .unzip();
@@ -77,8 +67,8 @@ pub fn part2_crt(buses: &[(i32, i32)]) -> i64 {
 
 pub fn run() -> (i32, i64) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day13.input"));
-    let (target, buses) = read(&contents);
-    let p1 = part1(target, &buses);
-    let p2 = part2_crt(&buses);
+    let data = read(&contents);
+    let p1 = part1(&data);
+    let p2 = part2(&data);
     return (p1, p2);
 }

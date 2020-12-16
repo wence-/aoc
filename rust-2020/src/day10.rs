@@ -36,10 +36,9 @@ pub fn part2(data: &Vec<usize>) -> usize {
     return table[0];
 }
 
-pub static CONTENTS: &str =
-    include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day10.input"));
 pub fn run() -> (usize, usize) {
-    let adapters = read(CONTENTS);
+    let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day10.input"));
+    let adapters = read(&contents);
     let p1 = part1(&adapters);
     let p2 = part2(&adapters);
     return (p1, p2);

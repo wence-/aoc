@@ -1,11 +1,11 @@
-struct Field<'a> {
+pub struct Field<'a> {
     lo: usize,
     hi: usize,
     chr: char,
     passwd: &'a str,
 }
 
-fn read(contents: &str) -> Vec<Field> {
+pub fn read(contents: &str) -> Vec<Field> {
     let mut data = Vec::<Field>::new();
     for line in contents.lines() {
         match line
@@ -27,7 +27,7 @@ fn read(contents: &str) -> Vec<Field> {
     return data;
 }
 
-fn part1(data: &Vec<Field>) -> usize {
+pub fn part1(data: &Vec<Field>) -> usize {
     return data.iter().fold(0, |acc, field| {
         let c = field.passwd.chars().filter(|&c| c == field.chr).count();
         if field.lo <= c && c <= field.hi {
@@ -38,7 +38,7 @@ fn part1(data: &Vec<Field>) -> usize {
     });
 }
 
-fn part2(data: &Vec<Field>) -> usize {
+pub fn part2(data: &Vec<Field>) -> usize {
     return data.iter().fold(0, |acc, field| {
         let loc: char = field.passwd.chars().nth(field.lo - 1).unwrap();
         let hic: char = field.passwd.chars().nth(field.hi - 1).unwrap();

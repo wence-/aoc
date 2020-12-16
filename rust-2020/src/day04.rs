@@ -78,21 +78,25 @@ fn valid(p: &collections::HashMap<&str, &str>) -> bool {
     });
 }
 
-fn part1(data: &Vec<collections::HashMap<&str, &str>>) -> usize {
+pub fn part1(data: &Vec<collections::HashMap<&str, &str>>) -> usize {
     return data.len();
 }
 
-fn part2(data: &Vec<collections::HashMap<&str, &str>>) -> usize {
+pub fn part2(data: &Vec<collections::HashMap<&str, &str>>) -> usize {
     return data.iter().filter(|p| valid(p)).count();
+}
+
+pub fn read(contents: &str) -> Vec<collections::HashMap<&str, &str>> {
+    contents
+        .trim()
+        .split("\n\n")
+        .filter_map(|s| parse(&s))
+        .collect::<Vec<_>>()
 }
 
 pub fn run() -> (usize, usize) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day04.input"));
-    let data = contents
-        .trim()
-        .split("\n\n")
-        .filter_map(|s| parse(&s))
-        .collect::<Vec<_>>();
+    let data = read(&contents);
     let p1 = part1(&data);
     let p2 = part2(&data);
     return (p1, p2);
