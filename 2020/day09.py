@@ -22,7 +22,7 @@ def part2(data, want):
         if subseq_sum == want:
             subseq = data[left:right]
             return min(subseq) + max(subseq)
-        subseq_sum += data[right]
+        subseq_sum += n
     raise RuntimeError("")
 
 
