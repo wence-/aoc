@@ -94,10 +94,10 @@ pub fn read(contents: &str) -> Vec<collections::HashMap<&str, &str>> {
         .collect::<Vec<_>>()
 }
 
-pub fn run() -> (usize, usize) {
+pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day04.input"));
     let data = read(&contents);
-    let p1 = part1(&data);
-    let p2 = part2(&data);
+    let p1 = format!("{}", part1(&data));
+    let p2 = format!("{}", part2(&data));
     return (p1, p2);
 }

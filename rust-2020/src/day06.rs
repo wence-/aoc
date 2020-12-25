@@ -26,7 +26,10 @@ pub fn part1(data: &(u32, u32)) -> u32 {
 pub fn part2(data: &(u32, u32)) -> u32 {
     data.1
 }
-pub fn run() -> (u32, u32) {
+pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day06.input"));
-    return read(contents);
+    let data = read(&contents);
+    let p1 = format!("{}", part1(&data));
+    let p2 = format!("{}", part2(&data));
+    return (p1, p2);
 }

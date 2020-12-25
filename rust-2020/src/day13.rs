@@ -65,10 +65,10 @@ pub fn part2(data: &(i32, Vec<(i32, i32)>)) -> i64 {
     return (chinese_remainder(a.as_slice(), n.as_slice()).unwrap() + prod) % prod;
 }
 
-pub fn run() -> (i32, i64) {
+pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day13.input"));
     let data = read(&contents);
-    let p1 = part1(&data);
-    let p2 = part2(&data);
+    let p1 = format!("{}", part1(&data));
+    let p2 = format!("{}", part2(&data));
     return (p1, p2);
 }

@@ -68,10 +68,10 @@ pub fn part2(data: &(Graph, IGraph)) -> usize {
     return n - 1;
 }
 
-pub fn run() -> (usize, usize) {
+pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day07.input"));
     let data = read(&contents);
-    let p1 = part1(&data);
-    let p2 = part2(&data);
+    let p1 = format!("{}", part1(&data));
+    let p2 = format!("{}", part2(&data));
     return (p1, p2);
 }
