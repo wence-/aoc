@@ -1,15 +1,15 @@
-#[derive(Debug,PartialEq,Eq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Command {
     N(i32),
     E(i32),
     R(i32),
-    F(i32)
+    F(i32),
 }
 
-
 pub fn read(lines: &str) -> Vec<Command> {
-    use Command::{N, E, R, F};
-    lines.lines()
+    use Command::{E, F, N, R};
+    lines
+        .lines()
         .filter_map(|line| {
             let ins = &line[0..1];
             let n = &line[1..].parse::<i32>().unwrap();
@@ -21,32 +21,32 @@ pub fn read(lines: &str) -> Vec<Command> {
                 "R" => Some(R(n / 90)),
                 "L" => Some(R(4 - (n / 90))),
                 "F" => Some(F(*n)),
-                _ => None
+                _ => None,
             }
-        }).collect()
+        })
+        .collect()
 }
 
 #[derive(Debug)]
 struct Ship {
-    x : i32,
-    y : i32,
-    wx : i32,
-    wy : i32,
+    x: i32,
+    y: i32,
+    wx: i32,
+    wy: i32,
 }
 
 impl Ship {
-    fn new(wx : i32, wy : i32) -> Ship {
-        Ship { x: 0, y: 0,
-               wx, wy }
+    fn new(wx: i32, wy: i32) -> Ship {
+        Ship { x: 0, y: 0, wx, wy }
     }
 
     fn apply_command(&mut self, c: &Command) {
-        use Command::{R, F};
+        use Command::{F, R};
         match c {
             F(n) => {
                 self.x += self.wx * n;
                 self.y += self.wy * n;
-            },
+            }
             R(n) => {
                 for _ in 0..*n {
                     let tx = self.wx;
@@ -54,24 +54,24 @@ impl Ship {
                     self.wy = -tx;
                 }
             }
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     fn apply_command1(&mut self, c: &Command) {
-        use Command::{N, E};
+        use Command::{E, N};
         match c {
             N(n) => self.y += n,
             E(n) => self.x += n,
-            _ => self.apply_command(c)
+            _ => self.apply_command(c),
         }
     }
 
     fn apply_command2(&mut self, c: &Command) {
-        use Command::{N, E};
+        use Command::{E, N};
         match c {
             N(n) => self.wy += n,
             E(n) => self.wx += n,
-            _ => self.apply_command(c)
+            _ => self.apply_command(c),
         }
     }
 }

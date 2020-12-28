@@ -1,9 +1,12 @@
 use mod_exp;
 
-const MODULUS : usize = 20201227usize;
+const MODULUS: usize = 20201227usize;
 
 pub fn read(lines: &str) -> Vec<usize> {
-    lines.lines().map(|line| line.parse::<usize>().unwrap()).collect()
+    lines
+        .lines()
+        .map(|line| line.parse::<usize>().unwrap())
+        .collect()
 }
 
 pub fn part1(data: &[usize]) -> usize {
@@ -12,15 +15,14 @@ pub fn part1(data: &[usize]) -> usize {
     if let &[cardpub, doorpub] = data {
         while n != doorpub {
             e += 1;
-            n = 7*n % MODULUS;
+            n = 7 * n % MODULUS;
         }
         return mod_exp::mod_exp(cardpub, e, MODULUS);
     }
     unreachable!()
 }
 
-pub fn part2(_data: &[usize]) -> () {
-}
+pub fn part2(_data: &[usize]) -> () {}
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day25.input"));
