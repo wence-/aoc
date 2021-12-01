@@ -4,15 +4,15 @@ use criterion::{criterion_group, criterion_main, Criterion};
 macro_rules! bench {
     ($c:expr, $module:path) => {{
         use $module::*;
-        let contents = include_str!(concat!(
+        let contents = include_bytes!(concat!(
             env!("CARGO_MANIFEST_DIR"),
             "/inputs/",
             stringify!($module),
             ".input"
         ));
-        let data = read(&contents);
+        let data = read(contents);
         $c.bench_function(concat!(stringify!($module), "::read"), |b| {
-            b.iter(|| read(&contents))
+            b.iter(|| read(contents))
         });
         $c.bench_function(concat!(stringify!($module), "::part1"), |b| {
             b.iter(|| part1(&data))
