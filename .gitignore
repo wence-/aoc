@@ -4,3 +4,4 @@ __pycache__/
 /intcode/cintcode.cpython-*-darwin.so
 /build/
 /AOC.egg-info/
+/rust-2021/target/
