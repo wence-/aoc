@@ -8,42 +8,42 @@ pub struct Field<'a> {
 pub fn read(contents: &str) -> Vec<Field> {
     let mut data = Vec::<Field>::new();
     for line in contents.lines() {
-        match line
+        match *line
             .split([' ', '-'].as_ref())
             .collect::<Vec<_>>()
             .as_slice()
         {
-            &[lo, hi, chr, passwd] => {
+            [lo, hi, chr, passwd] => {
                 data.push(Field {
                     lo: lo.parse().unwrap(),
                     hi: hi.parse().unwrap(),
-                    chr: chr.chars().nth(0).unwrap(),
+                    chr: chr.chars().next().unwrap(),
                     passwd,
                 });
             }
-            _ => panic!(),
+            _ => unreachable!(),
         }
     }
-    return data;
+    data
 }
 
-pub fn part1(data: &Vec<Field>) -> usize {
-    return data.iter().fold(0, |acc, field| {
+pub fn part1(data: &[Field]) -> usize {
+    data.iter().fold(0, |acc, field| {
         let c = field.passwd.chars().filter(|&c| c == field.chr).count();
         if field.lo <= c && c <= field.hi {
             acc + 1
         } else {
             acc
         }
-    });
+    })
 }
 
-pub fn part2(data: &Vec<Field>) -> usize {
-    return data.iter().fold(0, |acc, field| {
+pub fn part2(data: &[Field]) -> usize {
+    data.iter().fold(0, |acc, field| {
         let loc: char = field.passwd.chars().nth(field.lo - 1).unwrap();
         let hic: char = field.passwd.chars().nth(field.hi - 1).unwrap();
         acc + ((loc == field.chr) ^ (hic == field.chr)) as usize
-    });
+    })
 }
 
 pub fn run() -> (String, String) {
@@ -51,5 +51,5 @@ pub fn run() -> (String, String) {
     let data = read(&contents);
     let p1 = format!("{}", part1(&data));
     let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    (p1, p2)
 }

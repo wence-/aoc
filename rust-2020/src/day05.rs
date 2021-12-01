@@ -1,8 +1,7 @@
 use std::collections::HashSet;
-use std::iter::FromIterator;
 
 pub fn read(contents: &str) -> HashSet<usize> {
-    return HashSet::from_iter(contents.lines().map(|line| {
+    contents.lines().map(|line| {
         line.chars()
             .enumerate()
             .map(|(i, c)| match c {
@@ -11,18 +10,17 @@ pub fn read(contents: &str) -> HashSet<usize> {
                 _ => 0,
             })
             .fold(0, |acc, x| x + acc)
-    }));
+    }).collect()
 }
 
 pub fn part1(data: &HashSet<usize>) -> usize {
-    return *data.iter().max().unwrap();
+    *data.iter().max().unwrap()
 }
 
 pub fn part2(data: &HashSet<usize>) -> usize {
-    return (0..data.len())
-        .filter(|x| !data.contains(x) && data.contains(&(x + 1)) && data.contains(&(x - 1)))
-        .next()
-        .unwrap();
+    (0..data.len())
+        .find(|x| !data.contains(x) && data.contains(&(x + 1)) && data.contains(&(x - 1)))
+        .unwrap()
 }
 
 pub fn run() -> (String, String) {
@@ -30,5 +28,5 @@ pub fn run() -> (String, String) {
     let data = read(&contents);
     let p1 = format!("{}", part1(&data));
     let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    (p1, p2)
 }

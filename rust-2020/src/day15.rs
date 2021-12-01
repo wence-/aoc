@@ -30,9 +30,9 @@ pub fn part2(data: &Vec<u8>) -> u32 {
 }
 
 pub fn run() -> (String, String) {
-    let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day01.input"));
+    let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day15.input"));
     let data = read(&contents);
     let p1 = format!("{}", part1(&data));
     let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    (p1, p2)
 }

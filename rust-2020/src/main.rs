@@ -1,4 +1,3 @@
-use aoc;
 use std::env;
 
 fn main() {
@@ -33,7 +32,7 @@ fn main() {
 
     if args.len() == 2 {
         let (a, b) = match args[1].parse::<usize>() {
-            Ok(n) if 1 <= n && n <= 25 => functions[n - 1](),
+            Ok(n) if (1..=25).contains(&n) => functions[n - 1](),
             _ => {
                 eprintln!("Invalid day: '{}'", args[1]);
                 return;

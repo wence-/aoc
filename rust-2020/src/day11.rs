@@ -29,6 +29,7 @@ pub fn read(contents: &str) -> Grid {
 }
 
 trait Search {
+    #[allow(clippy::many_single_char_names)]
     fn search(&self, grid: &Grid, i: usize, j: usize, k: isize, l: isize) -> usize;
 }
 
@@ -61,6 +62,7 @@ impl Search for Part1 {
 struct Part2 {}
 impl Search for Part2 {
     #[inline]
+    #[allow(clippy::many_single_char_names)]
     fn search(&self, current: &Grid, i: usize, j: usize, k: isize, l: isize) -> usize {
         if k == l && k == 0 {
             return 0;
@@ -85,7 +87,7 @@ impl Search for Part2 {
     }
 }
 
-fn step<T: Search>(current: &Grid, next: &mut Grid, full: usize, x: T) -> () {
+fn step<T: Search>(current: &Grid, next: &mut Grid, full: usize, x: T) {
     for (nextij, (i, j)) in next.iter_mut().zip(ndarray::indices_of(current)) {
         *nextij = current[[i, j]];
         if current[[i, j]] == FLOOR {

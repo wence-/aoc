@@ -12,15 +12,15 @@ pub fn read(lines: &str) -> Vec<Command> {
         .lines()
         .filter_map(|line| {
             let ins = &line[0..1];
-            let n = &line[1..].parse::<i32>().unwrap();
+            let n = line[1..].parse::<i32>().unwrap();
             match ins {
-                "N" => Some(N(*n)),
+                "N" => Some(N(n)),
                 "S" => Some(N(-n)),
-                "E" => Some(E(*n)),
+                "E" => Some(E(n)),
                 "W" => Some(E(-n)),
                 "R" => Some(R(n / 90)),
                 "L" => Some(R(4 - (n / 90))),
-                "F" => Some(F(*n)),
+                "F" => Some(F(n)),
                 _ => None,
             }
         })
@@ -46,13 +46,20 @@ impl Ship {
             F(n) => {
                 self.x += self.wx * n;
                 self.y += self.wy * n;
+            },
+            R(1) => {
+                let tx = self.wx;
+                self.wx = self.wy;
+                self.wy = -tx;
             }
-            R(n) => {
-                for _ in 0..*n {
-                    let tx = self.wx;
-                    self.wx = self.wy;
-                    self.wy = -tx;
-                }
+            R(2) => {
+                self.wx = -self.wx;
+                self.wy = -self.wy;
+            }
+            R(3) => {
+                let ty = self.wy;
+                self.wy = self.wx;
+                self.wx = -ty;
             }
             _ => unreachable!(),
         }

@@ -2,26 +2,26 @@ pub fn read(contents: &str) -> Vec<&str> {
     return contents.lines().collect();
 }
 
-fn trees(grid: &Vec<&str>, row: usize, col: usize) -> usize {
+fn trees(grid: &[&str], row: usize, col: usize) -> usize {
     let ncol = grid[0].len();
-    return grid
+    grid
         .iter()
         .step_by(col)
         .enumerate()
         .filter(|(i, line)| line.chars().nth(i * row % ncol).unwrap() == '#')
-        .count();
+        .count()
 }
 
-pub fn part1(data: &Vec<&str>) -> usize {
+pub fn part1(data: &[&str]) -> usize {
     return trees(data, 3, 1);
 }
 
-pub fn part2(data: &Vec<&str>) -> usize {
+pub fn part2(data: &[&str]) -> usize {
     let skips = vec![(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)];
-    return skips
+    skips
         .iter()
         .map(|(row, col)| trees(data, *row, *col))
-        .product();
+        .product()
 }
 
 pub fn run() -> (String, String) {
@@ -29,5 +29,5 @@ pub fn run() -> (String, String) {
     let data = read(&contents);
     let p1 = format!("{}", part1(&data));
     let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    (p1, p2)
 }
