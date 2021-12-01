@@ -8,7 +8,7 @@ def parse(line):
     return c, n
 
 
-with open("inputs/day12.input", "r") as f:
+with open("../inputs/2020/day12.input", "r") as f:
     instructions = list(map(parse, f.readlines()))
 
 

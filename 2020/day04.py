@@ -2,7 +2,7 @@ import re
 
 passports = []
 
-with open("inputs/day04.input", "r") as f:
+with open("../inputs/2020/day04.input", "r") as f:
     for desc in f.read().split("\n\n"):
         fields = re.split(r"\s+", desc.strip())
         passports.append(dict(f.split(":") for f in fields))

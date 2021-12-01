@@ -1,6 +1,6 @@
 from functools import partial
 
-numbers = list(map(int, "7,12,1,0,16,2".split(",")))
+numbers = list(map(../int/2020, "7,12,1,0,16,2".split(",")))
 assert len(set(numbers)) == len(numbers)
 
 

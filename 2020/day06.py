@@ -1,7 +1,7 @@
 from collections import Counter
 from itertools import chain
 
-with open("inputs/day06.input", "r") as f:
+with open("../inputs/2020/day06.input", "r") as f:
     data = f.read()
     groups = data.strip().split("\n\n")
 

@@ -2,7 +2,7 @@ import math
 from functools import reduce
 from operator import add, itemgetter, mul
 
-with open("inputs/day13.input", "r") as f:
+with open("../inputs/2020/day13.input", "r") as f:
     target, buses = f.readlines()
     target = int(target)
     buses = [(i, int(n)) for i, n in enumerate(buses.split(","))

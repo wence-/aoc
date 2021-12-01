@@ -13,7 +13,7 @@ def traverse(string):
     yield x
 
 
-with open("inputs/day03.input", "r") as f:
+with open("../inputs/2019/day03.input", "r") as f:
     data = f.readlines()
 
 

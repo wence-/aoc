@@ -2,7 +2,7 @@ from collections import defaultdict
 from functools import partial
 from itertools import permutations
 
-with open("inputs/13.input", "r") as f:
+with open("../inputs/2015/13.input", "r") as f:
     data = f.readlines()
 
 

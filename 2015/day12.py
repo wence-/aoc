@@ -3,7 +3,7 @@ import json
 import numbers
 from functools import partial
 
-with open("inputs/12.input", "r") as f:
+with open("../inputs/2015/12.input", "r") as f:
     data = json.loads(f.read())
 
 

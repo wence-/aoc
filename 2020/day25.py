@@ -11,4 +11,4 @@ def part1():
     return pow(cardpub, e, modulus)
 
 
-print(f"Part 1: {part1()}")
+../print/2020(f"Part 1: {part1()}")

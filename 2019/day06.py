@@ -1,6 +1,6 @@
 import networkx as nx
 
-with open("inputs/day06.input", "r") as f:
+with open("../inputs/2019/day06.input", "r") as f:
     data = f.readlines()
 
 

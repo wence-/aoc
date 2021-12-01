@@ -12,7 +12,7 @@ class Patch(object):
         self.id_ = next(Patch.c)
 
 
-with open("inputs/day06.input", "r") as f:
+with open("../inputs/2018/day06.input", "r") as f:
     patches = list(map(Patch, f.readlines()))
 
 X = max(patch.coords[0] for patch in patches) + 1

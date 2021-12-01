@@ -1,7 +1,7 @@
 from functools import partial, reduce
 from operator import mul
 
-with open("inputs/day16.input", "r") as f:
+with open("../inputs/2020/day16.input", "r") as f:
     constraints, me, nearby = f.read().strip().split("\n\n")
 
 

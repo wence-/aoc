@@ -2,7 +2,7 @@ from operator import add, mul
 
 import pyparsing as pp
 
-with open("inputs/day18.input", "r") as f:
+with open("../inputs/2020/day18.input", "r") as f:
     lines = f.readlines()
 
 

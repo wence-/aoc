@@ -1,4 +1,4 @@
-with open("inputs/03.input", "r") as f:
+with open("../inputs/2015/03.input", "r") as f:
     data = f.read().strip()
 
 directions = {"v": -1j, "^": 1j, "<": -1, ">": 1}

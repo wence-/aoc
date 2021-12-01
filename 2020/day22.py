@@ -1,6 +1,6 @@
 from collections import deque
 
-with open("inputs/day22.input", "r") as f:
+with open("../inputs/2020/day22.input", "r") as f:
     zero, one = f.read().strip().split("\n\n")
 
 zero = deque(map(int, zero.strip().splitlines()[1:]))

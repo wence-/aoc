@@ -40,7 +40,7 @@ class Robot(object):
         self.facing = (self.facing + Robot.turns[turn]) % 4
         self.pos += Robot.directions[self.facing]
 
-    def inputs(self, first=0):
+    def ../inputs/2019(self, first=0):
         yield first
         while True:
             yield self.grid.get(self.pos, 0)

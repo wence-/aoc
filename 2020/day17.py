@@ -1,7 +1,7 @@
 import numpy
 import scipy.ndimage
 
-with open("inputs/day17.input", "r") as f:
+with open("../inputs/2020/day17.input", "r") as f:
     data = f.readlines()
     zlice = numpy.asarray([[0 if c == "." else 1
                             for c in line.strip()]

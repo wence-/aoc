@@ -1,4 +1,4 @@
-with open("inputs/23.input", "r") as f:
+with open("../inputs/2015/23.input", "r") as f:
     data = f.readlines()
 
 

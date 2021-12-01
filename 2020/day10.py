@@ -3,7 +3,7 @@ from operator import mul
 
 from more_itertools import windowed
 
-with open("inputs/day10.input", "r") as f:
+with open("../inputs/2020/day10.input", "r") as f:
     adapters = [0]
     adapters.extend(sorted(map(int, f.readlines())))
     adapters.append(adapters[-1]+3)

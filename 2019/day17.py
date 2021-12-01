@@ -55,7 +55,7 @@ def part2(mem):
 
     mem = mem.copy()
     mem[0] = 2
-    *_, retval = evaluate(mem, inputs=map(ord, "\n".join(commands)))
+    *_, retval = evaluate(mem, ../inputs/2019=map(ord, "\n".join(commands)))
     return retval
 
 

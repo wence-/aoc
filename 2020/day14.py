@@ -1,7 +1,7 @@
 from collections import defaultdict
 from itertools import combinations
 
-with open("inputs/day14.input", "r") as f:
+with open("../inputs/2020/day14.input", "r") as f:
     instructions = f.readlines()
 
 

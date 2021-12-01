@@ -3,7 +3,7 @@ from collections import defaultdict
 recipes = []
 possible = defaultdict(list)
 all_ingredients = set()
-with open("inputs/day21.input", "r") as f:
+with open("../inputs/2020/day21.input", "r") as f:
     for line in f.readlines():
         recipe, allergens = line.strip()[:-1].split(" (contains ")
         ingredients = set(recipe.split(" "))

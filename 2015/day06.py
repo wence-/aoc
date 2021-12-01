@@ -1,6 +1,6 @@
 import numpy
 
-with open("inputs/06.input", "r") as f:
+with open("../inputs/2015/06.input", "r") as f:
     lines = f.readlines()
 
 lights = numpy.zeros((1000, 1000), dtype=int)

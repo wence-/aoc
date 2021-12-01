@@ -3,7 +3,7 @@ from collections import defaultdict
 
 graph = defaultdict(list)
 invgraph = defaultdict(set)
-with open("inputs/day07.input", "r") as f:
+with open("../inputs/2020/day07.input", "r") as f:
     for line in f:
         colour, = re.match(r"(.+?) bags contain", line).groups()
         for n, inner in re.findall(r"(\d+) (.+?) bags?[,.]", line):

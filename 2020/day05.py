@@ -1,4 +1,4 @@
-with open("inputs/day05.input", "r") as f:
+with open("../inputs/2020/day05.input", "r") as f:
     data = f.readlines()
 
 mapping = {"F": "0",

@@ -1,6 +1,6 @@
 import numpy
 
-with open("inputs/day04.input", "r") as f:
+with open("../inputs/2018/day04.input", "r") as f:
     lines = f.readlines()
 
 

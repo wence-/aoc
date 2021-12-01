@@ -11,7 +11,7 @@ class Instruction(object):
 
     def update(self, regs):
         *_, c = self.operands
-        a, b = self.inputs(regs)
+        a, b = self.../inputs/2018(regs)
         out = regs.copy()
         out[c] = self.op(a, b)
         return out

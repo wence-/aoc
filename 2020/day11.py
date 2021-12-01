@@ -11,7 +11,7 @@ gridmap = {"#": OCC,
 
 invmap = dict((v, k) for k, v in gridmap.items())
 
-with open("inputs/day11.input", "r") as f:
+with open("../inputs/2020/day11.input", "r") as f:
     data = f.readlines()
     grid = [list(map(gridmap.get, line.strip()))
             for line in data]

@@ -2,7 +2,7 @@ from collections import Counter
 
 rules = []
 
-with open("inputs/day02.input", "r") as f:
+with open("../inputs/2020/day02.input", "r") as f:
     for line in f.readlines():
         count, (char, _), passwd = line.strip().split(" ")
         lo, hi = map(int, count.split("-"))

@@ -2,7 +2,7 @@ from collections import defaultdict
 
 import networkx as nx
 
-with open("inputs/day20.input", "r") as f:
+with open("../inputs/2019/day20.input", "r") as f:
     data = f.readlines()
     grid = {}
     for y, row in enumerate(data):

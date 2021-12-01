@@ -2,7 +2,7 @@ import re
 
 import numpy
 
-with open("inputs/day10.input", "r") as f:
+with open("../inputs/2018/day10.input", "r") as f:
     input = f.readlines()
 
 data = numpy.asarray([[int(i) for i in re.findall(r'-?\d+', l)] for l in input]).astype(int)

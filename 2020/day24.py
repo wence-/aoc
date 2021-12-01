@@ -3,7 +3,7 @@ from operator import add
 
 from more_itertools import iterate, nth
 
-with open("inputs/day24.input", "r") as f:
+with open("../inputs/2020/day24.input", "r") as f:
     lines = [line.strip() for line in f.readlines()]
 
 

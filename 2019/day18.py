@@ -1,6 +1,6 @@
 import collections
 
-with open("inputs/day18.input", "r") as f:
+with open("../inputs/2019/day18.input", "r") as f:
     dataa = f.readlines()
 
 with open("inputs/day18b.input", "r") as f:

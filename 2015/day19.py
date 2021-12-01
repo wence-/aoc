@@ -1,6 +1,6 @@
 import re
 
-with open("inputs/19.input", "r") as f:
+with open("../inputs/2015/19.input", "r") as f:
     data = f.readlines()
 
 replacements = []

@@ -3,7 +3,7 @@ from operator import mul
 
 import numpy
 
-with open("inputs/day08.input", "r") as f:
+with open("../inputs/2019/day08.input", "r") as f:
     image = numpy.asarray(list(map(int, f.read().strip()))).reshape(-1, 6*25)
 
 

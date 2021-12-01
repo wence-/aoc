@@ -1,4 +1,4 @@
-with open("inputs/01.input", "r") as f:
+with open("../inputs/2015/01.input", "r") as f:
     data = f.read().strip()
 
 print("Part 1:", data.count("(") - data.count(")"))

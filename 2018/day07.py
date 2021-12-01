@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-with open("inputs/day07.input", "r") as f:
+with open("../inputs/2018/day07.input", "r") as f:
     input = f.readlines()
 
 

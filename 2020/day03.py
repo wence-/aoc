@@ -1,7 +1,7 @@
 from functools import partial, reduce
 from operator import mul
 
-with open("inputs/day03.input", "r") as f:
+with open("../inputs/2020/day03.input", "r") as f:
     grid = list(line.strip() for line in f.readlines())
 
 

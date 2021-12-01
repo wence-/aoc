@@ -1,7 +1,7 @@
 from collections import deque
 from itertools import cycle
 
-inputa = 400, 71864
+../inputa/2018 = 400, 71864
 inputb = 400, 71864*100
 
 

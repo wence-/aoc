@@ -1,7 +1,7 @@
 import ast
 import json
 
-with open("inputs/08.input", "r") as f:
+with open("../inputs/2015/08.input", "r") as f:
     data = f.readlines()
     data = [line[:-1] for line in data]
 

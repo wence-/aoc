@@ -17,7 +17,7 @@ def part2(mem):
         while True:
             yield directions[ball > paddle] * (ball != paddle)
 
-    outputs = evaluate(mem, inputs=moves())
+    outputs = evaluate(mem, ../inputs/2019=moves())
     for x, _, id_ in zip(outputs, outputs, outputs):
         if x == -1:
             score = id_

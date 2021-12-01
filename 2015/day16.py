@@ -1,5 +1,5 @@
 
-with open("inputs/16.input", "r") as f:
+with open("../inputs/2015/16.input", "r") as f:
     data = f.readlines()
 
 sues = {}

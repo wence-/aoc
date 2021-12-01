@@ -4,7 +4,7 @@ mem = load("day05.input")
 
 
 def part1(mem):
-    *_, out = evaluate(mem, inputs=[1])
+    *_, out = evaluate(mem, ../inputs/2019=[1])
     return out
 
 

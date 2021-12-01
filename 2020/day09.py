@@ -1,6 +1,6 @@
 from more_itertools import windowed
 
-with open("inputs/day09.input", "r") as f:
+with open("../inputs/2020/day09.input", "r") as f:
     data = list(map(int, f.readlines()))
 
 

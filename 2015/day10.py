@@ -1,7 +1,7 @@
 def rle(digits):
     prev = None
     c = 1
-    for d in digits:
+    for d ../in/2015 digits:
         if d != prev:
             if prev is not None:
                 yield c, prev

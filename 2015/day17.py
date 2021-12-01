@@ -1,6 +1,6 @@
 from itertools import chain, combinations
 
-with open("inputs/17.input", "r") as f:
+with open("../inputs/2015/17.input", "r") as f:
     data = list(map(int, f.read().strip().split("\n")))
 
 

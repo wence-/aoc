@@ -1,6 +1,6 @@
 from itertools import product
 
-with open("inputs/day01.input", "r") as f:
+with open("../inputs/2020/day01.input", "r") as f:
     data = set(map(lambda x: int(x.strip()), f.readlines()))
 
 

@@ -1,7 +1,7 @@
 import numpy
 from scipy.signal import convolve
 
-with open("inputs/18.input", "r") as f:
+with open("../inputs/2015/18.input", "r") as f:
     data = f.readlines()
 
 

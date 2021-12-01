@@ -1,6 +1,6 @@
 import numpy
 
-with open("inputs/day12.input", "r") as f:
+with open("../inputs/2018/day12.input", "r") as f:
     state_ = f.readline()[14:].strip()
     f.readline()
     rules_ = f.readlines()

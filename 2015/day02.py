@@ -2,7 +2,7 @@ from functools import partial, reduce
 from itertools import combinations
 from operator import add, mul
 
-with open("inputs/02.input", "r") as f:
+with open("../inputs/2015/02.input", "r") as f:
     lines = f.read().strip().splitlines()
 
 

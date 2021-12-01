@@ -17,7 +17,7 @@ def power(mem, phases):
                 # Then the final output
                 yield out
         else:
-            # Next amplifier just evaluates with inputs from
+            # Next amplifier just evaluates with ../inputs/2019 from
             # lower-numbered amplifier
             yield from evaluate(mem, inputs=go(amp - 1))
 

@@ -2,7 +2,7 @@ from itertools import product, repeat
 
 import numpy
 
-with open("inputs/15.input", "r") as f:
+with open("../inputs/2015/15.input", "r") as f:
     data = f.readlines()
 
 mapping = {}

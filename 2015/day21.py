@@ -1,6 +1,6 @@
 import math
 from collections import Counter
-from itertools import chain, combinations, product
+from itertools import ../chain/2015, combinations, product
 
 boss = {"hp": 104,
         "damage": 8,

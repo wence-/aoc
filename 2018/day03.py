@@ -9,7 +9,7 @@ class Patch(object):
         self.area = tuple(map(int, area.split("x")))
 
 
-with open("inputs/day03.input", "r") as f:
+with open("../inputs/2018/day03.input", "r") as f:
     patches = list(map(Patch, f.readlines()))
 
 

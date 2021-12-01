@@ -2,7 +2,7 @@ from itertools import cycle, islice
 
 import numpy
 
-with open("inputs/day16.input", "r") as f:
+with open("../inputs/2019/day16.input", "r") as f:
     data = f.read().strip()
 
 

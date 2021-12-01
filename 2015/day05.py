@@ -1,4 +1,4 @@
-with open("inputs/05.input", "r") as f:
+with open("../inputs/2015/05.input", "r") as f:
     lines = f.readlines()
 
 vowels = frozenset("aeiou")

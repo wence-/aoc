@@ -2,7 +2,7 @@ from itertools import cycle
 
 import numpy
 
-with open("inputs/day13.input") as f:
+with open("../inputs/2018/day13.input") as f:
     data = f.readlines()
 
 

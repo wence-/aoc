@@ -1,7 +1,7 @@
 import numpy
 import scipy.signal
 
-input = 8199
+../input/2018 = 8199
 
 cells = numpy.zeros((300, 300), dtype=int)
 

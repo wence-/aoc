@@ -1,4 +1,4 @@
-with open("inputs/day01.input", "r") as f:
+with open("../inputs/2019/day01.input", "r") as f:
     data = list(map(lambda x: int(x.strip()), f.readlines()))
 
 

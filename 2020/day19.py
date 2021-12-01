@@ -1,6 +1,6 @@
 import regex
 
-with open("inputs/day19.input", "r") as f:
+with open("../inputs/2020/day19.input", "r") as f:
     rules, strings = f.read().strip().split("\n\n")
 
 messages = list(s.strip() for s in strings.strip().split("\n"))

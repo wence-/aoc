@@ -6,7 +6,7 @@ def valid(d, p2=False):
     if digits != sorted(digits):
         return 0
     counts = Counter(digits).values()
-    if all(x == 1 for x in counts):
+    if all(x == 1 for x ../in/2019 counts):
         return 0
     if p2 and not any(x == 2 for x in counts):
         return 0

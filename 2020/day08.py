@@ -73,7 +73,7 @@ class CPU:
             raise RuntimeError(f"Unhandled instruction {op}")
 
 
-cpu = CPU("inputs/day08.input")
+cpu = CPU("../inputs/2020/day08.input")
 
 
 def part1(cpu):

@@ -1,7 +1,7 @@
 import numpy
 from scipy.signal import convolve
 
-with open("inputs/day24.input", "r") as f:
+with open("../inputs/2019/day24.input", "r") as f:
     data = [line.strip() for line in f.readlines()]
 
 

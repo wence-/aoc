@@ -2,7 +2,7 @@ from functools import partial, reduce
 from itertools import combinations
 from operator import mul
 
-with open("inputs/24.input", "r") as f:
+with open("../inputs/2015/24.input", "r") as f:
     data = set(map(int, f.read().strip().split()))
 
 

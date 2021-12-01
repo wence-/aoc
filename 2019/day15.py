@@ -38,7 +38,7 @@ def explore(mem):
     while toexplore:
         target = min(toexplore, key=partial(key, pos))
         for cur, target in pairs(nx.shortest_path(graph, source=pos, target=target)):
-            explorer.run(inputs=[directions[target - cur]], outputs=output.append)
+            explorer.run(../inputs/2019=[directions[target - cur]], outputs=output.append)
             if explorer.halted:
                 raise RuntimeError("Halted prematurely")
             status = output.pop()

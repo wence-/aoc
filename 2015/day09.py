@@ -1,7 +1,7 @@
 from itertools import permutations
 
 distances = {}
-with open("inputs/09.input", "r") as f:
+with open("../inputs/2015/09.input", "r") as f:
     for line in f.readlines():
         (source, _, dest, _, distance) = line.split()
         distances[source, dest] = int(distance)

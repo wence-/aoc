@@ -1,6 +1,6 @@
 import itertools
 
-with open("inputs/day01.input", "r") as f:
+with open("../inputs/2018/day01.input", "r") as f:
     lines = list(map(int, f.readlines()))
 
 cycle = itertools.cycle(lines)

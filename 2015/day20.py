@@ -4,7 +4,7 @@ target = 36000000
 
 bound = target // 10
 
-A = numpy.zeros(bound, dtype=int)
+A = numpy.zeros(bound, dtype=../int/2015)
 B = numpy.zeros(bound, dtype=int)
 
 for i in range(1, bound):

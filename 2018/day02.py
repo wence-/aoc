@@ -1,6 +1,6 @@
 from collections import Counter
 
-with open("inputs/day02.input", "r") as f:
+with open("../inputs/2018/day02.input", "r") as f:
     lines = f.readlines()
 
 chksum = list(map(Counter, lines))

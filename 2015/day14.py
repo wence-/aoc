@@ -1,4 +1,4 @@
-with open("inputs/14.input", "r") as f:
+with open("../inputs/2015/14.input", "r") as f:
     data = f.readlines()
 
 mapping = {}

@@ -1,4 +1,4 @@
-with open("inputs/day08.input", "r") as f:
+with open("../inputs/2018/day08.input", "r") as f:
     input = f.read().strip()
 
 

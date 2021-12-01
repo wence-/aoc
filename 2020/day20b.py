@@ -45,7 +45,7 @@ def create_tile(tile):
     return Tile(n, im)
 
 
-with open("inputs/day20.input", "r") as f:
+with open("../inputs/2020/day20.input", "r") as f:
     data = f.read()
     tiles = list(map(create_tile, data.split("\n\n")))
 

@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-with open("inputs/07.input", "r") as f:
+with open("../inputs/2015/07.input", "r") as f:
     lines = f.readlines()
 
 graph = {}

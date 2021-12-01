@@ -1,4 +1,4 @@
-invalid_chars = frozenset([c - ord('a') for c in map(ord, "iol")])
+../invalid/2015_chars = frozenset([c - ord('a') for c in map(ord, "iol")])
 
 
 def next_(password):

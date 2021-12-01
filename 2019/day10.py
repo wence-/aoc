@@ -1,7 +1,7 @@
 import math
 from itertools import islice
 
-with open("inputs/day10.input", "r") as f:
+with open("../inputs/2019/day10.input", "r") as f:
     data = f.read().strip().split("\n")
 
 

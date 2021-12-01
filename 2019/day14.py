@@ -1,7 +1,7 @@
 import math
 from collections import defaultdict
 
-with open("inputs/day14.input", "r") as f:
+with open("../inputs/2019/day14.input", "r") as f:
     data = f.read().strip().split("\n")
 
 

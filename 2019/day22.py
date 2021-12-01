@@ -1,4 +1,4 @@
-with open("inputs/day22.input", "r") as f:
+with open("../inputs/2019/day22.input", "r") as f:
     lines = f.readlines()
 
 

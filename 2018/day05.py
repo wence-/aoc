@@ -1,4 +1,4 @@
-with open("inputs/day05.input", "r") as f:
+with open("../inputs/2018/day05.input", "r") as f:
     polymer = f.read().strip()
 
 
