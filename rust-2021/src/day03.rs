@@ -1,11 +1,10 @@
 const N: usize = 12;
 
-fn parse(word: &[u8]) -> u32 {
-    word.iter().fold(0, |a, b| 2 * a + (b - b'0') as u32)
-}
-
-pub fn read(inp: &[u8]) -> Vec<u32> {
-    inp.split(|&b| b == b'\n').map(parse).collect()
+pub fn read(inp: &str) -> Vec<u32> {
+    inp.trim()
+        .split('\n')
+        .map(|word| u32::from_str_radix(word, 2).unwrap())
+        .collect()
 }
 
 pub fn part1(inp: &[u32]) -> u32 {
@@ -27,7 +26,7 @@ fn prune(inp: &[u32], mut bit: u32, flip: bool) -> u32 {
     let mut pruned = inp.to_owned();
     while pruned.len() != 1 {
         let t = pruned.iter().filter(|&b| b & bit != 0).count();
-        let keep = ((flip as u32) * bit) ^ (if 2*t >= pruned.len() { bit } else { 0 });
+        let keep = ((flip as u32) * bit) ^ (if 2 * t >= pruned.len() { bit } else { 0 });
         pruned = pruned
             .into_iter()
             .filter(|&bits| bits & bit == keep)
@@ -42,7 +41,7 @@ pub fn part2(inp: &[u32]) -> u32 {
 }
 
 pub fn run() -> (String, String) {
-    let inp = include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day03.input"));
+    let inp = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day03.input"));
     let data = read(inp);
     let a = part1(&data).to_string();
     let b = part2(&data).to_string();

@@ -1,43 +1,32 @@
 use itertools::Itertools;
 
 const N: usize = 5;
-type Board = [u8; N * N];
+type Board = Vec<u8>;
 
-fn parse(word: &[u8]) -> u8 {
-    word.iter().fold(0, |a, b| 10 * a + (b - b'0') as u8)
-}
+pub fn read(inp: &str) -> (Vec<u8>, Vec<Board>) {
+    let mut s = inp.trim().split("\n\n");
 
-pub fn read(inp: &[u8]) -> (Vec<u8>, Vec<Board>) {
-    let mut moves = Vec::with_capacity(100);
-    let mut boards = Vec::with_capacity(100);
-    let mut r = 0;
-    let mut board = [0u8; N * N];
-    let mut s = inp.split(|&b| b == b'\n').filter(|l| !l.is_empty());
+    let moves = s
+        .next()
+        .unwrap()
+        .trim()
+        .split(',')
+        .map(|word| word.parse::<u8>().unwrap())
+        .collect();
 
-    for n in s.next().unwrap().split(|&b| b == b',') {
-        moves.push(parse(n));
-    }
-
-    for line in s {
-        let mut c = 0;
-        for word in line.split(|&b| b == b' ') {
-            if word.is_empty() {
-                continue;
-            }
-            let n = parse(word);
-            board[r * 5 + c] = n;
-            c += 1;
-        }
-        r = (r + 1) % 5;
-        if r == 0 {
-            boards.push(board);
-            board = [0u8; N * N];
-        }
-    }
+    let boards = s
+        .map(|board| {
+            board
+                .trim()
+                .split_ascii_whitespace()
+                .map(|word| word.parse::<u8>().unwrap())
+                .collect()
+        })
+        .collect();
     (moves, boards)
 }
 
-fn time_to_win(board: &Board, times: &[u8]) -> u8 {
+fn time_to_win(board: &[u8], times: &[u8]) -> u8 {
     let mut col = [0; N];
     let mut row = [0; N];
     for ((r, c), &n) in (0..N).cartesian_product(0..N).zip(board.iter()) {
@@ -66,8 +55,8 @@ fn solve(inp: &(Vec<u8>, Vec<Board>), cmp: impl Fn(u8, u8) -> bool, init: u8) ->
             idx = i;
         }
     }
-    let board = boards[idx];
-    let score = board.into_iter().fold(0usize, |a, n| {
+    let board = &boards[idx];
+    let score = board.iter().fold(0usize, |a, &n| {
         if times[n as usize] > win {
             a + n as usize
         } else {
@@ -86,7 +75,7 @@ pub fn part2(inp: &(Vec<u8>, Vec<Board>)) -> usize {
 }
 
 pub fn run() -> (String, String) {
-    let inp = include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day04.input"));
+    let inp = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day04.input"));
     let data = read(inp);
     (part1(&data).to_string(), part2(&data).to_string())
 }

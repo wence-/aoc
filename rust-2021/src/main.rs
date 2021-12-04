@@ -2,8 +2,12 @@ use std::env;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let functions: Vec<fn() -> (String, String)> =
-        vec![aoc::day01::run, aoc::day02::run, aoc::day03::run, aoc::day04::run];
+    let functions: Vec<fn() -> (String, String)> = vec![
+        aoc::day01::run,
+        aoc::day02::run,
+        aoc::day03::run,
+        aoc::day04::run,
+    ];
     if args.len() == 2 {
         let (a, b) = match args[1].parse::<usize>() {
             Ok(n) if (1..=25).contains(&n) => functions[n - 1](),

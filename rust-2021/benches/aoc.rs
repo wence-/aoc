@@ -4,7 +4,7 @@ use criterion::{criterion_group, criterion_main, Criterion};
 macro_rules! bench {
     ($c:expr, $module:path) => {{
         use $module::*;
-        let contents = include_bytes!(concat!(
+        let contents = include_str!(concat!(
             env!("CARGO_MANIFEST_DIR"),
             "/inputs/",
             stringify!($module),
