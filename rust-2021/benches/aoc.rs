@@ -11,6 +11,7 @@ macro_rules! bench {
             ".input"
         ));
         let data = read(contents);
+
         $c.bench_function(concat!(stringify!($module), "::read"), |b| {
             b.iter(|| read(contents))
         });
@@ -25,9 +26,9 @@ macro_rules! bench {
 
 pub fn criterion_benchmark(c: &mut Criterion) {
     bench!(c, day01);
-    // bench!(c, day02);
-    // bench!(c, day03);
-    // bench!(c, day04);
+    bench!(c, day02);
+    bench!(c, day03);
+    bench!(c, day04);
     // bench!(c, day05);
     // bench!(c, day06);
     // bench!(c, day07);
