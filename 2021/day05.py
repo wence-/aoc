@@ -1,6 +1,6 @@
 from collections import Counter
-from itertools import zip_longest, chain
 from functools import partial
+from itertools import chain, zip_longest
 
 with open("../inputs/2021/day05.input", "r") as f:
     wires = [

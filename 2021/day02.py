@@ -22,7 +22,7 @@ def part1(moves):
             h += n
         else:
             d += n
-    return h*d
+    return h * d
 
 
 def part2(moves):
@@ -33,7 +33,7 @@ def part2(moves):
             d += a * n
         else:
             a += n
-    return h*d
+    return h * d
 
 
 print(f"Part 1: {part1(moves)}")
