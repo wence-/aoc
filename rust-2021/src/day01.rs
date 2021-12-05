@@ -1,22 +1,25 @@
-pub fn read(inp: &str) -> Vec<usize> {
+type Integer = i16;
+
+pub fn read(inp: &str) -> Vec<Integer> {
     inp.trim()
         .split('\n')
-        .map(|word| word.parse::<usize>().unwrap())
+        .map(|word| word.parse::<Integer>().unwrap())
         .collect()
 }
 
-pub fn part1(inp: &[usize]) -> usize {
+#[inline(always)]
+fn solve<const N: usize>(inp: &[Integer]) -> Integer {
     inp.iter()
-        .zip(inp[1..].iter())
-        .filter(|(a, b)| b > a)
-        .count()
+        .zip(inp[N..].iter())
+        .fold(0, |acc, (a, b)| acc + Integer::from(b > a))
 }
 
-pub fn part2(inp: &[usize]) -> usize {
-    inp.iter()
-        .zip(inp[3..].iter())
-        .filter(|(a, b)| b > a)
-        .count()
+pub fn part1(inp: &[Integer]) -> Integer {
+    solve::<1>(inp)
+}
+
+pub fn part2(inp: &[Integer]) -> Integer {
+    solve::<3>(inp)
 }
 
 pub fn run() -> (String, String) {

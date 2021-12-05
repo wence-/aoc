@@ -7,6 +7,7 @@ fn main() {
         aoc::day02::run,
         aoc::day03::run,
         aoc::day04::run,
+        aoc::day05::run,
     ];
     if args.len() == 2 {
         let (a, b) = match args[1].parse::<usize>() {
