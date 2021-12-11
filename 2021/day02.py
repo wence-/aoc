@@ -17,7 +17,7 @@ with open("../inputs/2021/day02.input", "r") as f:
 
 def part1(moves):
     h, d = 0, 0
-    for (move, n) in moves:
+    for move, n in moves:
         if move is F:
             h += n
         else:
@@ -27,7 +27,7 @@ def part1(moves):
 
 def part2(moves):
     h, d, a = 0, 0, 0
-    for (move, n) in moves:
+    for move, n in moves:
         if move is F:
             h += n
             d += a * n
