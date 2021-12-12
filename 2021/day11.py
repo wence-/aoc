@@ -1,12 +1,12 @@
 from typing import Iterable
 
-T = tuple[int, int]
-To = dict[tuple[int, int], int]
+Tidx = tuple[int, int]
+Toct = dict[Tidx, int]
 
 with open("../inputs/2021/day11.input", "r") as f:
     data = f.read()
     data = data.strip().split("\n")
-    octopuses: To = {}
+    octopuses: Toct = {}
     for i, line in enumerate(data):
         for j, c in enumerate(map(int, line.strip())):
             octopuses[i, j] = c
@@ -15,7 +15,7 @@ with open("../inputs/2021/day11.input", "r") as f:
     M += 1
 
 
-def neighbours(i: int, j: int) -> Iterable[T]:
+def neighbours(i: int, j: int) -> Iterable[Tidx]:
     for di, dj in (
         (i - 1, j - 1),
         (i, j - 1),
@@ -30,7 +30,7 @@ def neighbours(i: int, j: int) -> Iterable[T]:
             yield di, dj
 
 
-def step(octopuses: To) -> int:
+def step(octopuses: Toct) -> int:
     for k in octopuses:
         octopuses[k] += 1
     lifo = [k for k, v in octopuses.items() if v > 9]
@@ -48,12 +48,12 @@ def step(octopuses: To) -> int:
     return len(seen)
 
 
-def part1(octopuses: To) -> int:
+def part1(octopuses: Toct) -> int:
     octopuses = octopuses.copy()
     return sum(step(octopuses) for _ in range(100))
 
 
-def part2(octopuses: To) -> int:
+def part2(octopuses: Toct) -> int:
     octopuses = octopuses.copy()
     i = 0
     while any(v != 0 for v in octopuses.values()):
