@@ -1,3 +1,4 @@
+import time
 from collections import defaultdict
 from functools import reduce
 from itertools import product
@@ -7,14 +8,15 @@ from typing import Iterable, Mapping
 T = tuple[int, int]
 M = Mapping[T, int]
 
+start = time.time()
 with open("../inputs/2021/day09.input", "r") as f:
     data = f.read()
     data = data.strip().split("\n")
     shape = (len(data) + 2, len(data[0].strip()) + 2)
-    heights: M = defaultdict(lambda: 9)
+    inp: M = defaultdict(lambda: 9)
     for i, line in enumerate(data):
         for j, c in enumerate(map(int, line.strip())):
-            heights[i, j] = c
+            inp[i, j] = c
 
 
 def neighbours(i: int, j: int) -> Iterable[T]:
@@ -53,5 +55,6 @@ def part2(heights: M) -> int:
     return reduce(mul, sorted(size(s, heights) for s in minima(heights))[-3:])
 
 
-print(part1(heights))
-print(part2(heights))
+print(
+    f"Day 09     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+)

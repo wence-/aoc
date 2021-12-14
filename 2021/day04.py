@@ -1,7 +1,9 @@
+import time
 from functools import partial
 from itertools import product
 from math import sqrt
 
+start = time.time()
 with open("../inputs/2021/day04.input") as f:
     moves, *boards = f.read().split("\n\n")
     moves = list(map(int, moves.strip().split(",")))
@@ -28,5 +30,6 @@ def solve(moves: list[int], boards: list[list[int]], pick) -> int:
 
 part1 = partial(solve, pick=min)
 part2 = partial(solve, pick=max)
-print(f"Part 1: {part1(moves, boards)}")
-print(f"Part 2: {part2(moves, boards)}")
+print(
+    f"Day 04     {part1(moves, boards):<13} {part2(moves, boards):<13} {(time.time() - start)*1e6:>13.0f}"
+)

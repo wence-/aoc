@@ -1,3 +1,6 @@
+import time
+
+start = time.time()
 with open("../inputs/2021/day03.input") as f:
     inp = [[int(c) for c in line.strip()] for line in f.readlines()]
 
@@ -24,5 +27,6 @@ def part2(inp: list[list[int]]) -> int:
     return prune(inp, 0, False) * prune(inp, 0, True)
 
 
-print(f"Part 1: {part1(inp)}")
-print(f"Part 2: {part2(inp)}")
+print(
+    f"Day 03     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+)

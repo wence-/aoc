@@ -1,7 +1,9 @@
+import time
 from collections import deque
 
+start = time.time()
 with open("../inputs/2021/day06.input", "r") as f:
-    ages = list(map(int, f.read().strip().split(",")))
+    inp = list(map(int, f.read().strip().split(",")))
 
 
 def solve(ages, rounds):
@@ -14,5 +16,6 @@ def solve(ages, rounds):
     return sum(fish)
 
 
-print(solve(ages, 80))
-print(solve(ages, 256))
+print(
+    f"Day 06     {solve(inp, 80):<13} {solve(inp, 256):<13} {(time.time() - start)*1e6:>13.0f}"
+)

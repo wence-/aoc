@@ -1,3 +1,6 @@
+import time
+
+start = time.time()
 F = object()
 D = object()
 
@@ -36,5 +39,6 @@ def part2(moves):
     return h * d
 
 
-print(f"Part 1: {part1(moves)}")
-print(f"Part 2: {part2(moves)}")
+print(
+    f"Day 02     {part1(moves):<13} {part2(moves):<13} {(time.time() - start)*1e6:>13.0f}"
+)

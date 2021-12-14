@@ -1,16 +1,18 @@
+import time
 from typing import Iterable
 
 Tidx = tuple[int, int]
 Toct = dict[Tidx, int]
 
+start = time.time()
 with open("../inputs/2021/day11.input", "r") as f:
     data = f.read()
     data = data.strip().split("\n")
-    octopuses: Toct = {}
+    inp: Toct = {}
     for i, line in enumerate(data):
         for j, c in enumerate(map(int, line.strip())):
-            octopuses[i, j] = c
-    N, M = map(max, zip(*octopuses))
+            inp[i, j] = c
+    N, M = map(max, zip(*inp))
     N += 1
     M += 1
 
@@ -62,5 +64,6 @@ def part2(octopuses: Toct) -> int:
     return i
 
 
-print(part1(octopuses))
-print(part2(octopuses))
+print(
+    f"Day 11     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+)

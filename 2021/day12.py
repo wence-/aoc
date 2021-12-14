@@ -1,52 +1,50 @@
+import time
 from collections import defaultdict
 
+start = time.time()
 with open("../inputs/2021/day12.input", "r") as f:
-    nodes = defaultdict(list)
-    lines = f.read().strip().split("\n")
+    inp = defaultdict(list)
+    data = f.read()
+    lines = data.strip().split("\n")
     for line in lines:
         a, b = line.split("-")
         if b != "start":
-            nodes[a].append(b)
+            inp[a].append(b)
         if a != "start":
-            nodes[b].append(a)
+            inp[b].append(a)
 
 
-def recurse(head, seen, twice, nodes):
+def recurse(head, seen, twice, nodes, cache):
     # Original implementation
     if head == "end":
         return 1
-    return sum(
-        recurse(c, seen if c.isupper() else (seen | {c}), twice or c in seen, nodes)
+    try:
+        return cache[(head, seen, twice)]
+    except KeyError:
+        pass
+
+    s = sum(
+        recurse(
+            c,
+            seen if c.isupper() else frozenset(seen | {c}),
+            twice or c in seen,
+            nodes,
+            cache,
+        )
         for c in nodes[head]
         if not (twice and c in seen)
     )
-
-
-def solve(head, twice, nodes):
-    # Hand-managed call stack is a bit faster
-    npath = 0
-    stack = [(head, set(), twice)]
-    while stack:
-        end, seen, twice = stack.pop()
-        if end == "end":
-            npath += 1
-        else:
-            for c in nodes[end]:
-                if not (twice and c in seen):
-                    if c.isupper():
-                        stack.append((c, seen, twice))
-                    else:
-                        stack.append((c, seen | {c}, twice or c in seen))
-    return npath
+    return cache.setdefault((head, seen, twice), s)
 
 
 def part1(nodes):
-    return solve("start", True, nodes)
+    return recurse("start", frozenset(), True, nodes, {})
 
 
 def part2(nodes):
-    return solve("start", False, nodes)
+    return recurse("start", frozenset(), False, nodes, {})
 
 
-print(part1(nodes))
-print(part2(nodes))
+print(
+    f"Day 12     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+)

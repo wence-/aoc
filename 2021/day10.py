@@ -1,7 +1,9 @@
+import time
 from typing import Optional
 
+start = time.time()
 with open("../inputs/2021/day10.input", "r") as f:
-    lines = f.read().strip().split("\n")
+    inp = f.read().strip().split("\n")
 
 
 match = {"(": ")", "{": "}", "[": "]", "<": ">"}
@@ -28,5 +30,6 @@ def part2(lines):
     return sorted(scores)[len(scores) // 2]
 
 
-print(part1(lines))
-print(part2(lines))
+print(
+    f"Day 10     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+)

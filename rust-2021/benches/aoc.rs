@@ -33,11 +33,11 @@ pub fn criterion_benchmark(c: &mut Criterion) {
     bench!(c, day06);
     bench!(c, day07);
     bench!(c, day08);
-    // bench!(c, day09);
-    // bench!(c, day10);
-    // bench!(c, day11);
-    // bench!(c, day12);
-    // bench!(c, day13);
+    bench!(c, day09);
+    bench!(c, day10);
+    bench!(c, day11);
+    bench!(c, day12);
+    bench!(c, day13);
     // bench!(c, day15);
     // bench!(c, day23);
     // bench!(c, day25);

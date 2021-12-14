@@ -1,9 +1,11 @@
+import time
 from collections import Counter
 from functools import partial
 from itertools import chain, zip_longest
 
+start = time.time()
 with open("../inputs/2021/day05.input", "r") as f:
-    wires = [
+    inp = [
         list(chain(*(map(int, x.split(",")) for x in line.split(" -> "))))
         for line in f.readlines()
     ]
@@ -28,5 +30,6 @@ def solve(diagonal, wires):
 
 part1 = partial(solve, False)
 part2 = partial(solve, True)
-print(f"{part1(wires)}")
-print(f"{part2(wires)}")
+print(
+    f"Day 05     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+)

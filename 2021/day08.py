@@ -1,8 +1,10 @@
+import time
 from collections import defaultdict
 from functools import reduce
 from itertools import chain
 from operator import and_, xor
 
+start = time.time()
 with open("../inputs/2021/day08.input", "r") as f:
     inputs = []
     outputs = []
@@ -65,5 +67,6 @@ def part2(inputs, outputs):
     return sum(decode(*io) for io in zip(inputs, outputs))
 
 
-print(part1(inputs, outputs))
-print(part2(inputs, outputs))
+print(
+    f"Day 08     {part1(inputs, outputs):<13} {part2(inputs, outputs):<13} {(time.time() - start)*1e6:>13.0f}"
+)
