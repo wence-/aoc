@@ -14,7 +14,7 @@ def solve(coords, folds):
     for coord in coords:
         for comp, n in folds:
             p = coord[comp]
-            coord[comp] = p if p < n else (-p % n)
+            coord[comp] = p if p < n else p - 2 * (p - n)
         points[tuple(coord)] = "#"
     return points
 
@@ -64,5 +64,5 @@ def part2(inp):
 
 
 print(
-    f"Day 13     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+    f"Day 13     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>13.0f}"
 )

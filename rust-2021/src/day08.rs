@@ -109,11 +109,8 @@ fn decode(line: [T; 14]) -> I {
     ret
 }
 pub fn part2(inp: &[[T; 14]]) -> I {
-    let mut sum = 0;
-    for &line in inp.iter() {
-        sum += decode(line);
-    }
-    sum
+    inp.iter()
+        .fold(I::default(), |acc, &line| acc + decode(line))
 }
 
 pub fn run() -> (String, String) {

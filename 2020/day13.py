@@ -41,4 +41,5 @@ def part2_alternate(buses):
 
 print(f"Part 1: {part1(target, buses)}")
 print(f"Part 2: {part2(buses)}")
-print(f"Part 2 (LCM): {part2_alternate(buses)}")
+# print(f"Part 2 (LCM): {part2_alternate(buses)}")
+

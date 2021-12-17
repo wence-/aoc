@@ -51,5 +51,5 @@ def part2(zero, one):
     return sum(i*x for i, x in enumerate(reversed(winner), start=1))
 
 
-print(part1(zero, one))
-print(part2(zero, one))
+print("Part 1:", part1(zero, one))
+print("Part 2:", part2(zero, one))

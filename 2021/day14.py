@@ -17,7 +17,7 @@ def solve(polymer, rules, reps):
     counts = Counter(polymer)
     for _ in range(reps):
         newpairs = Counter()
-        for (a, b), count in list(pairs.items()):
+        for (a, b), count in pairs.items():
             c = rules[a, b]
             counts[c] += count
             newpairs[a, c] += count
@@ -26,14 +26,14 @@ def solve(polymer, rules, reps):
     return max(counts.values()) - min(counts.values())
 
 
-def part1(inp):
+def part1(inp: tuple[str, dict]):
     return solve(*inp, 10)
 
 
-def part2(inp):
+def part2(inp: tuple[str, dict]):
     return solve(*inp, 40)
 
 
 print(
-    f"Day 14     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+    f"Day 14     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>13.0f}"
 )

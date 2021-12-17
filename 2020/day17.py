@@ -36,7 +36,6 @@ def part2(zlice):
     kernel[1, 1, 1, 1] = 0
     for _ in range(6):
         grid = step(grid, kernel)
-    print(grid.shape)
     return int(grid.sum())
 
 

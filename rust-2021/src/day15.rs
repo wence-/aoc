@@ -2,54 +2,60 @@ use std::{cmp::Reverse, collections::BinaryHeap};
 
 const N: usize = 100;
 
-fn read<const N: usize>(input: &str) -> Result<[[u8; N]; N], ()> {
+pub fn read(input: &str) -> Vec<u8> {
     input
-        .lines()
-        .map(|l| {
-            l.bytes()
-                .map(|c| c - b'0')
-                .collect::<Vec<_>>()
-                .try_into()
-                .map_err(|_| ())
-        })
-        .collect::<Result<Vec<_>, ()>>()?
-        .try_into()
-        .map_err(|_| ())
+        .split('\n')
+        .flat_map(|l| l.bytes().map(|c| c - b'0'))
+        .collect()
 }
 
-fn dijkstra<const N: usize>(grid: &Result<[[u8; N]; N], ()>) -> u32 {
-    let mut m = grid.unwrap().to_owned();
-    let mut pq = BinaryHeap::from([(Reverse(0), (0, 0))]);
-    while let Some((Reverse(risk), (i, j))) = pq.pop() {
-        if (i, j) == (N - 1, N - 1) {
+fn dijkstra<const N: usize>(grid: &[u8]) -> u32 {
+    let mut seen = vec![false; N * N];
+    let mut pq = BinaryHeap::from([(Reverse(0), 0)]);
+    while let Some((Reverse(risk), ix)) = pq.pop() {
+        if ix == N * N - 1 {
             return risk;
         }
-        [(i.wrapping_sub(1), j), (i + 1, j), (i, j.wrapping_sub(1)), (i, j + 1)]
-            .into_iter()
-            .filter(|&(i, j)| i < N && j < N)
-            .for_each(|(i, j)| {
-                if m[i][j] > 0 {
-                    pq.push((Reverse(risk + m[i][j] as u32), (i, j)));
-                    m[i][j] = 0;
-                }
-            })
+        let i = ix / N;
+        let j = ix % N;
+        [
+            [i.wrapping_sub(1), j],
+            [i + 1, j],
+            [i, j.wrapping_sub(1)],
+            [i, j + 1],
+        ]
+        .into_iter()
+        .filter_map(|[i, j]| {
+            if i < N && j < N {
+                Some(i * N + j)
+            } else {
+                None
+            }
+        })
+        .for_each(|ix| {
+            if !seen[ix] {
+                pq.push((Reverse(risk + grid[ix] as u32), ix));
+                seen[ix] = true;
+            }
+        })
     }
     0
 }
 
-fn part1(input: &Result<[[u8; N]; N], ()>) -> u32 {
+pub fn part1(input: &[u8]) -> u32 {
     dijkstra::<N>(input)
 }
 
-fn part2(input: &Result<[[u8; N]; N], ()>) -> u32 {
+pub fn part2(input: &[u8]) -> u32 {
+    const NS: usize = N * SCALE;
     const SCALE: usize = 5;
-    const NS: usize = 500;
-    let grid = input.unwrap();
-    let mut large = [[0; SCALE * N]; SCALE * N];
+    let mut large = [0; SCALE * N * SCALE * N];
     (0..N * SCALE)
         .flat_map(|i| (0..N * SCALE).map(move |j| (i, j, i / N + j / N)))
-        .for_each(|(i, j, k)| large[i][j] = ((grid[i % N][j % N] as usize + k - 1) % 9) as u8 + 1);
-    dijkstra::<NS>(&Ok(large))
+        .for_each(|(i, j, k)| {
+            large[i * N * SCALE + j] = ((input[(i % N) * N + j % N] as usize + k - 1) % 9) as u8 + 1
+        });
+    dijkstra::<NS>(&large)
 }
 
 pub fn run() -> (String, String) {

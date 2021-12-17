@@ -31,5 +31,5 @@ def solve(moves: list[int], boards: list[list[int]], pick) -> int:
 part1 = partial(solve, pick=min)
 part2 = partial(solve, pick=max)
 print(
-    f"Day 04     {part1(moves, boards):<13} {part2(moves, boards):<13} {(time.time() - start)*1e6:>13.0f}"
+    f"Day 04     {part1(moves, boards):<13} {part2(moves, boards):<14} {(time.time() - start)*1e6:>13.0f}"
 )

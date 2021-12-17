@@ -1,4 +1,4 @@
-from itertools import ../chain/2020, repeat, takewhile
+from itertools import chain, repeat, takewhile
 
 from more_itertools import iterate
 

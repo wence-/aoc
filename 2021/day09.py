@@ -56,5 +56,5 @@ def part2(heights: M) -> int:
 
 
 print(
-    f"Day 09     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+    f"Day 09     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>13.0f}"
 )

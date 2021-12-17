@@ -13,8 +13,6 @@ def part2(inp):
     return sum(a < b for a, b in zip(inp, inp[3:]))
 
 
-print("Day        Part 1        Part 2            Time [us]")
-print("----------------------------------------------------")
 print(
-    f"Day 01     {part1(inp):<13} {part2(inp):<13} {(time.time() - start)*1e6:>13.0f}"
+    f"Day 01     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>13.0f}"
 )
