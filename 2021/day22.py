@@ -58,11 +58,9 @@ def clip(a, b):
 def clipped(clipper, clipees):
     return tuple(
         sorted(
-            (
-                cube
-                for cube in (clip(clipee, clipper) for clipee in clipees)
-                if cube is not None
-            )
+            cube
+            for cube in (clip(clipee, clipper) for clipee in clipees)
+            if cube is not None
         )
     )
 
