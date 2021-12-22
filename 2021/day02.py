@@ -40,5 +40,5 @@ def part2(moves):
 
 
 print(
-    f"Day 02     {part1(moves):<13} {part2(moves):<14} {(time.time() - start)*1e6:>13.0f}"
+    f"Day 02     {part1(moves):<13} {part2(moves):<14} {(time.time() - start)*1e6:>11.0f}"
 )

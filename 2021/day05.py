@@ -31,5 +31,5 @@ def solve(diagonal, wires):
 part1 = partial(solve, False)
 part2 = partial(solve, True)
 print(
-    f"Day 05     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>13.0f}"
+    f"Day 05     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>11.0f}"
 )

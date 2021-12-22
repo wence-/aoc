@@ -35,5 +35,5 @@ def part2(inp: tuple[str, dict]):
 
 
 print(
-    f"Day 14     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>13.0f}"
+    f"Day 14     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>11.0f}"
 )

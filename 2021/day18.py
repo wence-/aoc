@@ -15,7 +15,20 @@ def tuplify(data):
 with open("../inputs/2021/day18.input", "r") as f:
     data = f.read()
     inp = []
+    inp2 = []
     for line in data.strip().split("\n"):
+        num = []
+        d = 0
+        for c in line:
+            if c == "[":
+                d += 1
+            elif c == "]":
+                d -= 1
+            elif c == ",":
+                pass
+            else:
+                num.append([d, int(c)])
+        inp2.append(num)
         inp.append(tuplify(eval(line)))
     inp = tuple(inp)
 
