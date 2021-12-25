@@ -68,5 +68,5 @@ def part2(inputs, outputs):
 
 
 print(
-    f"Day 08     {part1(inputs, outputs):<13} {part2(inputs, outputs):<14} {(time.time() - start)*1e6:>11.0f}"
+    f"Day 08     {part1(inputs, outputs):<14} {part2(inputs, outputs):<14} {(time.time() - start)*1e3:>11.2f}"
 )

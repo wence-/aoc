@@ -1,8 +1,17 @@
+import collections
+import functools
+import heapq
+import itertools
+import operator
 import time
+import typing
+
+import numpy
+import scipy.signal
 
 start = time.time()
-print("Day        Part 1        Part 2           Time [us]")
-print("---------------------------------------------------")
+print("Day        Part 1         Part 2           Time [ms]")
+print("----------------------------------------------------")
 
 import day01
 import day02
@@ -26,6 +35,9 @@ import day19
 import day20
 import day21
 import day22
+import day23
+import day24
+import day25
 
-print("---------------------------------------------------")
-print(f"{(time.time() - start)*1e6:>51.0f}")
+print("----------------------------------------------------")
+print(f"{(time.time() - start)*1e3:>52.2f}")

@@ -17,5 +17,5 @@ def solve(ages, rounds):
 
 
 print(
-    f"Day 06     {solve(inp, 80):<13} {solve(inp, 256):<14} {(time.time() - start)*1e6:>11.0f}"
+    f"Day 06     {solve(inp, 80):<14} {solve(inp, 256):<14} {(time.time() - start)*1e3:>11.2f}"
 )

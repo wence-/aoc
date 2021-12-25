@@ -12,9 +12,9 @@ pub fn read(input: &str) -> Vec<u8> {
 fn dijkstra<const N: usize>(grid: &[u8]) -> u32 {
     let mut seen = vec![false; N * N];
     let mut pq = BinaryHeap::from([(Reverse(0), 0)]);
-    while let Some((Reverse(risk), ix)) = pq.pop() {
+    while let Some((Reverse(cost), ix)) = pq.pop() {
         if ix == N * N - 1 {
-            return risk;
+            return cost;
         }
         let i = ix / N;
         let j = ix % N;
@@ -34,7 +34,7 @@ fn dijkstra<const N: usize>(grid: &[u8]) -> u32 {
         })
         .for_each(|ix| {
             if !seen[ix] {
-                pq.push((Reverse(risk + grid[ix] as u32), ix));
+                pq.push((Reverse(cost + grid[ix] as u32), ix));
                 seen[ix] = true;
             }
         })

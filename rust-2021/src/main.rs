@@ -20,7 +20,11 @@ fn main() {
         aoc::day14::run,
         aoc::day15::run,
         aoc::day16::run,
+        aoc::day17::run,
+        aoc::day18::run,
         aoc::day19::run,
+        aoc::day20::run,
+        aoc::day21::run,
         aoc::day22::run,
     ];
     println!("{:10} {:<w$} {:<w$} {:>w$}", "Day", "Part 1", "Part 2", "Time [μs]", w = W_PART);

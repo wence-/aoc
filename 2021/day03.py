@@ -28,5 +28,5 @@ def part2(inp: list[list[int]]) -> int:
 
 
 print(
-    f"Day 03     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>11.0f}"
+    f"Day 03     {part1(inp):<14} {part2(inp):<14} {(time.time() - start)*1e3:>11.2f}"
 )

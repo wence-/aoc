@@ -14,5 +14,5 @@ def part2(inp):
 
 
 print(
-    f"Day 01     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>11.0f}"
+    f"Day 01     {part1(inp):<14} {part2(inp):<14} {(time.time() - start)*1e3:>11.2f}"
 )

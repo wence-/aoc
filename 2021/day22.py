@@ -69,18 +69,20 @@ def clipped(clipper, clipees):
 def sum_volume(cubes):
     if len(cubes) == 0:
         return 0
-    cube, *cubes = cubes
-    overlap = sum_volume(clipped(cube, tuple(cubes)))
-    return volume(cube) + sum_volume(tuple(cubes)) - overlap
+    cube = cubes[0]
+    cubes = cubes[1:]
+    overlap = sum_volume(clipped(cube, cubes))
+    return volume(cube) + sum_volume(cubes) - overlap
 
 
 def solve(inp):
     if len(inp) == 0:
         return 0
-    (on, cube), *rest = inp
+    on, cube = inp[0]
+    rest = inp[1:]
     if not on:
         return solve(rest)
-    overlap = sum_volume(clipped(cube, (box for _, box in rest)))
+    overlap = sum_volume(clipped(cube, (cube for _, cube in rest)))
     return volume(cube) + solve(rest) - overlap
 
 
@@ -88,4 +90,4 @@ def part2(inp):
     return solve(inp)
 
 
-print(f"Day 22     {part1(inp):<13} {part2(inp):<14} {(time.time() - start)*1e6:>9.0f}")
+print(f"Day 22     {part1(inp):<14} {part2(inp):<14} {(time.time() - start)*1e3:>9.2f}")
