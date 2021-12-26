@@ -2,7 +2,7 @@ from itertools import product
 
 from intcode import CPU, load
 
-mem = load("day02.../input/2019")
+mem = load("day02.input")
 
 
 def part1(mem):

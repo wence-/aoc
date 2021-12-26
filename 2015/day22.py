@@ -11,7 +11,7 @@ class Spell(namedtuple("BaseSpell", "name cost effect turns damage heal armour m
 
 spells = (
     Spell("Magic Missile", 53, damage=4),
-    Spell("../Drain/2015", 73, damage=2, heal=2),
+    Spell("Drain", 73, damage=2, heal=2),
     Spell("Shield", 113, effect=True, turns=6, armour=7),
     Spell("Poison", 173, effect=True, turns=6, damage=3),
     Spell("Recharge", 229, effect=True, turns=5, mana=101),

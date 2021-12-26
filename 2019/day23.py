@@ -61,7 +61,7 @@ class CPU(CPU):
                 self.network[dest].queue_packet(packet)
 
     def run(self):
-        super().run(../inputs/2019=self.inp(), outputs=self.outp)
+        super().run(inputs=self.inp(), outputs=self.outp)
 
 
 def part1(mem):

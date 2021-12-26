@@ -11,7 +11,7 @@ def part1(mem):
               "AND D J",
               "WALK",
               ""]
-    *_, out = evaluate(mem, ../inputs/2019=map(ord, "\n".join(spring)))
+    *_, out = evaluate(mem, inputs=map(ord, "\n".join(spring)))
     return out
 
 

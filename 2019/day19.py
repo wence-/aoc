@@ -6,7 +6,7 @@ mem = load("day19.input")
 
 
 def val(mem, x, y):
-    return next(evaluate(mem, ../inputs/2019=[x, y]))
+    return next(evaluate(mem, inputs=[x, y]))
 
 
 def part1(mem):

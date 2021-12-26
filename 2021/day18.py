@@ -1,120 +1,108 @@
 import time
-from functools import cache
-from itertools import combinations
+from functools import reduce
+from itertools import chain, combinations
 
 start = time.time()
 
 
-def tuplify(data):
-    if isinstance(data, int):
-        return data
-    else:
-        return tuple(map(tuplify, data))
-
-
 with open("../inputs/2021/day18.input", "r") as f:
-    data = f.read()
     inp = []
-    inp2 = []
-    for line in data.strip().split("\n"):
-        num = []
-        d = 0
-        for c in line:
+    for line in f.read().strip().split("\n"):
+        values = []
+        depths = []
+        depth = 0
+        for c in line.strip():
             if c == "[":
-                d += 1
+                depth += 1
             elif c == "]":
-                d -= 1
+                depth -= 1
             elif c == ",":
                 pass
             else:
-                num.append([d, int(c)])
-        inp2.append(num)
-        inp.append(tuplify(eval(line)))
-    inp = tuple(inp)
+                values.append(int(c))
+                depths.append(depth)
+        inp.append((values, depths))
 
 
-@cache
-def add(l, n, toleft):
-    if isinstance(l, int):
-        return l + n
-    l_, r_ = l
-    if toleft:
-        return (add(l_, n, True), r_)
+def magnitude(values, depths):
+    while depths[0]:
+        i = 0
+        while depths[i] != depths[i + 1]:
+            i += 1
+        values.insert(i, values.pop(i) * 3 + values.pop(i) * 2)
+        l = depths.pop(i) - 1
+        depths[i] = l
+    return values[0]
+
+
+def explode(values, depths):
+    i = 0
+    while depths[i] < 5:
+        i += 1
+    l = depths[i] - 1
+
+    if i - 1 >= 0:
+        values[i - 1] += values.pop(i)
+        depths.pop(i)
     else:
-        return (l_, add(r_, n, False))
+        values.pop(i)
+        depths.pop(i)
 
-
-@cache
-def explode(n, depth=0):
-    if isinstance(n, int):
-        return False, n, (None, None)
-    if depth == 4:
-        l, r = n
-        return True, 0, (l, r)
-    left, right = n
-    changed, lo, (l, r) = explode(left, depth=depth + 1)
-    if changed:
-        if r is not None:
-            return True, (lo, add(right, r, True)), (l, None)
-        else:
-            return True, (lo, right), (l, r)
-    changed, ro, (l, r) = explode(right, depth=depth + 1)
-    if changed:
-        if l is not None:
-            return True, (add(left, l, False), ro), (None, r)
-        else:
-            return True, (left, ro), (l, r)
-    return False, (lo, ro), (None, None)
-
-
-@cache
-def split(n):
-    if isinstance(n, int):
-        if n >= 10:
-            return True, (n // 2, (n + 1) // 2)
-        else:
-            return False, n
+    if i + 1 < len(values):
+        x = values.pop(i)
+        depths.pop(i)
+        values[i] += x
     else:
-        l, r = n
-        changed, l_ = split(l)
-        if changed:
-            return True, (l_, r)
-        changed, r_ = split(r)
-        if changed:
-            return True, (l, r_)
-        return False, n
+        values.pop(i)
+        depths.pop(i)
+
+    values.insert(i, 0)
+    depths.insert(i, l)
+    return (values, depths)
 
 
-def reduce(n):
+def split(values, levels):
+    i = 0
+    while values[i] < 10:
+        i += 1
+    v = values[i]
+    l = levels[i] + 1
+    values.pop(i)
+    levels.pop(i)
+    low = v // 2
+    high = (v + 1) // 2
+
+    values.insert(i, high)
+    values.insert(i, low)
+    levels.insert(i, l)
+    levels.insert(i, l)
+    return (values, levels)
+
+
+def add(left, right):
+    lval, ldepth = left
+    rval, rdepth = right
+    values = lval + rval
+    depths = [d + 1 for d in chain(ldepth, rdepth)]
+
     while True:
-        changed, n, _ = explode(n)
-        if changed:
-            continue
-        changed, n = split(n)
-        if changed:
-            continue
-        break
-    return n
+        if max(depths) >= 5:
+            values, depths = explode(values, depths)
+        elif max(values) >= 10:
+            values, depths = split(values, depths)
+        else:
+            break
 
-
-def magnitude(n) -> int:
-    if isinstance(n, int):
-        return n
-    l, r = n
-    return 3 * magnitude(l) + 2 * magnitude(r)
+    return values, depths
 
 
 def part1(inp):
-    left, *rest = inp
-    while rest:
-        right, *rest = rest
-        left = reduce((left, right))
-    return magnitude(left)
+    return magnitude(*reduce(add, inp))
 
 
 def part2(inp):
     return max(
-        max(magnitude(reduce((a, b))), magnitude(reduce((b, a))))
+        max(magnitude(*add(a, b)), magnitude(*add(b, a)))
         for a, b in combinations(inp, 2)
     )
 

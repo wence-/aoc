@@ -22,7 +22,7 @@ def parse(state):
 
 class Player(CPU):
     def run(self, *commands, record_output=True):
-        ../inputs/2019 = map(ord, "\n".join(commands + ("", )))
+        inputs = map(ord, "\n".join(commands + ("", )))
         if record_output:
             output = []
             super().run(inputs=inputs, outputs=output.append)

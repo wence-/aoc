@@ -2,6 +2,7 @@ import heapq
 import time
 
 start = time.time()
+
 with open("../inputs/2021/day15.input", "r") as f:
     data = f.read().strip()
     inp = []
@@ -9,13 +10,14 @@ with open("../inputs/2021/day15.input", "r") as f:
         inp.append(list(map(int, line)))
 
 
-def neighbours(i, j, graph):
-    N, M = len(graph), len(graph[0])
-    di = [1, 0, -1, 0]
-    dj = [0, 1, 0, -1]
-    for n in range(4):
-        i_ = i + di[n]
-        j_ = j + dj[n]
+DI = [1, 0, -1, 0]
+DJ = [0, 1, 0, -1]
+
+
+def neighbours(i, j, N, M):
+    for di, dj in zip(DI, DJ):
+        i_ = i + di
+        j_ = j + dj
         if 0 <= i_ < N and 0 <= j_ < M:
             yield (i_, j_)
 
@@ -35,7 +37,7 @@ def dijkstra(start, end, graph):
         if (vi, vj) == end:
             return d - 1
         dist[vi][vj] = d
-        for ui, uj in neighbours(vi, vj, graph):
+        for ui, uj in neighbours(vi, vj, N, M):
             if not seen[ui][uj]:
                 seen[ui][uj] = True
                 heapq.heappush(pq, (d + graph[ui][uj], (ui, uj)))
@@ -49,20 +51,10 @@ def part1(graph):
 
 def replicate(graph):
     nx, ny = len(graph), len(graph[0])
-
-    newgraph = [[None] * ny * 5 for _ in range(nx * 5)]
-    for ki in range(nx):
-        for kj in range(ny):
-            v = graph[ki][kj]
-            for i in range(0, 5):
-                for j in range(0, 5):
-                    kx = ki + i * nx
-                    ky = kj + j * ny
-                    newval = v + i + j
-                    if newval > 9:
-                        newval = newval % 9
-                    newgraph[kx][ky] = newval
-    return newgraph
+    return [
+        [(graph[i % nx][j % ny] + i // nx + j // ny - 1) % 9 + 1 for j in range(ny * 5)]
+        for i in range(nx * 5)
+    ]
 
 
 def part2(graph):

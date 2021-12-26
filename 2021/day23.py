@@ -29,7 +29,8 @@ def heuristic(state, room_size):
     noutside = [0, 0, 0, 0]
     # Check the hallway
     for i in range(11):
-        if (room := state[i] - 1) >= 0:
+        room = state[i] - 1
+        if room >= 0:
             # Non-empty slot, needs to go to target room
             noutside[room] += 1
             cost += abs(i - (2 + 2 * room)) * 10 ** room
@@ -38,7 +39,8 @@ def heuristic(state, room_size):
         for offset in range(room_size):
             # For any amphipod in a room that is not its target room
             i = 11 + room_size * room + offset
-            if (target := state[i] - 1) >= 0 and target != room:
+            target = state[i] - 1
+            if target >= 0 and target != room:
                 # It needs to go to a room
                 noutside[target] += 1
                 cost += (1 + offset + 2 * abs(room - target)) * 10 ** target

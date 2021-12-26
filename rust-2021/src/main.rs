@@ -26,6 +26,9 @@ fn main() {
         aoc::day20::run,
         aoc::day21::run,
         aoc::day22::run,
+        aoc::day23::run,
+        aoc::day24::run,
+        aoc::day25::run,
     ];
     println!("{:10} {:<w$} {:<w$} {:>w$}", "Day", "Part 1", "Part 2", "Time [μs]", w = W_PART);
     println!("{:-<w$}", "", w = 3 * W_PART + 10 + 3);
@@ -53,12 +56,14 @@ fn main() {
             let now = Instant::now();
             let (a, b) = day();
             println!(
-                "{:10} {:<w$} {:<w$} {:>w$}",
+                "{:10} {:<w$} {:<w$} {:>n$}",
                 format!("Day {:02}", i + 1),
                 a,
                 b,
                 now.elapsed().as_micros(),
-                w = W_PART
+                w = W_PART,
+                n = 11,
+                    
             );
         }
     }

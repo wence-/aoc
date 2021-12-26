@@ -5,7 +5,7 @@ import numpy
 positions = numpy.asarray([[-7, 17, -11],
                            [9, 12, 5],
                            [-9, 0, -4],
-                           [4, 6, 0]], dtype=../int/2019)
+                           [4, 6, 0]], dtype=int)
 
 
 def part1(positions):

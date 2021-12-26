@@ -10,7 +10,7 @@ __all__ = ("CPU", "evaluate", "load")
 
 
 def load(name):
-    with open(os.path.join("inputs", name), "r") as f:
+    with open(os.path.join("../inputs/2019", name), "r") as f:
         return numpy.asarray(list(map(int, f.read().strip().split(","))),
                              dtype=numpy.int64)
 

@@ -1,5 +1,7 @@
-from functools import cached_property
+from collections import defaultdict
+from functools import cached_property, reduce
 from math import sqrt
+from operator import add, mul, sub
 
 import numpy
 from scipy.ndimage import convolve
@@ -9,38 +11,30 @@ class Tile:
     def __init__(self, n, image):
         self.n = n
         self.im = image
-        self.top = sum(2**i * n for i, n in enumerate(image[0, :]))
-        self.bottom = sum(2**i * n for i, n in enumerate(image[-1, :]))
-        self.left = sum(2**i * n for i, n in enumerate(image[:, 0]))
-        self.right = sum(2**i * n for i, n in enumerate(image[:, -1]))
-
-    @cached_property
-    def edges(self):
-        return (self.top, self.right, self.bottom, self.left)
+        self.edges = (sum(2**i * n for i, n in enumerate(image[0, :])),   # top
+                      sum(2**i * n for i, n in enumerate(image[:, -1])),  # right
+                      sum(2**i * n for i, n in enumerate(image[-1, :])),  # bottom
+                      sum(2**i * n for i, n in enumerate(image[:, 0])))   # left
+        self.image = self.im[1:-1, 1:-1]
 
     def __hash__(self):
         return self.n
 
     @cached_property
-    def image(self):
-        return self.im[1:-1, 1:-1]
-
-    @cached_property
     def variants(self):
         v = [self]
         for k in range(1, 4):
-            v.append(self._rotate(k))
-        v.append(self.flip)
+            v.append(Tile(self.n, numpy.rot90(self.im, k=k)))
+        flip = Tile(self.n, self.im[::-1, :])
+        v.append(flip)
         for k in range(1, 4):
-            v.append(self.flip._rotate(k))
+            v.append(Tile(flip.n, numpy.rot90(flip.im, k=k)))
         return tuple(v)
 
-    def _rotate(self, k=1):
-        return Tile(self.n, numpy.rot90(self.im, k=k))
 
-    @cached_property
-    def flip(self):
-        return Tile(self.n, self.im[::-1, :])
+monster = Tile(-1, numpy.asarray([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+                                  [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1],
+                                  [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0]]))
 
 
 def create_tile(tile):
@@ -52,58 +46,63 @@ def create_tile(tile):
 
 
 with open("../inputs/2020/day20.input", "r") as f:
-    tiles = list(map(create_tile, f.read().split("\n\n")))
+    data = f.read()
+    tiles = list(map(create_tile, data.split("\n\n")))
+
+edge2tiles = defaultdict(set)
+for tile in tiles:
+    for v in tile.variants:
+        for edge in v.edges:
+            edge2tiles[edge].add(tile)
 
 
-def fits(image, tile, size=12):
-    N = len(image)
-    if N + 1 - size > 0:
-        if tile.top != image[N - size].bottom:
-            return False
-    if (N + 1) % size != 1:
-        if tile.left != image[N - 1].right:
-            return False
-    return True
+def part1(tiles):
+    iscorner = lambda tile: sum(len(edge2tiles[e]) for e in tile.edges) == 6
+    return reduce(mul, (c.n for c in filter(iscorner, tiles)))
 
 
-def assemble(image, seen, tiles, size=12):
-    if len(image) == len(tiles):
-        return image
-    for tile in tiles:
-        if tile not in seen:
-            for variant in tile.variants:
-                if fits(image, variant, size=size):
-                    result = assemble(image + [variant], seen | {tile},
-                                      tiles, size=size)
-                    if result:
-                        return result
+def part2(tiles):
+    move = {0: (0, 1),
+            1: (1, 0),
+            2: (0, -1),
+            3: (-1, 0)}
+    seen = set()
+    queue = [((0, 0), tiles[0])]
+    image = dict(queue)
+    # Place tiles on grid
+    while queue:
+        loc, cur = queue.pop()
+        seen.add(cur.n)
+        for i, e in enumerate(cur.edges):
+            try:
+                new, = (t for t in edge2tiles[e] if t.n != cur.n)
+            except ValueError:
+                continue
+            if new.n in seen:
+                continue
+            newloc = tuple(map(add, loc, move[i]))
+            new, = (v for v in new.variants
+                    if v.edges[(i+2) % 4] == e)
+            image[newloc] = new
+            queue.append((newloc, new))
 
+    assert len(seen) == len(tiles) == len(image)
+    min_ = min(image)
+    max_ = max(image)
 
-N = int(sqrt(len(tiles)))
-image = assemble([], set(), tiles, size=N)
-image = numpy.asarray(image).reshape(N, N)
-
-
-def part1(image):
-    return image[0, 0].n * image[-1, 0].n * image[0, -1].n * image[-1, -1].n
-
-
-def part2(image):
-    X, _ = image.shape
-    image = numpy.vstack([numpy.hstack([t.image for t in image[i, :]])
-                          for i in range(X)])
-    monster = Tile(-1, numpy.asarray([[1 if c == "#" else 0
-                                       for c in line.strip()]
-                                      for line in r"""
-                                      ..................#.
-                                      #....##....##....###
-                                      .#..#..#..#..#..#...
-                                      """.strip().split("\n")]))
-
+    # Assemble image
+    nx, ny = tuple(map(sub, max_, min_))
+    assert nx == ny == int(sqrt(len(tiles))) - 1
+    tx, ty = tiles[0].image.shape
+    assembled = numpy.empty(((nx+1)*tx, (ny+1)*ty), dtype=int)
+    for loc, tile in image.items():
+        x, y = map(sub, loc, min_)
+        assembled[y*ty:(y+1)*ty, x*tx:(x+1)*tx] = tile.image[::-1, :]
+    # Check for monsters
     N = monster.im.sum()
-    return image.sum() - sum((convolve(image, m.im, mode="constant") == N).sum()
-                             for m in monster.variants)*N
+    return assembled.sum() - N*sum((convolve(assembled, m.im, mode="constant") == N).sum()
+                                   for m in monster.variants)
 
 
-print(f"Part 1: {part1(image)}")
-print(f"Part 2: {part2(image)}")
+print(f"Part 1: {part1(tiles)}")
+print(f"Part 2: {part2(tiles)}")
