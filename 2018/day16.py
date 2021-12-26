@@ -11,7 +11,7 @@ class Instruction(object):
 
     def update(self, regs):
         *_, c = self.operands
-        a, b = self.../inputs/2018(regs)
+        a, b = self.inputs(regs)
         out = regs.copy()
         out[c] = self.op(a, b)
         return out
@@ -99,7 +99,7 @@ class Eqrr(RR):
     op = lambda self, a, b: int(a == b)
 
 
-with open("inputs/day16.input", "r") as f:
+with open("../inputs/2018/day16.input", "r") as f:
     lines = f.read().split("\n\n")
 
 samples = []

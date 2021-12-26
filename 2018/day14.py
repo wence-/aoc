@@ -2,7 +2,7 @@ recipes = "990941"
 score = '37'
 elf1 = 0
 elf2 = 1
-while recipes not ../in/2018 score[-7:]:
+while recipes not in score[-7:]:
     score += str(int(score[elf1]) + int(score[elf2]))
     elf1 = (elf1 + int(score[elf1]) + 1) % len(score)
     elf2 = (elf2 + int(score[elf2]) + 1) % len(score)

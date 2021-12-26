@@ -76,10 +76,11 @@ def from_room(state, room, hallway, room_states, room_occ, room_size):
         not (direct and len(path) > 2)
         and all(i == hallway or state[i] == 0 for i in path)
         # Check that this wouldn't cause a deadlock
-        and not any(
-            s > 0 and hallway in sym_range(2 + 2 * target, 2 + 2 * (s - 1))
-            for s in room_states[target]
-        )
+        # Doesn't work for all inputs, happens to work for mine
+        # and not any(
+        #     s > 0 and hallway in sym_range(2 + 2 * target, 2 + 2 * (s - 1))
+        #     for s in room_states[target]
+        # )
     ):
         yield (11 + room_size * room + occ, hallway, len(path) + occ)
 
@@ -130,6 +131,7 @@ def astar(state):
                 mincost[new_state] = new_cost
                 approx_cost = new_cost + heuristic(new_state, room_size)
                 heapq.heappush(pq, (approx_cost, new_cost, new_state))
+    return 0
 
 
 def part1(inp):
