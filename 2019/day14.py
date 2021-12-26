@@ -27,8 +27,9 @@ def ore(n, graph):
     substances = defaultdict(int, [("FUEL", n)])
     while True:
         try:
-            need, n = next((e, n) for e, n in substances.items()
-                           if n > 0 and e != 'ORE')
+            need, n = next(
+                (e, n) for e, n in substances.items() if n > 0 and e != "ORE"
+            )
         except StopIteration:
             break
         *reqs, makes = graph[need]
@@ -44,7 +45,7 @@ def part1(data):
     return ore(1, graph)
 
 
-def part2(data, target=10**12):
+def part2(data, target=10 ** 12):
     graph = setup(data)
     fuel = 1
     while True:
@@ -52,7 +53,7 @@ def part2(data, target=10**12):
         if made > target:
             return fuel
         else:
-            fuel = max(fuel + 1, (fuel + 1)*target // made)
+            fuel = max(fuel + 1, (fuel + 1) * target // made)
 
 
 print("Part 1:", part1(data))

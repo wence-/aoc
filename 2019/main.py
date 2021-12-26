@@ -1,4 +1,5 @@
 import time
+
 start = time.time()
 print("Day        Part 1         Part 2           Time [ms]")
 print("----------------------------------------------------")

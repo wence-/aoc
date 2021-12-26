@@ -5,14 +5,18 @@ import numpy
 with open("../inputs/2018/day10.input", "r") as f:
     input = f.readlines()
 
-data = numpy.asarray([[int(i) for i in re.findall(r'-?\d+', l)] for l in input]).astype(int)
+data = numpy.asarray([[int(i) for i in re.findall(r"-?\d+", l)] for l in input]).astype(
+    int
+)
 
 positions = data[:, :2].copy()
 velocities = data[:, 2:]
 
 
 def bbox(positions):
-    return numpy.linalg.norm(numpy.max(positions, axis=0) - numpy.min(positions, axis=0))
+    return numpy.linalg.norm(
+        numpy.max(positions, axis=0) - numpy.min(positions, axis=0)
+    )
 
 
 minbox = numpy.finfo(float).max
@@ -25,7 +29,7 @@ for i in range(20000):
         minbox = cur
     positions += velocities
 
-best = data[:, :2] + found*velocities
+best = data[:, :2] + found * velocities
 
 xextent = best[:, 0].max() - best[:, 0].min()
 yextent = best[:, 1].max() - best[:, 1].min()

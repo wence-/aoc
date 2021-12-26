@@ -59,8 +59,8 @@ def destruction_order(data):
 
 
 def part2(data):
-    (x, y), = islice(destruction_order(data), 199, 200)
-    return x*100 + y
+    ((x, y),) = islice(destruction_order(data), 199, 200)
+    return x * 100 + y
 
 
 print(f"Part 1: {part1(data)}")

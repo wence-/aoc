@@ -7,17 +7,19 @@ with open("../inputs/2018/day13.input") as f:
 
 
 parsed = []
-translate = {" ": 0,
-             "-": 1,
-             "|": 2,
-             "+": 3,
-             "/": 4,
-             "\\": 5,
-             ">": 6,
-             "v": 7,
-             "<": 8,
-             "^": 9,
-             "X": 10}
+translate = {
+    " ": 0,
+    "-": 1,
+    "|": 2,
+    "+": 3,
+    "/": 4,
+    "\\": 5,
+    ">": 6,
+    "v": 7,
+    "<": 8,
+    "^": 9,
+    "X": 10,
+}
 
 back = dict((v, k) for k, v in translate.items())
 
@@ -33,7 +35,7 @@ shape = (max(map(len, parsed)), len(parsed))
 grid = numpy.zeros(shape, dtype=int)
 
 for i, p in enumerate(parsed):
-    grid[:len(p), i] = p
+    grid[: len(p), i] = p
 
 
 def print_grid(grid, carts, cartmap):
@@ -41,8 +43,12 @@ def print_grid(grid, carts, cartmap):
     for row in range(rows):
         for col in range(cols):
             if carts[col, row]:
-                print({"right": ">", "left": "<", "down": "v", "up": "^", "crash": "X"}[
-                    cartmap[carts[col, row]].state], end="")
+                print(
+                    {"right": ">", "left": "<", "down": "v", "up": "^", "crash": "X"}[
+                        cartmap[carts[col, row]].state
+                    ],
+                    end="",
+                )
             else:
                 print(back[grid[col, row]], end="")
         print("")
@@ -65,13 +71,13 @@ class Cart(object):
     def next_loc(self, pos):
         x, y = pos
         if self.state == "right":
-            return (x+1, y)
+            return (x + 1, y)
         elif self.state == "left":
-            return (x-1, y)
+            return (x - 1, y)
         elif self.state == "down":
-            return (x, y+1)
+            return (x, y + 1)
         elif self.state == "up":
-            return (x, y-1)
+            return (x, y - 1)
 
     def next(self, grid, pos, carts, can_remove=False):
         npos = self.next_loc(pos)
@@ -88,25 +94,23 @@ class Cart(object):
                 return True, killed
         if back[grid[npos]] == "+":
             new = {0: "left", 1: "straight", 2: "right"}[next(self.turn)]
-            self.state = {"left": {"right": "up",
-                                   "left": "down",
-                                   "down": "right",
-                                   "up": "left"}[self.state],
-                          "straight": self.state,
-                          "right": {"right": "down",
-                                    "left": "up",
-                                    "down": "left",
-                                    "up": "right"}[self.state]}[new]
+            self.state = {
+                "left": {"right": "up", "left": "down", "down": "right", "up": "left"}[
+                    self.state
+                ],
+                "straight": self.state,
+                "right": {"right": "down", "left": "up", "down": "left", "up": "right"}[
+                    self.state
+                ],
+            }[new]
         if back[grid[npos]] == "/":
-            self.state = {"up": "right",
-                          "left": "down",
-                          "right": "up",
-                          "down": "left"}[self.state]
+            self.state = {"up": "right", "left": "down", "right": "up", "down": "left"}[
+                self.state
+            ]
         if back[grid[npos]] == "\\":
-            self.state = {"down": "right",
-                          "right": "down",
-                          "left": "up",
-                          "up": "left"}[self.state]
+            self.state = {"down": "right", "right": "down", "left": "up", "up": "left"}[
+                self.state
+            ]
         carts[npos] = carts[pos]
         carts[pos] = 0
         return False, npos
@@ -168,8 +172,8 @@ while True:
             del cartmap[pos[0]]
             del cartmap[pos[1]]
         if len(cartmap) == 1:
-            key, = cartmap.keys()
-            (i, ), (j, ) = numpy.where(carts == key)
+            (key,) = cartmap.keys()
+            (i,), (j,) = numpy.where(carts == key)
             cart = cartmap[key]
             crash, pos = cart.next(grid, (i, j), carts, can_remove=True)
             assert not crash

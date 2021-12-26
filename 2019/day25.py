@@ -2,8 +2,9 @@ import re
 
 from intcode import CPU, load
 
-BAD_ITEMS = frozenset(["photons", "giant electromagnet", "escape pod",
-                       "infinite loop", "molten lava"])
+BAD_ITEMS = frozenset(
+    ["photons", "giant electromagnet", "escape pod", "infinite loop", "molten lava"]
+)
 BACK = {"north": "south", "east": "west", "south": "north", "west": "east"}
 
 
@@ -22,7 +23,7 @@ def parse(state):
 
 class Player(CPU):
     def run(self, *commands, record_output=True):
-        inputs = map(ord, "\n".join(commands + ("", )))
+        inputs = map(ord, "\n".join(commands + ("",)))
         if record_output:
             output = []
             super().run(inputs=inputs, outputs=output.append)
@@ -40,7 +41,9 @@ def explore(cpu, path, state, inventory=None, paths=None):
     inventory = inventory | items
     for d in doors:
         state = cpu.run(d)
-        inventory, paths = explore(cpu, path + (d, ), state, inventory=inventory, paths=paths)
+        inventory, paths = explore(
+            cpu, path + (d,), state, inventory=inventory, paths=paths
+        )
         cpu.run(BACK[d], record_output=False)
     return inventory, paths
 
@@ -56,36 +59,38 @@ def play(mem):
     for i in range(1, 1 << n):
         state = cpu.run("west")
         try:
-            password, = re.findall("([0-9]{10})", state)
+            (password,) = re.findall("([0-9]{10})", state)
             return password, tuple(inventory[j] for j in range(n) if ~gray & (1 << j))
         except ValueError:
             pass
         diff = (i ^ (i >> 1)) - gray
         gray += diff
         c = "take" if diff < 0 else "drop"
-        j, = (j for j in range(n) if abs(diff) & (1 << j))
+        (j,) = (j for j in range(n) if abs(diff) & (1 << j))
         cpu.run(f"{c} {inventory[j]}", record_output=False)
 
 
 def perfectplay(mem):
     cpu = Player(mem)
-    commands = ["north",
-                "north",
-                "take monolith",
-                "north",
-                "take hypercube",
-                "south",
-                "south",
-                "east",
-                "east",
-                "take easter egg",
-                "east",
-                "south",
-                "take ornament",
-                "west",
-                "south"]
+    commands = [
+        "north",
+        "north",
+        "take monolith",
+        "north",
+        "take hypercube",
+        "south",
+        "south",
+        "east",
+        "east",
+        "take easter egg",
+        "east",
+        "south",
+        "take ornament",
+        "west",
+        "south",
+    ]
     cpu.run(*commands, record_output=False)
-    password, = re.findall("([0-9]{10})", cpu.run("west"))
+    (password,) = re.findall("([0-9]{10})", cpu.run("west"))
     return password, ("easter egg", "hypercube", "monolith", "ornament")
 
 

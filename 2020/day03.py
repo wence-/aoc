@@ -6,8 +6,7 @@ with open("../inputs/2020/day03.input", "r") as f:
 
 
 def trees(grid, r, d):
-    return sum(row[(i*r) % len(row)] == "#"
-               for i, row in enumerate(grid[::d]))
+    return sum(row[(i * r) % len(row)] == "#" for i, row in enumerate(grid[::d]))
 
 
 part1 = partial(trees, r=3, d=1)

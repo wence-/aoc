@@ -18,12 +18,16 @@ class Ferry:
         self.facing = 1
         self.waypoint = (10, 1)
 
-    move = {"E": lambda we, ns, n: (we+n, ns),
-            "W": lambda we, ns, n: (we-n, ns),
-            "N": lambda we, ns, n: (we, ns+n),
-            "S": lambda we, ns, n: (we, ns-n)}
-    rotate = {"R": lambda f, n: [0, 1, 2, 3][(f + n) % 4],
-              "L": lambda f, n: [0, 1, 2, 3][(f - n) % 4]}
+    move = {
+        "E": lambda we, ns, n: (we + n, ns),
+        "W": lambda we, ns, n: (we - n, ns),
+        "N": lambda we, ns, n: (we, ns + n),
+        "S": lambda we, ns, n: (we, ns - n),
+    }
+    rotate = {
+        "R": lambda f, n: [0, 1, 2, 3][(f + n) % 4],
+        "L": lambda f, n: [0, 1, 2, 3][(f - n) % 4],
+    }
     FACING = {0: "N", 1: "E", 2: "S", 3: "W"}
 
     def move1(self, c, n):
@@ -42,7 +46,7 @@ class Ferry:
             self.waypoint = self.move[c](*self.waypoint, n)
         elif c == "F":
             WE, NS = self.pos
-            self.pos = WE + n*way_we, NS + n*way_ns
+            self.pos = WE + n * way_we, NS + n * way_ns
         elif c == "L":
             for _ in range(n):
                 way_we, way_ns = self.waypoint

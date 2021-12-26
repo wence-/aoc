@@ -7,17 +7,19 @@ with open("../inputs/2020/day24.input", "r") as f:
     lines = [line.strip() for line in f.readlines()]
 
 
-neighbours = {'e': (+1, 0),
-              'w': (-1, 0),
-              'nw': (0, 1),
-              'ne': (1, 1),
-              'sw': (-1, -1),
-              'se': (0, -1)}
+neighbours = {
+    "e": (+1, 0),
+    "w": (-1, 0),
+    "nw": (0, 1),
+    "ne": (1, 1),
+    "sw": (-1, -1),
+    "se": (0, -1),
+}
 
 
 def advance(line):
-    (m, v), = ((m, v) for m, v in neighbours.items() if line.startswith(m))
-    return v, line[len(m):]
+    ((m, v),) = ((m, v) for m, v in neighbours.items() if line.startswith(m))
+    return v, line[len(m) :]
 
 
 def load_grid(lines):
@@ -39,10 +41,10 @@ def part1(lines):
 
 
 def step(grid):
-    adj = Counter((tuple(map(add, loc, n)) for n in neighbours.values()
-                   for loc in grid))
-    return {loc for loc, n in adj.items()
-            if n == 2 or (n == 1 and loc in grid)}
+    adj = Counter(
+        (tuple(map(add, loc, n)) for n in neighbours.values() for loc in grid)
+    )
+    return {loc for loc, n in adj.items() if n == 2 or (n == 1 and loc in grid)}
 
 
 def part2(lines):

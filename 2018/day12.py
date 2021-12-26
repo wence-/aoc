@@ -5,7 +5,9 @@ with open("../inputs/2018/day12.input", "r") as f:
     f.readline()
     rules_ = f.readlines()
 
-state = numpy.asarray([0, 0, 0, 0] + [1 if c == "#" else 0 for c in state_] + [0, 0, 0, 0], dtype=int)
+state = numpy.asarray(
+    [0, 0, 0, 0] + [1 if c == "#" else 0 for c in state_] + [0, 0, 0, 0], dtype=int
+)
 rules = {}
 for r in rules_:
     rules[tuple([1 if c == "#" else 0 for c in r[:5]])] = 1 if r[9] == "#" else 0
@@ -19,8 +21,8 @@ offset = 4
 
 for i in range(20):
     new_state = numpy.zeros(state.shape, dtype=int)
-    for x in range(2, len(state)-2):
-        new_state[x] = rules.get(tuple(state[x-2:x+3]), 0)
+    for x in range(2, len(state) - 2):
+        new_state[x] = rules.get(tuple(state[x - 2 : x + 3]), 0)
     if new_state[0] or new_state[1] or new_state[3]:
         new_state = numpy.concatenate([[0, 0, 0, 0], new_state])
         offset += 4
@@ -30,14 +32,16 @@ for i in range(20):
 
 print(f"Part 1: {sum(numpy.where(state == 1)[0] - offset)}")
 
-state = numpy.asarray([0, 0, 0, 0] + [1 if c == "#" else 0 for c in state_] + [0, 0, 0, 0], dtype=int)
+state = numpy.asarray(
+    [0, 0, 0, 0] + [1 if c == "#" else 0 for c in state_] + [0, 0, 0, 0], dtype=int
+)
 
 offset = 4
 
 for i in range(50000000):
     new_state = numpy.zeros(state.shape, dtype=int)
-    for x in range(2, len(state)-2):
-        new_state[x] = rules.get(tuple(state[x-2:x+3]), 0)
+    for x in range(2, len(state) - 2):
+        new_state[x] = rules.get(tuple(state[x - 2 : x + 3]), 0)
     if numpy.allclose(numpy.roll(state, 1), new_state):
         break
     if new_state[0] or new_state[1] or new_state[3]:

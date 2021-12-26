@@ -21,8 +21,8 @@ def part1(rules):
 def part2(rules):
     nvalid = 0
     for (lo, hi), char, passwd in rules:
-        loc = passwd[lo-1]
-        hic = passwd[hi-1]
+        loc = passwd[lo - 1]
+        hic = passwd[hi - 1]
         nvalid += (loc == char) ^ (hic == char)
     return nvalid
 

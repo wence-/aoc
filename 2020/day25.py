@@ -7,7 +7,7 @@ def part1():
     e, n = 0, 1
     while n != doorpub:
         e += 1
-        n = 7*n % modulus
+        n = 7 * n % modulus
     return pow(cardpub, e, modulus)
 
 

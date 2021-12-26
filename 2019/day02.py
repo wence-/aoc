@@ -18,7 +18,7 @@ def part2(mem):
         cpu.mem[1:3] = a, b
         cpu.run()
         if cpu.mem[0] == 19690720:
-            return 100*a + b
+            return 100 * a + b
 
 
 print(f"Part 1: {part1(mem)}")

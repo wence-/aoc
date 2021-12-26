@@ -4,7 +4,7 @@ from operator import mul
 import numpy
 
 with open("../inputs/2019/day08.input", "r") as f:
-    image = numpy.asarray(list(map(int, f.read().strip()))).reshape(-1, 6*25)
+    image = numpy.asarray(list(map(int, f.read().strip()))).reshape(-1, 6 * 25)
 
 
 def part1(image):
@@ -14,10 +14,10 @@ def part1(image):
 
 
 def part2(image):
-    combined = numpy.asarray([reduce(lambda a, b: b if a == 2 else a, row)
-                              for row in image.T]).reshape(6, 25)
-    return "\n".join("".join("█" if r else " " for r in row)
-                     for row in combined)
+    combined = numpy.asarray(
+        [reduce(lambda a, b: b if a == 2 else a, row) for row in image.T]
+    ).reshape(6, 25)
+    return "\n".join("".join("█" if r else " " for r in row) for row in combined)
 
 
 print(f"Part 1: {part1(image)}")

@@ -8,7 +8,7 @@ with open("../inputs/2019/day20.input", "r") as f:
     for y, row in enumerate(data):
         for x, ch in enumerate(row):
             if ch not in {"#", " "}:
-                grid[x + 1j*y] = ch
+                grid[x + 1j * y] = ch
 
 
 def make_graph(data, level=0, graph=None):
@@ -24,7 +24,7 @@ def make_graph(data, level=0, graph=None):
             except KeyError:
                 continue
             if val == ".":
-                graph.add_edge((level, p), (level, p+d))
+                graph.add_edge((level, p), (level, p + d))
             else:
                 # portal
                 for d_ in directions:
@@ -42,16 +42,16 @@ def part1(data):
             a, b = v
             graph.add_edge((0, a), (0, b))
         else:
-            a, = v
+            (a,) = v
             graph.add_node((0, a))
-    AA, = portals["AA"]
-    ZZ, = portals["ZZ"]
+    (AA,) = portals["AA"]
+    (ZZ,) = portals["ZZ"]
     return nx.shortest_path_length(graph, (0, AA), (0, ZZ))
 
 
 def part2(data, maxlevel=30):
     graph, portals = make_graph(data)
-    for l in range(1, maxlevel-1):
+    for l in range(1, maxlevel - 1):
         graph, _ = make_graph(data, level=l, graph=graph)
     for p, v in portals.items():
         if len(v) == 2:
@@ -60,13 +60,13 @@ def part2(data, maxlevel=30):
                 outer, inner = a, b
             else:
                 outer, inner = b, a
-            for l in range(maxlevel-1):
-                graph.add_edge((l, inner), (l+1, outer))
+            for l in range(maxlevel - 1):
+                graph.add_edge((l, inner), (l + 1, outer))
         else:
-            a, = v
+            (a,) = v
             graph.add_node((0, a))
-    AA, = portals["AA"]
-    ZZ, = portals["ZZ"]
+    (AA,) = portals["AA"]
+    (ZZ,) = portals["ZZ"]
     return nx.shortest_path_length(graph, (0, AA), (0, ZZ))
 
 

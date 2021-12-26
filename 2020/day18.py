@@ -13,7 +13,7 @@ addop = pp.Literal("+").setParseAction(lambda tok: add)
 
 def evaluate(result):
     try:
-        r, = result
+        (r,) = result
         return evaluate(r)
     except ValueError:
         *a, op, b = result
@@ -33,8 +33,7 @@ def part1(lines):
 
 
 def part2(lines):
-    return run([(addop, 2, pp.opAssoc.LEFT),
-                (mulop, 2, pp.opAssoc.LEFT)])
+    return run([(addop, 2, pp.opAssoc.LEFT), (mulop, 2, pp.opAssoc.LEFT)])
 
 
 print("Part 1:", part1(lines))

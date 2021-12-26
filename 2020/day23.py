@@ -8,7 +8,7 @@ cards = list(map(int, "123487596"))
 def run(cards, steps):
     biggest = max(cards)
     # Sui generis circular linked list using an array
-    link = [None]*(len(cards)+1)
+    link = [None] * (len(cards) + 1)
     for a, b in zip(cards, chain(cards[1:], repeat(cards[0], 1))):
         link[a] = b
     current = link[cards[-1]]
@@ -40,11 +40,13 @@ def run(cards, steps):
 
 def part1(cards):
     link = run(cards, 100)
-    return "".join(map(str, takewhile(lambda x: x != 1, iterate(link.__getitem__, link[1]))))
+    return "".join(
+        map(str, takewhile(lambda x: x != 1, iterate(link.__getitem__, link[1])))
+    )
 
 
 def part2(cards):
-    cards = list(cards) + list(range(max(cards)+1, 1_000_001))
+    cards = list(cards) + list(range(max(cards) + 1, 1_000_001))
     link = run(cards, 10_000_000)
     return link[1] * link[link[1]]
 

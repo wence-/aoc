@@ -6,13 +6,14 @@ from more_itertools import windowed
 with open("../inputs/2020/day10.input", "r") as f:
     adapters = [0]
     adapters.extend(sorted(map(int, f.readlines())))
-    adapters.append(adapters[-1]+3)
+    adapters.append(adapters[-1] + 3)
 
 
 def part1(adapters):
     acc = {1: (1, 0), 3: (0, 1)}
-    return mul(*map(sum, zip(*(acc.get(b-a, (0, 0))
-                               for a, b in windowed(adapters, 2)))))
+    return mul(
+        *map(sum, zip(*(acc.get(b - a, (0, 0)) for a, b in windowed(adapters, 2))))
+    )
 
 
 def part2(adapters):

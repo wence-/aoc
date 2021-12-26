@@ -33,7 +33,7 @@ def parse(lines):
                 elif state == "awake":
                     guard.awake.append((estart, 60))
             e = line[x:].find(" ")
-            id_ = int(line[x+1:x+e])
+            id_ = int(line[x + 1 : x + e])
             guard = guards.get(id_)
             if guard is None:
                 guard = guards.setdefault(id_, Guard(id_))

@@ -22,9 +22,7 @@ class CPU:
     @staticmethod
     def decode(ins):
         op, n = ins.split(" ")
-        opmap = {"nop": CPU.NOP,
-                 "acc": CPU.ACC,
-                 "jmp": CPU.JMP}
+        opmap = {"nop": CPU.NOP, "acc": CPU.ACC, "jmp": CPU.JMP}
         try:
             return opmap[op], int(n)
         except KeyError:
@@ -84,9 +82,7 @@ def part1(cpu):
 
 
 def part2(cpu):
-    opmap = {CPU.NOP: CPU.JMP,
-             CPU.JMP: CPU.NOP,
-             CPU.ACC: CPU.ACC}
+    opmap = {CPU.NOP: CPU.JMP, CPU.JMP: CPU.NOP, CPU.ACC: CPU.ACC}
     for i in range(len(cpu.instructions)):
         cpu.reset()
         with cpu.modified_instruction(i, opmap):

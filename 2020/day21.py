@@ -14,8 +14,7 @@ with open("../inputs/2020/day21.input", "r") as f:
 
 
 def known_allergens(possible):
-    known = dict((k, set.intersection(*v))
-                 for k, v in possible.items())
+    known = dict((k, set.intersection(*v)) for k, v in possible.items())
     toremove = list(filter(lambda p: len(p) == 1, known.values()))
     while toremove:
         found = toremove.pop()

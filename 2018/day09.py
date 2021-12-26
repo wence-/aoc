@@ -2,7 +2,7 @@ from collections import deque
 from itertools import cycle
 
 inputa = 400, 71864
-inputb = 400, 71864*100
+inputb = 400, 71864 * 100
 
 
 def run(nplayer, maxval):

@@ -6,7 +6,7 @@ with open("../inputs/2019/day24.input", "r") as f:
 
 
 def hash_state(grid):
-    return sum(x*2**i for i, x in enumerate(numpy.nditer(grid)))
+    return sum(x * 2 ** i for i, x in enumerate(numpy.nditer(grid)))
 
 
 def part1(data):
@@ -36,39 +36,41 @@ def part2(data, maxits=200):
         for x, c in enumerate(line):
             grid[y, x] = 1 if c == "#" else 0
 
-    levels = [numpy.zeros_like(grid) for _ in range(maxits*2 + 3)]
-    levels[maxits+1] = grid
+    levels = [numpy.zeros_like(grid) for _ in range(maxits * 2 + 3)]
+    levels[maxits + 1] = grid
     new_levels = [g.copy() for g in levels]
 
     def neighbour_sum(x, y, level):
         if x == 2 and y == 2:
             return 0
         val = 0
-        for (a, b) in [(x+1, y), (x-1, y), (x, y+1), (x, y-1)]:
+        for (a, b) in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
             if a == 2 and b == 2:  # centre
-                index = {(1, 2): (slice(None), 0),
-                         (3, 2): (slice(None), 4),
-                         (2, 1): (0, slice(None)),
-                         (2, 3): (4, slice(None))}[(x, y)]
-                val += levels[level+1][index].sum()
+                index = {
+                    (1, 2): (slice(None), 0),
+                    (3, 2): (slice(None), 4),
+                    (2, 1): (0, slice(None)),
+                    (2, 3): (4, slice(None)),
+                }[(x, y)]
+                val += levels[level + 1][index].sum()
             if a == -1:
-                val += levels[level-1][2, 1]
+                val += levels[level - 1][2, 1]
             elif b == -1:
-                val += levels[level-1][1, 2]
+                val += levels[level - 1][1, 2]
             elif a == 5:
-                val += levels[level-1][2, 3]
+                val += levels[level - 1][2, 3]
             elif b == 5:
-                val += levels[level-1][3, 2]
+                val += levels[level - 1][3, 2]
             else:
                 val += levels[level][b, a]
         return val
 
     for n in range(0, maxits):
-        for i in range(-n-1, n+2):
-            ngrid = new_levels[maxits+i+1]
-            ogrid = levels[maxits+i + 1]
+        for i in range(-n - 1, n + 2):
+            ngrid = new_levels[maxits + i + 1]
+            ogrid = levels[maxits + i + 1]
             for y, x in numpy.ndindex(ogrid.shape):
-                n = neighbour_sum(x, y, maxits+i + 1)
+                n = neighbour_sum(x, y, maxits + i + 1)
                 ngrid[y, x] = (ogrid[y, x] & (n == 1)) + (~ogrid[y, x] & (1 <= n <= 2))
         levels, new_levels = new_levels, levels
 

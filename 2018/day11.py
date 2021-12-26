@@ -9,7 +9,7 @@ for x, y in numpy.ndindex(*cells.shape):
     val = x + 10
     val *= y
     val += input
-    val *= (x + 10)
+    val *= x + 10
     val = (val % 1000) // 100
     val -= 5
     cells[x, y] = val

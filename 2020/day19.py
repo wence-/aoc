@@ -4,8 +4,7 @@ with open("../inputs/2020/day19.input", "r") as f:
     rules, strings = f.read().strip().split("\n\n")
 
 messages = list(s.strip() for s in strings.strip().split("\n"))
-rules = dict(rule.replace('"', '').split(": ", 1)
-             for rule in rules.splitlines())
+rules = dict(rule.replace('"', "").split(": ", 1) for rule in rules.splitlines())
 
 
 def compile(rule, rules):

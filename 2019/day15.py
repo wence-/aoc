@@ -1,7 +1,6 @@
 from functools import partial
 
 import networkx as nx
-
 from intcode import CPU, load
 
 mem = load("day15.input")

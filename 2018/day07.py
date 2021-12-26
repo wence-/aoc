@@ -50,7 +50,7 @@ def topo_sort_time(graph, nworker=5):
     S = list(n for n, deps in fdeps.items() if not deps)
     time = 0
 
-    cost = dict((n, 60 + ord(n) - ord('A') + 1) for n in graph)
+    cost = dict((n, 60 + ord(n) - ord("A") + 1) for n in graph)
     while S:
         S_ = sorted(S, key=lambda x: (cost[x], x))
         for _, n in zip(range(nworker), S_):

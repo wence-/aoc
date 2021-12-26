@@ -5,13 +5,15 @@ with open("../inputs/2020/day09.input", "r") as f:
 
 
 def part1(data, window_size=25):
-    return next(want for want, have in
-                zip(data[window_size:], map(set, windowed(data, window_size)))
-                if not any(want - h in have for h in have))
+    return next(
+        want
+        for want, have in zip(data[window_size:], map(set, windowed(data, window_size)))
+        if not any(want - h in have for h in have)
+    )
 
 
 def part2(data, want):
-    data = data[:data.index(want)]
+    data = data[: data.index(want)]
     left = 0
     right = 0
     subseq_sum = 0

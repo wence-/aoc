@@ -10,25 +10,25 @@ with open("../inputs/2020/day04.input", "r") as f:
 
 def byr(val):
     match = re.match("^[0-9]{4}$", val)
-    return (match and 1920 <= int(val) <= 2002)
+    return match and 1920 <= int(val) <= 2002
 
 
 def iyr(val):
     match = re.match("^[0-9]{4}$", val)
-    return (match and 2010 <= int(val) <= 2020)
+    return match and 2010 <= int(val) <= 2020
 
 
 def eyr(val):
     match = re.match("^[0-9]{4}$", val)
-    return (match and 2020 <= int(val) <= 2030)
+    return match and 2020 <= int(val) <= 2030
 
 
 def hgt(val):
     match = re.match("^([0-9]+)(cm|in)$", val)
-    return (match and ((match.group(2) == "cm"
-                        and 150 <= int(match.group(1)) <= 193)
-                       or (match.group(2) == "in"
-                           and 59 <= int(match.group(1)) <= 76)))
+    return match and (
+        (match.group(2) == "cm" and 150 <= int(match.group(1)) <= 193)
+        or (match.group(2) == "in" and 59 <= int(match.group(1)) <= 76)
+    )
 
 
 def hcl(val):
@@ -43,13 +43,15 @@ def pid(val):
     return re.match("^[0-9]{9}$", val) is not None
 
 
-required = {"byr": byr,
-            "iyr": iyr,
-            "eyr": eyr,
-            "hgt": hgt,
-            "hcl": hcl,
-            "ecl": ecl,
-            "pid": pid}
+required = {
+    "byr": byr,
+    "iyr": iyr,
+    "eyr": eyr,
+    "hgt": hgt,
+    "hcl": hcl,
+    "ecl": ecl,
+    "pid": pid,
+}
 
 optional = {"cid"}
 
@@ -65,8 +67,8 @@ def part1(passports):
 
 def part2(passports):
     def valid(p):
-        return (set(p).issuperset(required)
-                and all(v(p[k]) for k, v in required.items()))
+        return set(p).issuperset(required) and all(v(p[k]) for k, v in required.items())
+
     return sum(map(valid, passports))
 
 

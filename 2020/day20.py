@@ -11,10 +11,12 @@ class Tile:
     def __init__(self, n, image):
         self.n = n
         self.im = image
-        self.edges = (sum(2**i * n for i, n in enumerate(image[0, :])),   # top
-                      sum(2**i * n for i, n in enumerate(image[:, -1])),  # right
-                      sum(2**i * n for i, n in enumerate(image[-1, :])),  # bottom
-                      sum(2**i * n for i, n in enumerate(image[:, 0])))   # left
+        self.edges = (
+            sum(2 ** i * n for i, n in enumerate(image[0, :])),  # top
+            sum(2 ** i * n for i, n in enumerate(image[:, -1])),  # right
+            sum(2 ** i * n for i, n in enumerate(image[-1, :])),  # bottom
+            sum(2 ** i * n for i, n in enumerate(image[:, 0])),
+        )  # left
         self.image = self.im[1:-1, 1:-1]
 
     def __hash__(self):
@@ -32,16 +34,22 @@ class Tile:
         return tuple(v)
 
 
-monster = Tile(-1, numpy.asarray([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-                                  [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1],
-                                  [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0]]))
+monster = Tile(
+    -1,
+    numpy.asarray(
+        [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+            [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1],
+            [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+        ]
+    ),
+)
 
 
 def create_tile(tile):
     n, *im = tile.strip().split("\n")
     n = int(n[5:-1])
-    im = numpy.asarray([[1 if c == "#" else 0 for c in line]
-                        for line in im])
+    im = numpy.asarray([[1 if c == "#" else 0 for c in line] for line in im])
     return Tile(n, im)
 
 
@@ -62,10 +70,7 @@ def part1(tiles):
 
 
 def part2(tiles):
-    move = {0: (0, 1),
-            1: (1, 0),
-            2: (0, -1),
-            3: (-1, 0)}
+    move = {0: (0, 1), 1: (1, 0), 2: (0, -1), 3: (-1, 0)}
     seen = set()
     queue = [((0, 0), tiles[0])]
     image = dict(queue)
@@ -75,14 +80,13 @@ def part2(tiles):
         seen.add(cur.n)
         for i, e in enumerate(cur.edges):
             try:
-                new, = (t for t in edge2tiles[e] if t.n != cur.n)
+                (new,) = (t for t in edge2tiles[e] if t.n != cur.n)
             except ValueError:
                 continue
             if new.n in seen:
                 continue
             newloc = tuple(map(add, loc, move[i]))
-            new, = (v for v in new.variants
-                    if v.edges[(i+2) % 4] == e)
+            (new,) = (v for v in new.variants if v.edges[(i + 2) % 4] == e)
             image[newloc] = new
             queue.append((newloc, new))
 
@@ -94,14 +98,16 @@ def part2(tiles):
     nx, ny = tuple(map(sub, max_, min_))
     assert nx == ny == int(sqrt(len(tiles))) - 1
     tx, ty = tiles[0].image.shape
-    assembled = numpy.empty(((nx+1)*tx, (ny+1)*ty), dtype=int)
+    assembled = numpy.empty(((nx + 1) * tx, (ny + 1) * ty), dtype=int)
     for loc, tile in image.items():
         x, y = map(sub, loc, min_)
-        assembled[y*ty:(y+1)*ty, x*tx:(x+1)*tx] = tile.image[::-1, :]
+        assembled[y * ty : (y + 1) * ty, x * tx : (x + 1) * tx] = tile.image[::-1, :]
     # Check for monsters
     N = monster.im.sum()
-    return assembled.sum() - N*sum((convolve(assembled, m.im, mode="constant") == N).sum()
-                                   for m in monster.variants)
+    return assembled.sum() - N * sum(
+        (convolve(assembled, m.im, mode="constant") == N).sum()
+        for m in monster.variants
+    )
 
 
 print(f"Part 1: {part1(tiles)}")

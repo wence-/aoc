@@ -45,7 +45,7 @@ def fmap(rose):
     else:
         c = list(map(fmap, rose.children))
         data = rose.data
-        return Rose([sum(sum(c[i-1].data) for i in data if 0 < i <= len(c))], *c)
+        return Rose([sum(sum(c[i - 1].data) for i in data if 0 < i <= len(c))], *c)
 
 
 nrose = fmap(rose)

@@ -116,8 +116,24 @@ for line in lines:
 
 count = 0
 
-instructions = [Addr, Addi, Mulr, Muli, BAndr, BAndi, BOrr, BOri,
-                Setr, Seti, Gtir, Gtri, Gtrr, Eqir, Eqri, Eqrr]
+instructions = [
+    Addr,
+    Addi,
+    Mulr,
+    Muli,
+    BAndr,
+    BAndi,
+    BOrr,
+    BOri,
+    Setr,
+    Seti,
+    Gtir,
+    Gtri,
+    Gtrr,
+    Eqir,
+    Eqri,
+    Eqrr,
+]
 code2ins = dict((i, set(instructions)) for i in range(16))
 for before, ins, after in samples:
     n = 0

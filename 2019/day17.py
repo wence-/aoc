@@ -1,34 +1,33 @@
 import numpy
-from scipy.signal import convolve
-
 from intcode import evaluate, load
+from scipy.signal import convolve
 
 mem = load("day17.input")
 
 
 def part1(mem):
-    stencil = [[0, 1, 0],
-               [1, 1, 1],
-               [0, 1, 0]]
+    stencil = [[0, 1, 0], [1, 1, 1], [0, 1, 0]]
     grid = numpy.fromiter(evaluate(mem), dtype=int)
-    (y, *_), = numpy.where(grid == ord('\n'))
-    grid = grid[grid != ord('\n')].reshape(-1, y)
-    x, y = numpy.where(convolve(grid, stencil, mode="valid") == 5*ord('#'))
-    return ((x+1)*(y+1)).sum()
+    ((y, *_),) = numpy.where(grid == ord("\n"))
+    grid = grid[grid != ord("\n")].reshape(-1, y)
+    x, y = numpy.where(convolve(grid, stencil, mode="valid") == 5 * ord("#"))
+    return ((x + 1) * (y + 1)).sum()
 
 
 def part2(mem):
     # Determined by hand
-    path = ("L,10,R,10,L,10,L,10,"
-            "R,10,R,12,L,12,"
-            "L,10,R,10,L,10,L,10,"
-            "R,10,R,12,L,12,"
-            "R,12,L,12,R,6,"
-            "R,12,L,12,R,6,"
-            "R,10,R,12,L,12,"
-            "L,10,R,10,L,10,L,10,"
-            "R,10,R,12,L,12,"
-            "R,12,L,12,R,6")
+    path = (
+        "L,10,R,10,L,10,L,10,"
+        "R,10,R,12,L,12,"
+        "L,10,R,10,L,10,L,10,"
+        "R,10,R,12,L,12,"
+        "R,12,L,12,R,6,"
+        "R,12,L,12,R,6,"
+        "R,10,R,12,L,12,"
+        "L,10,R,10,L,10,L,10,"
+        "R,10,R,12,L,12,"
+        "R,12,L,12,R,6"
+    )
 
     steps = path.split(",")
     # Shorten it
@@ -39,7 +38,7 @@ def part2(mem):
         while steps[start] in {"A", "B", "C"}:
             start += 1
         for x in range(2, len(steps)):
-            temp = ",".join(steps[start:start+x])
+            temp = ",".join(steps[start : start + x])
             if len(temp) > 20 or "A" in temp or "B" in temp or "C" in temp:
                 break
             if ",".join(steps).count(temp) > 1 and temp[-1] in "0123456789":

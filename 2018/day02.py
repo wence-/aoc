@@ -18,7 +18,7 @@ class Node(object):
         self.word = None
 
 
-root = Node('')
+root = Node("")
 
 
 def add(root, word):
@@ -50,7 +50,7 @@ def print_trie(trie, off=0, newline=False):
                 for _ in range(off):
                     print(" ", end="")
             print(c.char, end="")
-            print_trie(c, off=(off+1), newline=(c.count != 1))
+            print_trie(c, off=(off + 1), newline=(c.count != 1))
 
 
 def search(trie, word):
@@ -65,7 +65,7 @@ def search_(node, word, prow, results):
     cols = len(word) + 1
     row = [prow[0] + 1]
     for col in range(1, cols):
-        rcost = prow[col-1] + (word[col-1] != node.char)
+        rcost = prow[col - 1] + (word[col - 1] != node.char)
         row.append(rcost)
 
     if row[-1] <= 1 and node.children == []:

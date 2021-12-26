@@ -7,15 +7,17 @@ with open("../inputs/2020/day06.input", "r") as f:
 
 
 def part1(groups):
-    return sum(len(Counter(chain(*(a for a in group.split("\n")))))
-               for group in groups)
+    return sum(len(Counter(chain(*(a for a in group.split("\n"))))) for group in groups)
 
 
 def part2(groups):
-    return sum(sum(a == len(group.split("\n"))
-                   for a in Counter(chain(*(a for a in group.split("\n"))))
-                   .values())
-               for group in groups)
+    return sum(
+        sum(
+            a == len(group.split("\n"))
+            for a in Counter(chain(*(a for a in group.split("\n")))).values()
+        )
+        for group in groups
+    )
 
 
 print(f"Part 1: {part1(groups)}")

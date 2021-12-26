@@ -17,14 +17,14 @@ def reachablekeys(grid, start, havekeys):
             if pt not in grid:
                 continue
             ch = grid[pt]
-            if ch == '#':
+            if ch == "#":
                 continue
             if pt in seen:
                 continue
             seen.add(pt)
-            if 'A' <= ch <= 'Z' and ch.lower() not in havekeys:
+            if "A" <= ch <= "Z" and ch.lower() not in havekeys:
                 continue
-            if 'a' <= ch <= 'z' and ch not in havekeys:
+            if "a" <= ch <= "z" and ch not in havekeys:
                 keys[ch] = dist + 1, pt
             else:
                 bfs.append((pt, dist + 1))
@@ -52,23 +52,24 @@ def minwalk(grid, starts, havekeys, cache):
     else:
         poss = []
         for ch, (dist, pt, roi) in keys.items():
-            nstarts = tuple(pt if i == roi else p
-                            for i, p in enumerate(starts))
+            nstarts = tuple(pt if i == roi else p for i, p in enumerate(starts))
             poss.append(dist + minwalk(grid, nstarts, havekeys | {ch}, cache))
         ans = min(poss)
     return cache.setdefault((starts, havekeys), ans)
 
 
 def part1(data):
-    grid = dict((i + 1j*j, ch) for j, line in enumerate(data)
-                for i, ch in enumerate(line))
+    grid = dict(
+        (i + 1j * j, ch) for j, line in enumerate(data) for i, ch in enumerate(line)
+    )
     starts = tuple(k for k, v in grid.items() if v == "@")
     return minwalk(grid, tuple(starts), frozenset(), {})
 
 
 def part2(data):
-    grid = dict((i + 1j*j, ch) for j, line in enumerate(data)
-                for i, ch in enumerate(line))
+    grid = dict(
+        (i + 1j * j, ch) for j, line in enumerate(data) for i, ch in enumerate(line)
+    )
     starts = tuple(k for k, v in grid.items() if v == "@")
     return minwalk(grid, tuple(starts), frozenset(), {})
 

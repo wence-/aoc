@@ -8,8 +8,8 @@ def traverse(string):
     for ins in string.strip().split(","):
         d = directions[ins[0]]
         n = int(ins[1:])
-        yield from (x + i*d for i in range(n))
-        x += n*d
+        yield from (x + i * d for i in range(n))
+        x += n * d
     yield x
 
 
@@ -18,8 +18,9 @@ with open("../inputs/2019/day03.input", "r") as f:
 
 
 def setup(data):
-    distances = tuple(dict((x, i) for i, x in enumerate(traverse(line)))
-                      for line in data)
+    distances = tuple(
+        dict((x, i) for i, x in enumerate(traverse(line))) for line in data
+    )
     return distances, reduce(set.intersection, map(set, distances))
 
 

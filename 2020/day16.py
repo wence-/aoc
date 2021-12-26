@@ -19,23 +19,23 @@ for constraint in constraints.strip().split("\n"):
 
 
 me = list(map(int, me.split("\n")[1].split(",")))
-nearby = list(list(map(int, line.split(",")))
-              for line in nearby.split("\n")[1:])
+nearby = list(list(map(int, line.split(","))) for line in nearby.split("\n")[1:])
 
 
 def part1(checkers, nearby):
-    return sum(sum(filter(lambda x: not any(v(x) for v in checkers.values()),
-                          ticket))
-               for ticket in nearby)
+    return sum(
+        sum(filter(lambda x: not any(v(x) for v in checkers.values()), ticket))
+        for ticket in nearby
+    )
 
 
 def part2(checkers, nearby, me):
     possible = [set(checkers.keys()) for _ in range(len(nearby[0]))]
-    for line in filter(lambda ticket: all(any(v(x) for v in checkers.values())
-                                          for x in ticket), nearby):
+    for line in filter(
+        lambda ticket: all(any(v(x) for v in checkers.values()) for x in ticket), nearby
+    ):
         for i, n in enumerate(line):
-            possible[i] &= set(k for k, v in checkers.items()
-                               if v(n))
+            possible[i] &= set(k for k, v in checkers.items() if v(n))
 
     toremove = list(filter(lambda p: len(p) == 1, possible))
     while toremove:
@@ -46,8 +46,9 @@ def part2(checkers, nearby, me):
             p -= found
             if len(p) == 1:
                 toremove.append(p)
-    return reduce(mul, (me[i] for i, p in enumerate(possible)
-                        if p.pop().startswith("departure")))
+    return reduce(
+        mul, (me[i] for i, p in enumerate(possible) if p.pop().startswith("departure"))
+    )
 
 
 print(f"Part 1: {part1(checkers, nearby)}")

@@ -7,7 +7,7 @@ def affine(ncards, lines):
     b = 0
     for line in lines:
         if line.startswith("deal with"):
-            n = int(line[len("deal with increment "):])
+            n = int(line[len("deal with increment ") :])
             a = (a * n) % ncards
             b = (b * n) % ncards
         elif line.startswith("cut "):
@@ -37,7 +37,7 @@ def part2(lines):
     pos = 2020
     a, b = affine(ncards, lines)
     r = b * pow(1 - a, ncards - 2, ncards) % ncards
-    return ((pos - r) * pow(a, nshuffles*(ncards-2), ncards) + r) % ncards
+    return ((pos - r) * pow(a, nshuffles * (ncards - 2), ncards) + r) % ncards
 
 
 print("Part 1:", part1(lines))

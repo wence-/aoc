@@ -5,12 +5,11 @@ from operator import add, itemgetter, mul
 with open("../inputs/2020/day13.input", "r") as f:
     target, buses = f.readlines()
     target = int(target)
-    buses = [(i, int(n)) for i, n in enumerate(buses.split(","))
-             if n != "x"]
+    buses = [(i, int(n)) for i, n in enumerate(buses.split(",")) if n != "x"]
 
 
 def part1(target, buses):
-    best = 10**10
+    best = 10 ** 10
     which = -1
     for _, bus in buses:
         if (n := bus - target % bus) < best:
@@ -22,9 +21,12 @@ def part1(target, buses):
 def part2(buses):
     # Chinese remainder theorem
     N = reduce(mul, map(itemgetter(1), buses))
-    return reduce(add, ((bus - i) * (N // bus)
-                        * pow(N // bus, -1, bus)
-                        for i, bus in buses)) % N
+    return (
+        reduce(
+            add, ((bus - i) * (N // bus) * pow(N // bus, -1, bus) for i, bus in buses)
+        )
+        % N
+    )
 
 
 def part2_alternate(buses):
@@ -42,4 +44,3 @@ def part2_alternate(buses):
 print(f"Part 1: {part1(target, buses)}")
 print(f"Part 2: {part2(buses)}")
 # print(f"Part 2 (LCM): {part2_alternate(buses)}")
-

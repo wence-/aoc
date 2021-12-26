@@ -1,10 +1,17 @@
 import numpy
-
 from intcode import evaluate, load
 
 
-def stringify(grid, *, default=0, characters=None, extents=None,
-              flipx=False, flipy=False, imag=False):
+def stringify(
+    grid,
+    *,
+    default=0,
+    characters=None,
+    extents=None,
+    flipx=False,
+    flipy=False,
+    imag=False,
+):
     if imag:
         grid = dict(((int(X.real), int(X.imag)), v) for X, v in grid.items())
     if extents is not None:
@@ -22,8 +29,7 @@ def stringify(grid, *, default=0, characters=None, extents=None,
         canvas = canvas[:, ::-1]
     if flipy:
         canvas = canvas[::-1, :]
-    return "\n".join("".join(characters.get(c, str(c)) for c in row)
-                     for row in canvas)
+    return "\n".join("".join(characters.get(c, str(c)) for c in row) for row in canvas)
 
 
 class Robot(object):
@@ -32,7 +38,7 @@ class Robot(object):
 
     def __init__(self, mem):
         self.pos = 0
-        self.facing = 0         # up
+        self.facing = 0  # up
         self.grid = {}
         self.mem = mem
 
@@ -52,8 +58,7 @@ class Robot(object):
             self.move(turn)
 
     def draw(self):
-        return stringify(self.grid, characters={0: " ", 1: "█"},
-                         flipy=True, imag=True)
+        return stringify(self.grid, characters={0: " ", 1: "█"}, flipy=True, imag=True)
 
 
 mem = load("day11.input")

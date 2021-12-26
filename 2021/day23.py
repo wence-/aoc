@@ -77,10 +77,10 @@ def from_room(state, room, hallway, room_states, room_occ, room_size):
         and all(i == hallway or state[i] == 0 for i in path)
         # Check that this wouldn't cause a deadlock
         # Doesn't work for all inputs, happens to work for mine
-        # and not any(
-        #     s > 0 and hallway in sym_range(2 + 2 * target, 2 + 2 * (s - 1))
-        #     for s in room_states[target]
-        # )
+        and not any(
+            s > 0 and hallway in sym_range(2 + 2 * target, 2 + 2 * (s - 1))
+            for s in room_states[target]
+        )
     ):
         yield (11 + room_size * room + occ, hallway, len(path) + occ)
 

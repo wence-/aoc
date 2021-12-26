@@ -17,7 +17,7 @@ with open("../inputs/2018/day06.input", "r") as f:
 
 X = max(patch.coords[0] for patch in patches) + 1
 Y = max(patch.coords[1] for patch in patches) + 1
-shape = (X*Y, 2)
+shape = (X * Y, 2)
 nearest = numpy.full(shape, 100000, dtype=int)
 coords = numpy.asarray(list(numpy.ndindex(X, Y)))
 for patch in patches:
@@ -38,7 +38,7 @@ candidates = candidates - (inf | {-1})
 
 print(f"Part 1: {max(numpy.sum(nearest[..., 1] == c) for c in candidates)}")
 
-total = numpy.zeros(X*Y, dtype=int)
+total = numpy.zeros(X * Y, dtype=int)
 for patch in patches:
     dist = numpy.linalg.norm(patch.coords - coords, 1, axis=1).astype(int)
     total += dist

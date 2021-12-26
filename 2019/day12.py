@@ -2,10 +2,9 @@ from itertools import count
 
 import numpy
 
-positions = numpy.asarray([[-7, 17, -11],
-                           [9, 12, 5],
-                           [-9, 0, -4],
-                           [4, 6, 0]], dtype=int)
+positions = numpy.asarray(
+    [[-7, 17, -11], [9, 12, 5], [-9, 0, -4], [4, 6, 0]], dtype=int
+)
 
 
 def part1(positions):
@@ -38,8 +37,9 @@ def part2(positions):
         velocities += dx
         positions += velocities
         for j in range(3):
-            if (positions[:, j] == oldp[:, j]).all() and \
-               (velocities[:, j] == oldv[:, j]).all():
+            if (positions[:, j] == oldp[:, j]).all() and (
+                velocities[:, j] == oldv[:, j]
+            ).all():
                 cycle[j] = i
         if (cycle != -1).all():
             break

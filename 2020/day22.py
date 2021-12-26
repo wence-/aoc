@@ -18,7 +18,7 @@ def part1(zero, one):
             zero.extend([a, b])
         else:
             one.extend([b, a])
-    return sum(i*x for i, x in enumerate(reversed(zero or one), start=1))
+    return sum(i * x for i, x in enumerate(reversed(zero or one), start=1))
 
 
 def part2(zero, one):
@@ -36,8 +36,9 @@ def part2(zero, one):
             b = one.popleft()
             if len(zero) >= a and len(one) >= b:
                 # we'll recurse
-                winner = (zero, one)[recurse(deque(list(zero)[:a]),
-                                             deque(list(one)[:b]))]
+                winner = (zero, one)[
+                    recurse(deque(list(zero)[:a]), deque(list(one)[:b]))
+                ]
             else:
                 assert a != b
                 winner = (zero, one)[int(a < b)]
@@ -48,7 +49,7 @@ def part2(zero, one):
         return int(winner is one)
 
     winner = (zero, one)[recurse(zero, one)]
-    return sum(i*x for i, x in enumerate(reversed(winner), start=1))
+    return sum(i * x for i, x in enumerate(reversed(winner), start=1))
 
 
 print("Part 1:", part1(zero, one))
