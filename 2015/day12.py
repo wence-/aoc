@@ -1,8 +1,10 @@
 import itertools
 import json
 import numbers
+import time
 from functools import partial
 
+start = time.time()
 with open("../inputs/2015/12.input", "r") as f:
     data = json.loads(f.read())
 
@@ -23,5 +25,7 @@ def traverse(data, part2=False):
         yield data
 
 
-print("Part 1:", sum(traverse(data)))
-print("Part 2:", sum(traverse(data, part2=True)))
+part1 = sum(traverse(data))
+part2 = sum(traverse(data, part2=True))
+
+print(f"Day 12     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

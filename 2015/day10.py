@@ -1,3 +1,9 @@
+import time
+from typing import Any
+
+start = time.time()
+
+
 def rle(digits):
     prev = None
     c = 1
@@ -21,8 +27,10 @@ s = "1113222113"
 for _ in range(40):
     s = say(s)
 
-print("Part 1:", len(s))
+part1 = len(s)
 
 for _ in range(10):
     s = say(s)
-print("Part 2:", len(s))
+part2 = len(s)
+
+print(f"Day 10     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

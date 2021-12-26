@@ -1,14 +1,12 @@
 import math
+import time
 from collections import Counter
 from itertools import chain, combinations, product
 
-boss = {"hp": 104,
-        "damage": 8,
-        "armor": 1}
+start = time.time()
+boss = {"hp": 104, "damage": 8, "armor": 1}
 
-me = Counter({"hp": 100,
-              "damage": 0,
-              "armor": 0})
+me = Counter({"hp": 100, "damage": 0, "armor": 0})
 
 weapons = {
     "Dagger": {"cost": 8, "damage": 4, "armor": 0},
@@ -50,13 +48,23 @@ def viable(choice):
     return memoves <= bossmoves
 
 
-choices = map(combine, product(weapons.values(), chain([Counter()], armor.values()),
-                               chain([Counter()], rings.values(),
-                                     map(combine, combinations(rings.values(), 2)))))
+choices = list(
+    map(
+        combine,
+        product(
+            weapons.values(),
+            chain([Counter()], armor.values()),
+            chain(
+                [Counter()],
+                rings.values(),
+                map(combine, combinations(rings.values(), 2)),
+            ),
+        ),
+    )
+)
 
-print("Part 1:", min(choice["cost"] for choice in choices if viable(choice)))
-choices = map(combine, product(weapons.values(), chain([Counter()], armor.values()),
-                               chain([Counter()], rings.values(),
-                                     map(combine, combinations(rings.values(), 2)))))
+part1 = min(choice["cost"] for choice in choices if viable(choice))
 
-print("Part 2:", max(choice["cost"] for choice in choices if not viable(choice)))
+part2 = max(choice["cost"] for choice in choices if not viable(choice))
+
+print(f"Day 21     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

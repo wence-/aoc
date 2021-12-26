@@ -1,19 +1,22 @@
+import time
+
+start = time.time()
 with open("../inputs/2015/14.input", "r") as f:
     data = f.readlines()
 
 mapping = {}
 for line in data:
-    name, _, _, speed, _, _, time, *_, rest, _ = line.split()
-    mapping[name] = tuple(map(int, (speed, time, rest)))
+    name, _, _, speed, _, _, t, *_, rest, _ = line.split()
+    mapping[name] = tuple(map(int, (speed, t, rest)))
 
 
 def dist(name, time):
     speed, duration, rest = mapping[name]
     n, r = divmod(time, duration + rest)
-    return (n*duration + min(duration, r))*speed
+    return (n * duration + min(duration, r)) * speed
 
 
-print("Part 1:", max(dist(name, 2503) for name in mapping))
+part1 = max(dist(name, 2503) for name in mapping)
 
 
 def sim(mapping, time):
@@ -30,4 +33,6 @@ def sim(mapping, time):
     return score
 
 
-print("Part 2:", max(sim(mapping, 2503).values()))
+part2 = max(sim(mapping, 2503).values())
+
+print(f"Day 14     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

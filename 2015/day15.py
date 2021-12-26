@@ -1,7 +1,9 @@
+import time
 from itertools import product, repeat
 
 import numpy
 
+start = time.time()
 with open("../inputs/2015/15.input", "r") as f:
     data = f.readlines()
 
@@ -19,7 +21,7 @@ C = a[:, -1]
 
 
 def score(assignment):
-    x = (A @ assignment)
+    x = A @ assignment
     x[x < 0] = 0
     return x.prod()
 
@@ -28,8 +30,14 @@ def cals(assignment):
     return C @ assignment
 
 
-print("Part 1:", max(score(a_) for a_ in product(*repeat(range(100), len(mapping)))
-                     if sum(a_) == 100))
+part1 = max(
+    score(a_) for a_ in product(*repeat(range(100), len(mapping))) if sum(a_) == 100
+)
 
-print("Part 2:", max(score(a_) for a_ in product(*repeat(range(100), len(mapping)))
-                     if sum(a_) == 100 and cals(a_) == 500))
+part2 = max(
+    score(a_)
+    for a_ in product(*repeat(range(100), len(mapping)))
+    if sum(a_) == 100 and cals(a_) == 500
+)
+
+print(f"Day 15     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

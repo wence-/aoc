@@ -1,16 +1,15 @@
+import time
+
+start = time.time()
 with open("../inputs/2015/23.input", "r") as f:
     data = f.readlines()
 
 
 def evaluate(program, regs=None):
     if regs is None:
-        regs = {"a": 0,
-                "b": 0}
-    ops = {"inc": lambda x: x+1,
-           "tpl": lambda x: x*3,
-           "hlf": lambda x: x//2}
-    jumps = {"jie": lambda x: x % 2 == 0,
-             "jio": lambda x: x == 1}
+        regs = {"a": 0, "b": 0}
+    ops = {"inc": lambda x: x + 1, "tpl": lambda x: x * 3, "hlf": lambda x: x // 2}
+    jumps = {"jie": lambda x: x % 2 == 0, "jio": lambda x: x == 1}
     pc = 0
     while pc < len(program):
         op, reg, *args = program[pc].strip().split(" ")
@@ -21,7 +20,7 @@ def evaluate(program, regs=None):
             pc += int(reg)
         elif op in jumps:
             reg = reg[:-1]
-            jmp, = args
+            (jmp,) = args
             if jumps[op](regs[reg]):
                 pc += int(jmp)
             else:
@@ -31,5 +30,7 @@ def evaluate(program, regs=None):
     return regs
 
 
-print("Part 1:", evaluate(data)["b"])
-print("Part 2:", evaluate(data, regs={"a": 1, "b": 0})["b"])
+part1 = evaluate(data)["b"]
+part2 = evaluate(data, regs={"a": 1, "b": 0})["b"]
+
+print(f"Day 23     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

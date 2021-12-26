@@ -1,4 +1,7 @@
-invalid_chars = frozenset([c - ord('a') for c in map(ord, "iol")])
+import time
+
+start = time.time()
+invalid_chars = frozenset([c - ord("a") for c in map(ord, "iol")])
 
 
 def next_(password):
@@ -18,7 +21,7 @@ def next_(password):
     for i, c in enumerate(reversed(rev)):
         if c in invalid_chars:
             res.append(c + 1)
-            for _ in range(i+1, n):
+            for _ in range(i + 1, n):
                 res.append(0)
             break
         else:
@@ -27,8 +30,10 @@ def next_(password):
 
 
 def valid(password):
-    if not any(a + 1 == b and b + 1 == c
-               for a, b, c in zip(password, password[1:], password[2:])):
+    if not any(
+        a + 1 == b and b + 1 == c
+        for a, b, c in zip(password, password[1:], password[2:])
+    ):
         return False
     pairs = set((a, b) for a, b in zip(password, password[1:]) if a == b)
     if len(pairs) < 2:
@@ -37,18 +42,20 @@ def valid(password):
 
 
 def p(password):
-    return "".join(chr(c + ord('a')) for c in password)
+    return "".join(chr(c + ord("a")) for c in password)
 
 
-start = "cqjxjnds"
-chars = [c - ord('a') for c in map(ord, start)]
+begin = "cqjxjnds"
+chars = [c - ord("a") for c in map(ord, begin)]
 while not valid(chars):
     chars = next_(chars)
 
-print("Part 1:", p(chars))
+part1 = p(chars)
 
 chars = next_(chars)
 while not valid(chars):
     chars = next_(chars)
 
-print("Part 2:", p(chars))
+part2 = p(chars)
+
+print(f"Day 11     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

@@ -1,4 +1,13 @@
+import ast
+import collections
+import functools
+import itertools
+import json
 import time
+
+import numpy
+import scipy.signal
+
 start = time.time()
 print("Day        Part 1         Part 2           Time [ms]")
 print("----------------------------------------------------")

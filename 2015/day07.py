@@ -1,5 +1,7 @@
+import time
 from collections import defaultdict
 
+start = time.time()
 with open("../inputs/2015/07.input", "r") as f:
     lines = f.readlines()
 
@@ -8,8 +10,8 @@ graph = {}
 for line in lines:
     line = line.strip()
     s = line.find("->")
-    out = line[s+3:]
-    arg = line[:s-1].split(" ")
+    out = line[s + 3 :]
+    arg = line[: s - 1].split(" ")
     graph[out] = tuple(arg)
 
 assert len(graph) == len(lines)
@@ -17,8 +19,12 @@ assert len(graph) == len(lines)
 
 def topo_sort(graph):
     def deps(arg):
-        return tuple(a for a in arg if not (a.isdigit() or a in {"NOT", "OR", "RSHIFT", "AND",
-                                                                 "LSHIFT"}))
+        return tuple(
+            a
+            for a in arg
+            if not (a.isdigit() or a in {"NOT", "OR", "RSHIFT", "AND", "LSHIFT"})
+        )
+
     fdeps = dict((k, list(deps(v))) for k, v in graph.items())
     rdeps = defaultdict(set)
     for n, arg in fdeps.items():
@@ -72,15 +78,15 @@ for node in order:
             raise ValueError
 
 
-print("Part 1:", values['a'])
+part1 = values["a"]
 
 vb = {}
 
 for node in order:
     deps = graph[node]
     if len(deps) == 1:
-        if node == 'b':
-            vb[node] = values['a']
+        if node == "b":
+            vb[node] = values["a"]
         else:
             vb[node] = get(deps[0], vb)
     elif deps[0] == "NOT":
@@ -100,4 +106,6 @@ for node in order:
         else:
             raise ValueError
 
-print("Part 2:", vb['a'])
+part2 = vb["a"]
+
+print(f"Day 07     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

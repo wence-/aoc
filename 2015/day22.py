@@ -1,12 +1,19 @@
+import time
 from collections import namedtuple
 from functools import reduce
 from heapq import heappop, heappush
 from itertools import count
 
+start = time.time()
+
 
 class Spell(namedtuple("BaseSpell", "name cost effect turns damage heal armour mana")):
-    def __new__(cls, name, cost, effect=False, turns=None, damage=0, heal=0, armour=0, mana=0):
-        return super().__new__(cls, name, cost, effect, turns, damage, heal, armour, mana)
+    def __new__(
+        cls, name, cost, effect=False, turns=None, damage=0, heal=0, armour=0, mana=0
+    ):
+        return super().__new__(
+            cls, name, cost, effect, turns, damage, heal, armour, mana
+        )
 
 
 spells = (
@@ -19,12 +26,18 @@ spells = (
 
 
 class State(object):
-    def __init__(self, hp, mana, boss_hp, boss_damage,
-                 mana_spent=0,
-                 effects=None,
-                 hard=False,
-                 parent=None,
-                 spell_cast=None):
+    def __init__(
+        self,
+        hp,
+        mana,
+        boss_hp,
+        boss_damage,
+        mana_spent=0,
+        effects=None,
+        hard=False,
+        parent=None,
+        spell_cast=None,
+    ):
         self.hp = hp
         self.mana = mana
         self.boss_hp = boss_hp
@@ -38,12 +51,16 @@ class State(object):
     def __eq__(self, other):
         if not isinstance(other, State):
             return NotImplemented
-        return all(getattr(self, k) == getattr(other, k) for k in vars(self) if k[0] != "_")
+        return all(
+            getattr(self, k) == getattr(other, k) for k in vars(self) if k[0] != "_"
+        )
 
     def __hash__(self):
-        return reduce(lambda a, b: a ^ hash(b),
-                      (v for k, v in vars(self).items() if k[0] != "_"),
-                      0)
+        return reduce(
+            lambda a, b: a ^ hash(b),
+            (v for k, v in vars(self).items() if k[0] != "_"),
+            0,
+        )
 
     def __iter__(self):
         if self._parent is None:
@@ -64,27 +81,33 @@ class State(object):
         return tuple(remaining_effects), hp, mana, boss_hp, armour
 
     def boss_turn(self):
-        self.effects, self.hp, self.mana, self.boss_hp, armour = self.process_effects(self.effects, self.hp, self.mana, self.boss_hp)
+        self.effects, self.hp, self.mana, self.boss_hp, armour = self.process_effects(
+            self.effects, self.hp, self.mana, self.boss_hp
+        )
         # only if the boss is still alive can they attack!
         if self.boss_hp > 0:
             self.hp -= max(1, self.boss_damage - armour)
 
     def transitions(self):
         # Player turn first
-        effects, hp, mana, boss_hp, _ = self.process_effects(self.effects, self.hp - int(self.hard), self.mana, self.boss_hp)
+        effects, hp, mana, boss_hp, _ = self.process_effects(
+            self.effects, self.hp - int(self.hard), self.mana, self.boss_hp
+        )
         for spell in spells:
             if spell.cost > mana or any(spell is s for t, s in effects):
                 # can't cast spells for which we have no mana or in effect
                 continue
-            new_state = State(hp,
-                              mana - spell.cost,
-                              boss_hp,
-                              self.boss_damage,
-                              self.mana_spent + spell.cost,
-                              effects,
-                              hard=self.hard,
-                              parent=self,
-                              spell_cast=spell.name)
+            new_state = State(
+                hp,
+                mana - spell.cost,
+                boss_hp,
+                self.boss_damage,
+                self.mana_spent + spell.cost,
+                effects,
+                hard=self.hard,
+                parent=self,
+                spell_cast=spell.name,
+            )
             if not spell.effect:
                 new_state.hp += spell.heal
                 new_state.boss_hp -= spell.damage
@@ -118,10 +141,12 @@ def search_a_star(start):
 boss_hp = 58
 boss_attack = 9
 player_hp, player_mana = 50, 500
-start = State(player_hp, player_mana, boss_hp, boss_attack)
-end = search_a_star(start)
-print("Part 1:", end.mana_spent)
+begin = State(player_hp, player_mana, boss_hp, boss_attack)
+end = search_a_star(begin)
+part1 = end.mana_spent
 
-start = State(player_hp, player_mana, boss_hp, boss_attack, hard=True)
-end = search_a_star(start)
-print("Part 2:", end.mana_spent)
+begin = State(player_hp, player_mana, boss_hp, boss_attack, hard=True)
+end = search_a_star(begin)
+part2 = end.mana_spent
+
+print(f"Day 22     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")

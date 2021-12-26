@@ -1,3 +1,6 @@
+import time
+
+start = time.time()
 with open("../inputs/2015/05.input", "r") as f:
     lines = f.readlines()
 
@@ -23,5 +26,7 @@ def nice2(line):
     return any(len(line.replace(p, "")) + 4 == n for p in pairs)
 
 
-print("Part 1:", sum(map(nice, lines)))
-print("Part 2:", sum(map(nice2, lines)))
+part1 = sum(map(nice, lines))
+part2 = sum(map(nice2, lines))
+
+print(f"Day 05     {part1:<14} {part2:<14} {(time.time() - start)*1e3:>11.2f}")
