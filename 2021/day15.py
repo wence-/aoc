@@ -22,6 +22,28 @@ def neighbours(i, j, N, M):
             yield (i_, j_)
 
 
+def d2(start, end, graph):
+    N, M = len(graph), len(graph[0])
+    dist = [[False] * M for _ in range(N)]
+    Q = [[] for _ in range(10)]
+    qi = 0
+    Q[0].append(start)
+    while True:
+        Q[9].clear()
+        Q[qi % 9], Q[9] = Q[9], Q[qi % 9]
+        for vi, vj in Q[9]:
+            if dist[vi][vj]:
+                continue
+            if (vi, vj) == end:
+                return qi
+            dist[vi][vj] = True
+            for ui, uj in neighbours(vi, vj, N, M):
+                if dist[ui][uj]:
+                    continue
+                Q[(qi + graph[ui][uj]) % 9].append((ui, uj))
+        qi += 1
+
+
 def dijkstra(start, end, graph):
     N, M = len(graph), len(graph[0])
     dist = [[False] * M for _ in range(N)]
@@ -46,7 +68,7 @@ def dijkstra(start, end, graph):
 def part1(graph):
     start = (0, 0)
     end = len(graph) - 1, len(graph[0]) - 1
-    return dijkstra(start, end, graph)
+    return d2(start, end, graph)
 
 
 def replicate(graph):
@@ -61,7 +83,7 @@ def part2(graph):
     start = (0, 0)
     graph = replicate(graph)
     end = len(graph) - 1, len(graph[0]) - 1
-    return dijkstra(start, end, graph)
+    return d2(start, end, graph)
 
 
 print(
