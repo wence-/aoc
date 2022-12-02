@@ -5,3 +5,4 @@ __pycache__/
 /build/
 /AOC.egg-info/
 /rust-2021/target/
+/rust-2022/target/

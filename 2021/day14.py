@@ -1,5 +1,5 @@
 import time
-from collections import Counter
+from collections import defaultdict
 
 start = time.time()
 with open("../inputs/2021/day14.input", "r") as f:
@@ -13,10 +13,14 @@ with open("../inputs/2021/day14.input", "r") as f:
 
 
 def solve(polymer, rules, reps):
-    pairs = Counter(zip(polymer, polymer[1:]))
-    counts = Counter(polymer)
+    pairs = defaultdict(int)
+    for x in zip(polymer, polymer[1:]):
+        pairs[x] += 1
+    counts = defaultdict(int)
+    for p in polymer:
+        counts[p] += 1
     for _ in range(reps):
-        newpairs = Counter()
+        newpairs = defaultdict(int)
         for (a, b), count in pairs.items():
             c = rules[a, b]
             counts[c] += count

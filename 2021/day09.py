@@ -1,3 +1,4 @@
+import heapq
 import time
 from collections import defaultdict
 from functools import reduce
@@ -19,7 +20,8 @@ with open("../inputs/2021/day09.input", "r") as f:
             inp[i, j] = c
 
 
-def neighbours(i: int, j: int) -> Iterable[T]:
+def neighbours(n) -> Iterable[T]:
+    i, j = n
     yield from ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1))
 
 
@@ -28,7 +30,7 @@ def minima(heights: M) -> Iterable[T]:
     yield from (
         i
         for i in product(range(n + 1), range(m + 1))
-        if all(heights[i] < heights[n] for n in neighbours(*i))
+        if all(heights[i] < heights[n] for n in neighbours(i))
     )
 
 
@@ -40,19 +42,18 @@ def size(seed: T, heights: M) -> int:
     found: set[T] = set()
     queue = {seed}
     while queue:
-        seed = queue.pop()
-        if seed not in found:
+        if (seed := queue.pop()) not in found:
             found.add(seed)
             # Restriction that each point is either 9 or belonging to
             # exactly one basin means the termination criterion is
             # heights[c] == 9, and we don't need the additional check
             # that seed < heights[c]
-            queue |= set((c for c in neighbours(*seed) if heights[c] < 9))
+            queue.update(c for c in neighbours(seed) if heights[c] < 9)
     return len(found)
 
 
 def part2(heights: M) -> int:
-    return reduce(mul, sorted(size(s, heights) for s in minima(heights))[-3:])
+    return reduce(mul, heapq.nlargest(3, (size(s, heights) for s in minima(heights))))
 
 
 print(

@@ -1,5 +1,5 @@
 import time
-from collections import Counter
+from collections import defaultdict
 from functools import partial
 from itertools import chain, zip_longest
 
@@ -12,7 +12,7 @@ with open("../inputs/2021/day05.input", "r") as f:
 
 
 def solve(diagonal, wires):
-    c = Counter()
+    c = defaultdict(int)
     cmp = lambda x: (x > 0) - (x < 0)
     for x1, y1, x2, y2 in wires:
         dx = cmp(x2 - x1)
