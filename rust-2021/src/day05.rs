@@ -17,7 +17,12 @@ struct Range {
 
 impl Range {
     fn new(b: i16, e: i16, s: i16) -> Range {
-        Range { b, e: e + s, s, c: b }
+        Range {
+            b,
+            e: e + s,
+            s,
+            c: b,
+        }
     }
 }
 

@@ -46,7 +46,7 @@ impl Ship {
             F(n) => {
                 self.x += self.wx * n;
                 self.y += self.wy * n;
-            },
+            }
             R(1) => {
                 let tx = self.wx;
                 self.wx = self.wy;

@@ -4,8 +4,7 @@ pub fn read(contents: &str) -> Vec<&str> {
 
 fn trees(grid: &[&str], row: usize, col: usize) -> usize {
     let ncol = grid[0].len();
-    grid
-        .iter()
+    grid.iter()
         .step_by(col)
         .enumerate()
         .filter(|(i, line)| line.chars().nth(i * row % ncol).unwrap() == '#')

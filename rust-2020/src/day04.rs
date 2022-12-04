@@ -38,9 +38,7 @@ fn hgt(val: &str) -> bool {
 }
 
 fn hcl(val: &str) -> bool {
-    val.starts_with('#')
-        && val.len() == 7
-        && val.chars().skip(1).all(|c| c.is_ascii_hexdigit())
+    val.starts_with('#') && val.len() == 7 && val.chars().skip(1).all(|c| c.is_ascii_hexdigit())
 }
 
 fn ecl(val: &str) -> bool {

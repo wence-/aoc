@@ -1,16 +1,19 @@
 use std::collections::HashSet;
 
 pub fn read(contents: &str) -> HashSet<usize> {
-    contents.lines().map(|line| {
-        line.chars()
-            .enumerate()
-            .map(|(i, c)| match c {
-                'F' | 'L' => 0,
-                'B' | 'R' => 1 << (9 - i),
-                _ => 0,
-            })
-            .fold(0, |acc, x| x + acc)
-    }).collect()
+    contents
+        .lines()
+        .map(|line| {
+            line.chars()
+                .enumerate()
+                .map(|(i, c)| match c {
+                    'F' | 'L' => 0,
+                    'B' | 'R' => 1 << (9 - i),
+                    _ => 0,
+                })
+                .fold(0, |acc, x| x + acc)
+        })
+        .collect()
 }
 
 pub fn part1(data: &HashSet<usize>) -> usize {

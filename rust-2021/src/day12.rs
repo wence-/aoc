@@ -74,7 +74,6 @@ fn index(head: T, seen: u32, twice: bool) -> u32 {
     let t = if twice { 1 << 31 } else { 0 };
     seen << 12 | (head as u32) | t
 }
-    
 
 fn recurse(head: T, nodes: &Graph, seen: u32, twice: bool, cache: &mut Cache) -> I {
     if head == nodes.end {

@@ -24,7 +24,9 @@ pub fn read(inp: &str) -> Vec<(Cube, bool)> {
 
 #[inline]
 fn vol(cube: Cube) -> u64 {
-    (0..D).map(|i| (cube[i][1] - cube[i][0] + 1) as u64).product()
+    (0..D)
+        .map(|i| (cube[i][1] - cube[i][0] + 1) as u64)
+        .product()
 }
 
 #[inline]

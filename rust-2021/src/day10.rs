@@ -49,13 +49,14 @@ fn check(line: &str) -> (I, I) {
     }
     let mut s = 0;
     for &c in lifo.iter().rev() {
-        s = s * 5 + match c {
-            '(' => 1,
-            '[' => 2,
-            '{' => 3,
-            '<' => 4,
-            _ => unreachable!()
-        }
+        s = s * 5
+            + match c {
+                '(' => 1,
+                '[' => 2,
+                '{' => 3,
+                '<' => 4,
+                _ => unreachable!(),
+            }
     }
     (0, s)
 }
