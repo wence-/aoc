@@ -8,23 +8,25 @@ pub fn read(inp: &str) -> [Integer; 7] {
     v
 }
 
-#[inline]
-fn solve<const N: usize>(inp: &[Integer]) -> Integer {
-    let mut v = inp.to_owned();
-    let mut e = [Integer::default(); 3];
-    for i in 0..N {
-        v[(i + 6) % 7] += e[(i % 3)];
-        e[(i % 3)] = v[i % 7];
+fn solve(inp: &[Integer], n: usize) -> Integer {
+    let mut counts = [0usize; 9];
+    for (i, &c) in inp.iter().enumerate() {
+        counts[i] = c;
     }
-    v.into_iter().sum()
+    for _ in 0..n {
+        let new = counts[0];
+        counts.rotate_left(1);
+        counts[6] += new;
+    }
+    counts.into_iter().sum()
 }
 
 pub fn part1(inp: &[Integer]) -> Integer {
-    solve::<80>(inp)
+    solve(inp, 80)
 }
 
 pub fn part2(inp: &[Integer]) -> Integer {
-    solve::<256>(inp)
+    solve(inp, 256)
 }
 
 pub fn run() -> (String, String) {
