@@ -12,18 +12,18 @@ with open("../inputs/2022/day03.input") as f:
     ]
 
 
-def prio(char):
+def score(char):
     return 1 + ord(char) - (ord("A") - 26 if char <= "Z" else ord("a"))
 
 
 def part1(inp: list[tuple[set, set]]) -> int:
-    return sum(map(prio, ((a & b).pop() for a, b in inp)))
+    return sum(map(score, ((a & b).pop() for a, b in inp)))
 
 
 def part2(inp: list[tuple[set, set]]) -> int:
     return sum(
         map(
-            prio,
+            score,
             (
                 reduce(and_, ((a | b) for a, b in group)).pop()
                 for group in grouper(inp, 3, incomplete="strict")
