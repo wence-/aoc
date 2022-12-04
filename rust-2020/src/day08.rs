@@ -7,7 +7,7 @@ pub enum Op {
 pub fn read(lines: &str) -> Vec<Op> {
     lines
         .trim()
-        .split("\n")
+        .split('\n')
         .map(|line| {
             let n = line[4..].parse::<i32>().unwrap();
             match &line[0..3] {
@@ -20,7 +20,7 @@ pub fn read(lines: &str) -> Vec<Op> {
         .collect()
 }
 
-pub fn part1(data: &Vec<Op>) -> i32 {
+pub fn part1(data: &[Op]) -> i32 {
     let mut seen = vec![];
     let (mut acc, mut ip) = (0, 0);
     while !seen.contains(&ip) {
@@ -32,10 +32,10 @@ pub fn part1(data: &Vec<Op>) -> i32 {
         }
         ip += 1;
     }
-    return acc;
+    acc
 }
 
-pub fn part2(data: &Vec<Op>) -> i32 {
+pub fn part2(data: &[Op]) -> i32 {
     let ninsn = data.len();
     for i in 0..ninsn {
         let mut seen = Vec::new();
@@ -54,13 +54,13 @@ pub fn part2(data: &Vec<Op>) -> i32 {
             }
         }
     }
-    panic!()
+    unreachable!()
 }
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day08.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
+    (p1, p2)
 }

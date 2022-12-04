@@ -3,16 +3,16 @@ pub fn read(inp: &[u8]) -> Vec<[u8; 4]> {
         .map(|line| {
             let mut v = [0u8; 4];
             let mut pos = 0;
-            for i in 0..4 {
+            for v_ in &mut v {
                 let c0 = line[pos].saturating_sub(b'0' - 1);
                 let c1 = line.get(pos + 1).unwrap_or(&0).saturating_sub(b'0' - 1);
                 match c1 {
                     0 => {
-                        v[i] = c0;
+                        *v_ = c0;
                         pos += 2
                     }
                     _ => {
-                        v[i] = (c0 << 4) + c1;
+                        *v_ = (c0 << 4) + c1;
                         pos += 3
                     }
                 }

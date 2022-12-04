@@ -17,7 +17,7 @@ pub fn read(contents: &str) -> (u32, u32) {
             .fold(std::u32::MAX, |acc, one| acc & one)
             .count_ones();
     }
-    return (a, b);
+    (a, b)
 }
 
 pub fn part1(data: &(u32, u32)) -> u32 {
@@ -28,8 +28,8 @@ pub fn part2(data: &(u32, u32)) -> u32 {
 }
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day06.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
+    (p1, p2)
 }

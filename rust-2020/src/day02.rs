@@ -48,8 +48,8 @@ pub fn part2(data: &[Field]) -> usize {
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day02.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
     (p1, p2)
 }

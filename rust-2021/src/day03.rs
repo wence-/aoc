@@ -27,10 +27,7 @@ fn prune(inp: &[u32], mut bit: u32, flip: bool) -> u32 {
     while pruned.len() != 1 {
         let t = pruned.iter().filter(|&b| b & bit != 0).count();
         let keep = ((flip as u32) * bit) ^ (if 2 * t >= pruned.len() { bit } else { 0 });
-        pruned = pruned
-            .into_iter()
-            .filter(|&bits| bits & bit == keep)
-            .collect();
+        pruned.retain(|&bits| bits & bit == keep);
         bit >>= 1;
     }
     pruned[0]

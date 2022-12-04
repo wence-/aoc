@@ -73,13 +73,13 @@ impl Link {
         }
     }
 
-    fn iter<'a>(&'a self) -> impl Iterator<Item = usize> + 'a {
+    fn iter(&'_ self) -> impl Iterator<Item = usize> + '_ {
         iterate(self[1], move |&i| self[i])
     }
 }
 
 pub fn part1(data: &[usize]) -> String {
-    let mut cards = Link::new(&data);
+    let mut cards = Link::new(data);
     cards.run(100);
     cards
         .iter()
@@ -102,8 +102,8 @@ pub fn part2(data: &[usize]) -> usize {
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day23.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    let data = read(contents);
+    let p1 = part1(&data);
+    let p2 = part2(&data).to_string();
+    (p1, p2)
 }

@@ -28,8 +28,8 @@ pub fn part2(data: &HashSet<usize>) -> usize {
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day05.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
     (p1, p2)
 }

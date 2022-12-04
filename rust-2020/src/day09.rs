@@ -13,14 +13,13 @@ pub fn part1(data: &[i64]) -> i64 {
     *data[window_size..]
         .iter()
         .zip(data.windows(window_size))
-        .filter(|(&want, have)| !(*have).iter().any(|h| have.contains(&(want - h))))
-        .next()
+        .find(|(&want, have)| !(*have).iter().any(|h| have.contains(&(want - h))))
         .unwrap()
         .0
 }
 
 pub fn part2(data: &[i64]) -> i64 {
-    let want = part1(&data);
+    let want = part1(data);
     let mut left = 0;
     let mut subseq_sum = 0;
     for (right, n) in data.iter().enumerate() {
@@ -29,11 +28,8 @@ pub fn part2(data: &[i64]) -> i64 {
             left += 1;
         }
         if subseq_sum == want {
-            match &data[left..right].iter().minmax() {
-                MinMax(&min, &max) => {
-                    return min + max;
-                }
-                _ => {}
+            if let MinMax(&min, &max) = &data[left..right].iter().minmax() {
+                return min + max;
             }
         }
         subseq_sum += n;
@@ -42,8 +38,8 @@ pub fn part2(data: &[i64]) -> i64 {
 }
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day09.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
+    (p1, p2)
 }

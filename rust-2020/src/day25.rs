@@ -24,8 +24,8 @@ pub fn part2(_data: &[usize]) {}
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day25.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
     let p2 = "No part 2".to_string();
     (p1, p2)
 }

@@ -2,14 +2,14 @@ pub fn read(contents: &str) -> (i32, Vec<(i32, i32)>) {
     let lines = contents.lines().collect::<Vec<&str>>();
     let target = lines[0].parse::<i32>().unwrap();
     let buses = lines[1]
-        .split(",")
+        .split(',')
         .enumerate()
         .filter_map(|(i, n)| match n {
             "x" => None,
             n => Some((i as i32, n.parse::<i32>().unwrap())),
         })
         .collect::<Vec<_>>();
-    return (target, buses);
+    (target, buses)
 }
 
 pub fn part1(data: &(i32, Vec<(i32, i32)>)) -> i32 {
@@ -19,7 +19,7 @@ pub fn part1(data: &(i32, Vec<(i32, i32)>)) -> i32 {
         .map(|(_, bus)| (bus, bus - target % bus))
         .min_by_key(|k| k.1)
         .unwrap();
-    return bus * wait;
+    bus * wait
 }
 
 fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
@@ -62,13 +62,13 @@ pub fn part2(data: &(i32, Vec<(i32, i32)>)) -> i64 {
         .map(|(i, bus)| ((bus - i) as i64, *bus as i64))
         .unzip();
     let prod = n.iter().product::<i64>();
-    return (chinese_remainder(a.as_slice(), n.as_slice()).unwrap() + prod) % prod;
+    (chinese_remainder(a.as_slice(), n.as_slice()).unwrap() + prod) % prod
 }
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day13.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
+    (p1, p2)
 }

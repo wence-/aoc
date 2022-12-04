@@ -4,7 +4,7 @@ type Chunk = u64;
 
 const CHUNK_SIZE: usize = size_of::<Chunk>() * 2;
 
-const CHUNK_BITS: usize = size_of::<Chunk>() * 8;
+const CHUNK_BITS: usize = Chunk::BITS as usize;
 
 pub fn read(inp: &str) -> Vec<Chunk> {
     let parse = |&b| -> u8 {

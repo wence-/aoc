@@ -1,7 +1,6 @@
 use itertools::Itertools;
 use std::collections::HashMap;
 use std::ops::Index;
-use std::str::from_utf8;
 
 type T = u16;
 type I = u32;

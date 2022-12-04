@@ -25,7 +25,7 @@ pub fn read(contents: &str) -> Grid {
             grid[[j, i]] = s;
         }
     }
-    return grid;
+    grid
 }
 
 trait Search {
@@ -55,7 +55,7 @@ impl Search for Part1 {
                 _ => {}
             }
         }
-        return 0;
+        0
     }
 }
 
@@ -83,7 +83,7 @@ impl Search for Part2 {
             }
             m += 1;
         }
-        return 0;
+        0
     }
 }
 
@@ -109,10 +109,10 @@ pub fn part1(data: &Grid) -> usize {
     let mut current = data.clone();
     let mut next = Array2::<State>::default(data.dim());
     while next != current {
-        step(&mut current, &mut next, 4, Part1 {});
+        step(&current, &mut next, 4, Part1 {});
         std::mem::swap(&mut current, &mut next);
     }
-    return current.iter().filter(|c| **c == FULL).count();
+    current.iter().filter(|c| **c == FULL).count()
 }
 
 pub fn part2(data: &Grid) -> usize {
@@ -122,13 +122,13 @@ pub fn part2(data: &Grid) -> usize {
         step(&current, &mut next, 5, Part2 {});
         std::mem::swap(&mut current, &mut next);
     }
-    return current.iter().filter(|c| **c == FULL).count();
+    current.iter().filter(|c| **c == FULL).count()
 }
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day11.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
+    (p1, p2)
 }

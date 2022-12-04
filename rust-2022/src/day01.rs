@@ -4,14 +4,13 @@ pub fn read(inp: &[u8]) -> Vec<I> {
     let mut v = Vec::with_capacity(256);
     let mut val = 0;
     for line in inp.split(|&c| c == b'\n') {
-        if line.len() == 0 {
+        if line.is_empty() {
             v.push(val);
             val = 0;
         } else {
-            val = val
-                + line
-                    .iter()
-                    .fold(0u32, |acc, &c| acc * 10 + ((c - b'0') as u32));
+            val += line
+                .iter()
+                .fold(0u32, |acc, &c| acc * 10 + ((c - b'0') as u32));
         }
     }
     v

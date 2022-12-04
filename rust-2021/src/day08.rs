@@ -55,8 +55,7 @@ fn decode(line: [T; 14]) -> I {
     let (mut one, mut four, mut seven) = (0, 0, 0);
     let eight = 0b0111_1111;
     let mut zero_six_nine = [0; 3];
-    for i in 0..10 {
-        let digit = line[i];
+    for &digit in line.iter().take(10) {
         match digit.count_ones() {
             2 => one = digit,
             3 => seven = digit,

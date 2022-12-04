@@ -1,5 +1,5 @@
 pub fn read(contents: &str) -> Vec<&str> {
-    return contents.lines().collect();
+    contents.lines().collect()
 }
 
 fn trees(grid: &[&str], row: usize, col: usize) -> usize {
@@ -12,7 +12,7 @@ fn trees(grid: &[&str], row: usize, col: usize) -> usize {
 }
 
 pub fn part1(data: &[&str]) -> usize {
-    return trees(data, 3, 1);
+    trees(data, 3, 1)
 }
 
 pub fn part2(data: &[&str]) -> usize {
@@ -25,8 +25,8 @@ pub fn part2(data: &[&str]) -> usize {
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day03.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
     (p1, p2)
 }

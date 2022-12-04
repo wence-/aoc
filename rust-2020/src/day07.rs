@@ -10,7 +10,7 @@ pub fn read(lines: &str) -> (Graph, IGraph) {
     let mut invgraph = IGraph::new();
 
     let pat = Regex::new(r"(\d+) (.+?) bags?[,.]").unwrap();
-    for line in lines.trim().split("\n") {
+    for line in lines.trim().split('\n') {
         match line.split(" bags contain ").collect::<Vec<_>>().as_slice() {
             &[source, targets] => {
                 for cap in pat.captures_iter(targets) {
@@ -29,7 +29,7 @@ pub fn read(lines: &str) -> (Graph, IGraph) {
             _ => panic!("Didn't parse line"),
         }
     }
-    return (graph, invgraph);
+    (graph, invgraph)
 }
 
 pub fn part1(data: &(Graph, IGraph)) -> usize {
@@ -37,17 +37,14 @@ pub fn part1(data: &(Graph, IGraph)) -> usize {
     let mut lifo = vec!["shiny gold"];
     let mut seen = HashSet::<&str>::new();
     while let Some(top) = lifo.pop() {
-        match data.get(top) {
-            Some(t) => {
-                for &c in t {
-                    seen.insert(c);
-                    lifo.push(c);
-                }
+        if let Some(t) = data.get(top) {
+            for &c in t {
+                seen.insert(c);
+                lifo.push(c);
             }
-            None => (),
         }
     }
-    return seen.len();
+    seen.len()
 }
 
 pub fn part2(data: &(Graph, IGraph)) -> usize {
@@ -56,22 +53,19 @@ pub fn part2(data: &(Graph, IGraph)) -> usize {
     let mut lifo = vec![("shiny gold", 1)];
     while let Some((top, b)) = lifo.pop() {
         n += b;
-        match data.get(top) {
-            Some(t) => {
-                for &(k, w) in t {
-                    lifo.push((k, w * b));
-                }
+        if let Some(t) = data.get(top) {
+            for &(k, w) in t {
+                lifo.push((k, w * b));
             }
-            None => (),
         }
     }
-    return n - 1;
+    n - 1
 }
 
 pub fn run() -> (String, String) {
     let contents = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/inputs/day07.input"));
-    let data = read(&contents);
-    let p1 = format!("{}", part1(&data));
-    let p2 = format!("{}", part2(&data));
-    return (p1, p2);
+    let data = read(contents);
+    let p1 = part1(&data).to_string();
+    let p2 = part2(&data).to_string();
+    (p1, p2)
 }

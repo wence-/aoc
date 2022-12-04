@@ -1,14 +1,12 @@
-type Integer = usize;
-
-pub fn read(inp: &str) -> [Integer; 7] {
-    let mut v = [Integer::default(); 7];
+pub fn read(inp: &str) -> [usize; 7] {
+    let mut v = [0usize; 7];
     for word in inp.as_bytes().split(|&b| b == b',') {
         v[(word[0] - b'0') as usize] += 1;
     }
     v
 }
 
-fn solve(inp: &[Integer], n: usize) -> Integer {
+fn solve(inp: &[usize], n: usize) -> usize {
     let mut counts = [0usize; 9];
     for (i, &c) in inp.iter().enumerate() {
         counts[i] = c;
@@ -21,11 +19,11 @@ fn solve(inp: &[Integer], n: usize) -> Integer {
     counts.into_iter().sum()
 }
 
-pub fn part1(inp: &[Integer]) -> Integer {
+pub fn part1(inp: &[usize]) -> usize {
     solve(inp, 80)
 }
 
-pub fn part2(inp: &[Integer]) -> Integer {
+pub fn part2(inp: &[usize]) -> usize {
     solve(inp, 256)
 }
 
