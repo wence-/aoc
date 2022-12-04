@@ -27,8 +27,8 @@ macro_rules! bench {
 pub fn criterion_benchmark(c: &mut Criterion) {
     bench!(c, day01);
     bench!(c, day02);
-    // bench!(c, day03);
-    // bench!(c, day04);
+    bench!(c, day03);
+    bench!(c, day04);
     // bench!(c, day05);
     // bench!(c, day06);
     // bench!(c, day07);
@@ -38,9 +38,17 @@ pub fn criterion_benchmark(c: &mut Criterion) {
     // bench!(c, day11);
     // bench!(c, day12);
     // bench!(c, day13);
+    // bench!(c, day14);
     // bench!(c, day15);
     // bench!(c, day16);
+    // bench!(c, day17);
+    // bench!(c, day18);
+    // bench!(c, day19);
+    // bench!(c, day20);
+    // bench!(c, day21);
     // bench!(c, day22);
+    // bench!(c, day23);
+    // bench!(c, day24);
     // bench!(c, day25);
 }
 

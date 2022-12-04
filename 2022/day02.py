@@ -20,5 +20,5 @@ def part2(inp: list[tuple[int, int]]) -> int:
 
 
 print(
-    f"Day 01     {part1(inp):<14} {part2(inp):<14} {(time.time() - start)*1e3:>11.2f}"
+    f"Day 02     {part1(inp):<14} {part2(inp):<14} {(time.time() - start)*1e3:>11.2f}"
 )

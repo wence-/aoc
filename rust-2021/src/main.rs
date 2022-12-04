@@ -56,14 +56,12 @@ fn main() {
             let now = Instant::now();
             let (a, b) = day();
             println!(
-                "{:10} {:<w$} {:<w$} {:>n$}",
+                "{:10} {:<w$} {:<w$} {:>w$}",
                 format!("Day {:02}", i + 1),
                 a,
                 b,
                 now.elapsed().as_micros(),
                 w = W_PART,
-                n = 11,
-                    
             );
         }
     }

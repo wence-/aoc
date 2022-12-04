@@ -1,14 +1,14 @@
 use std::{env, time::Instant};
 
-const W_PART: usize = 14;
+const W_PART: usize = 13;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     let functions: Vec<fn() -> (String, String)> = vec![
         aoc::day01::run,
         aoc::day02::run,
-        // aoc::day03::run,
-        // aoc::day04::run,
+        aoc::day03::run,
+        aoc::day04::run,
         // aoc::day05::run,
         // aoc::day06::run,
         // aoc::day07::run,
@@ -31,7 +31,14 @@ fn main() {
         // aoc::day24::run,
         // aoc::day25::run,
     ];
-    println!("{:10} {:<w$} {:<w$} {:>w$}", "Day", "Part 1", "Part 2", "Time [μs]", w = W_PART);
+    println!(
+        "{:10} {:<w$} {:<w$} {:>w$}",
+        "Day",
+        "Part 1",
+        "Part 2",
+        "Time [μs]",
+        w = W_PART
+    );
     println!("{:-<w$}", "", w = 3 * W_PART + 10 + 3);
     let start = Instant::now();
     if args.len() == 2 {
@@ -57,17 +64,19 @@ fn main() {
             let now = Instant::now();
             let (a, b) = day();
             println!(
-                "{:10} {:<w$} {:<w$} {:>n$}",
+                "{:10} {:<w$} {:<w$} {:>w$}",
                 format!("Day {:02}", i + 1),
                 a,
                 b,
                 now.elapsed().as_micros(),
                 w = W_PART,
-                n = 11,
-                    
             );
         }
     }
     println!("{:-<w$}", "", w = 3 * W_PART + 10 + 3);
-    println!("{:>w$}", start.elapsed().as_micros(), w = 3 * W_PART + 10 + 3);
+    println!(
+        "{:>w$}",
+        start.elapsed().as_micros(),
+        w = 3 * W_PART + 10 + 3
+    );
 }

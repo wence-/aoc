@@ -6,6 +6,7 @@ import operator
 import time
 import typing
 
+import more_itertools
 import numpy
 import scipy.signal
 
@@ -15,9 +16,9 @@ print("----------------------------------------------------")
 
 import day01
 import day02
+import day03
+import day04
 
-# import day03
-# import day04
 # import day05
 # import day06
 # import day07
