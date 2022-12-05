@@ -10,6 +10,7 @@ edition = "2021"
 itertools = "^0.10.5"
 criterion = "^0.4.0"
 anyhow = "1.0"
+bytemuck = "^1.12.3"
 
 [[bench]]
 name = "aoc"
