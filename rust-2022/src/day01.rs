@@ -19,7 +19,7 @@ pub fn part1(inp: &[u32]) -> u32 {
 }
 
 #[inline]
-fn sort(r: &mut [u32]) {
+fn sort(r: &mut [u32; 4]) {
     if r[0] > r[1] {
         r.swap(0, 1)
     }
@@ -32,7 +32,7 @@ fn sort(r: &mut [u32]) {
 }
 
 pub fn part2(inp: &[u32]) -> u32 {
-    const N: usize = 3;
+    const N: usize = 4;
     let mut r = [0; N];
     for &e in inp.iter() {
         if r[0] < e {

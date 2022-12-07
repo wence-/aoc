@@ -16,7 +16,7 @@ fn run(day: fn() -> (String, String), reps: u64) -> Duration {
 fn mini_bench(day: fn() -> (String, String)) -> (f64, (String, String)) {
     let mut reps = 10;
     let mut duration = run(day, reps);
-    while duration.as_micros() < 1_000 {
+    while duration.as_micros() < 100_000 {
         reps *= 2;
         duration = run(day, reps);
     }
@@ -31,7 +31,7 @@ fn main() {
         aoc::day03::run,
         aoc::day04::run,
         aoc::day05::run,
-        // aoc::day06::run,
+        aoc::day06::run,
         // aoc::day07::run,
         // aoc::day08::run,
         // aoc::day09::run,
