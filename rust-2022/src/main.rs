@@ -32,7 +32,7 @@ fn main() {
         aoc::day04::run,
         aoc::day05::run,
         aoc::day06::run,
-        // aoc::day07::run,
+        aoc::day07::run,
         // aoc::day08::run,
         // aoc::day09::run,
         // aoc::day10::run,
