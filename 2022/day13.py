@@ -18,11 +18,12 @@ def compare(left, right):
             return compare([left], right)
     elif isinstance(right, int):
         return compare(left, [right])
+    elif left and right:
+        return (
+            val if (val := compare(left[0], right[0])) else compare(left[1:], right[1:])
+        )
     else:
-        for pair in zip(left, right):
-            if val := compare(*pair):
-                return val
-        return (len(right) < len(left)) - (len(left) < len(right))
+        return bool(left) - bool(right)
 
 
 def part1(inp: list) -> int:

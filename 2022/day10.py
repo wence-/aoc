@@ -50,17 +50,11 @@ def part2(inp: list) -> str:
 
     result: list[str] = [" "] * (W * H)
 
-    def make_pixel(x, cycle):
-        if abs(x - (cycle % W)) > 1:
-            return " "
-        else:
-            return "#"
-
     x = 1
     cycle = 0
     for op in inp:
         for _ in range(1 + (op != 0)):
-            result[cycle] = make_pixel(x, cycle)
+            result[cycle] = " " if abs(x - (cycle % W)) > 1 else "#"
             cycle += 1
         x += op
 
