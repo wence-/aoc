@@ -9,29 +9,29 @@ with open("../inputs/2022/day08.input") as f:
 
 def part1(inp: list) -> int:
     visible = set()
-    for i, row in enumerate(inp):
-        colmax = -1
-        for j, col in enumerate(row):
-            if col > colmax:
+    for i, line in enumerate(inp):
+        maxseen = -1
+        for j, c in enumerate(line):
+            if c > maxseen:
                 visible.add((i, j))
-                colmax = col
-        colmax = -1
-        for j, col in enumerate(row[::-1]):
-            if col > colmax:
-                visible.add((i, (len(row) - j - 1)))
-                colmax = col
+                maxseen = c
+        maxseen = -1
+        for j, c in enumerate(line[::-1]):
+            if c > maxseen:
+                visible.add((i, (len(line) - j - 1)))
+                maxseen = c
     transposed = list(zip(*inp))
-    for j, col in enumerate(transposed):
+    for j, c in enumerate(transposed):
         rowmax = -1
-        for i, row in enumerate(col):
-            if row > rowmax:
+        for i, line in enumerate(c):
+            if line > rowmax:
                 visible.add((i, j))
-                rowmax = row
+                rowmax = line
         rowmax = -1
-        for i, row in enumerate(col[::-1]):
-            if row > rowmax:
-                visible.add((len(col) - i - 1, j))
-                rowmax = row
+        for i, line in enumerate(c[::-1]):
+            if line > rowmax:
+                visible.add((len(c) - i - 1, j))
+                rowmax = line
     return len(visible)
 
 
