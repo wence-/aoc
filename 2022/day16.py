@@ -60,15 +60,11 @@ def part2(inp: dict) -> int:
             if dst in enabled or cur_time > time_left:
                 continue
             if budget < cur_time:
-                new_me = you
-                new_you = dst
-                new_time_left = time_left - budget
-                new_budget = cur_time - budget
+                new_me, new_you = you, dst
+                new_time_left, new_budget = time_left - budget, cur_time - budget
             else:
-                new_me = dst
-                new_you = you
-                new_time_left = time_left - cur_time
-                new_budget = budget - cur_time
+                new_me, new_you = dst, you
+                new_time_left, new_budget = time_left - cur_time, budget - cur_time
             new = current + (time_left - cur_time) * inp[dst][0]
             # magic number for A-* pruning
             if new + (time_left - cur_time - budget) * 78 < best:
