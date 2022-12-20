@@ -14,8 +14,8 @@ with open("../inputs/2022/day16.input") as f:
 
 
 @cache
-def paths(node):
-    q = deque([(0, node)])
+def paths(node: str) -> dict[str, int]:
+    q: deque[tuple[int, str]] = deque([(0, node)])
     ret = {}
     while q:
         d, n = q.popleft()
@@ -27,67 +27,65 @@ def paths(node):
 
 
 def part1(inp: dict) -> int:
-    # For pruning
-    best = 0
-
-    def search(current, time_left, enabled, node):
-        """Worker at node with time_left time, and a set of enabled
-        nodes, with current best guess for score"""
-        nonlocal best
-        benefit = current
+    def search(node: str, best: int, current: int, time_left: int, enabled: set[str]):
+        score = current
         for dst, cur_time in paths(node).items():
-            if dst not in enabled and cur_time <= time_left:
-                new_time = time_left - cur_time
-                new = current + new_time * inp[dst][0]
-                prunep = new_time * 47  # magic number for A* pruning
-                if new + prunep < best:
-                    continue
-                candidate = search(new, new_time, enabled | {dst}, dst)
-                benefit = max(benefit, candidate)
-        best = max(best, benefit)
-        return benefit
+            if dst in enabled or cur_time > time_left:
+                continue
+            new_time = time_left - cur_time
+            new_score = current + new_time * inp[dst][0]
+            # magic number for A-* pruning
+            if new_score + new_time * 47 < best:
+                continue
+            candidate, best = search(dst, best, new_score, new_time, enabled | {dst})
+            score = max(score, candidate)
+        return score, max(best, score)
 
-    return search(0, 30, set(), "AA")
+    return search("AA", 0, 0, 30, set())[0]
 
 
 def part2(inp: dict) -> int:
-    # For pruning
-    best = 0
-
     # Could merge with part1 search, but meh
-    def search(cur_benefit, time_left, enabled, me, you, you_budget):
-        nonlocal best
-        benefit = cur_benefit
+    def search(
+        me: str,
+        you: str,
+        best: int,
+        current: int,
+        time_left: int,
+        enabled: set[str],
+        budget: int,
+    ):
+        score = current
         for dst, cur_time in paths(me).items():
-            if dst not in enabled and cur_time <= time_left:
-                if you_budget < cur_time:
-                    new_me = you
-                    new_you = dst
-                    new_time_left = time_left - you_budget
-                    new_budget = cur_time - you_budget
-                else:
-                    new_me = dst
-                    new_you = you
-                    new_time_left = time_left - cur_time
-                    new_budget = you_budget - cur_time
-                new = cur_benefit + (time_left - cur_time) * inp[dst][0]
-                # magic number for A-* pruning
-                prunep = (time_left - cur_time - you_budget) * 78
-                if new + prunep < best:
-                    continue
-                candidate = search(
-                    new,
-                    new_time_left,
-                    enabled | {dst},
-                    new_me,
-                    new_you,
-                    new_budget,
-                )
-                benefit = max(benefit, candidate)
-        best = max(best, benefit)
-        return benefit
+            if dst in enabled or cur_time > time_left:
+                continue
+            if budget < cur_time:
+                new_me = you
+                new_you = dst
+                new_time_left = time_left - budget
+                new_budget = cur_time - budget
+            else:
+                new_me = dst
+                new_you = you
+                new_time_left = time_left - cur_time
+                new_budget = budget - cur_time
+            new = current + (time_left - cur_time) * inp[dst][0]
+            # magic number for A-* pruning
+            if new + (time_left - cur_time - budget) * 78 < best:
+                continue
+            candidate, best = search(
+                new_me,
+                new_you,
+                best,
+                new,
+                new_time_left,
+                enabled | {dst},
+                new_budget,
+            )
+            score = max(score, candidate)
+        return score, max(best, score)
 
-    return search(0, 26, set(), "AA", "AA", 0)
+    return search("AA", "AA", 0, 0, 26, set(), 0)[0]
 
 
 print(
