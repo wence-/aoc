@@ -44,7 +44,11 @@ pub fn part1(inp: &(Vec<u32>, u32)) -> u32 {
 
 pub fn part2(inp: &(Vec<u32>, u32)) -> u32 {
     let (capacity, want) = (70000000, 30000000);
-    *inp.0.iter().filter(|&&x| x >= want - (capacity - inp.1)).min().unwrap_or(&0)
+    *inp.0
+        .iter()
+        .filter(|&&x| x >= want - (capacity - inp.1))
+        .min()
+        .unwrap_or(&0)
 }
 
 pub fn run() -> (String, String) {

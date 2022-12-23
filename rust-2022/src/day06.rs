@@ -11,11 +11,7 @@ fn unique<const N: usize>(s: &[u8]) -> bool {
 }
 
 fn solve<const N: usize>(inp: &[u8]) -> usize {
-    if let Some((i, _)) = inp
-        .windows(N)
-        .enumerate()
-        .find(|(_, win)| unique::<N>(win))
-    {
+    if let Some((i, _)) = inp.windows(N).enumerate().find(|(_, win)| unique::<N>(win)) {
         i + N
     } else {
         unreachable!()

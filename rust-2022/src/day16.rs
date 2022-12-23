@@ -35,6 +35,14 @@ fn allpaths(graph: &[GraphNode]) -> Paths {
     ret
 }
 
+#[inline]
+fn best_remaining(enabled: u64, rates: &[u16]) -> u16 {
+    (0..N)
+        .filter_map(|i| (enabled & (1 << i) == 0).then_some(rates[i]))
+        .max()
+        .unwrap_or(0)
+}
+
 pub fn read(inp: &[u8]) -> (Vec<GraphNode>, Paths) {
     let mapping: HashMap<&[u8], u8> = inp
         .split(|&c| c == b'\n')
@@ -61,22 +69,23 @@ pub fn read(inp: &[u8]) -> (Vec<GraphNode>, Paths) {
 
 fn search(
     node: u8,
-    best: u64,
-    current: u64,
+    best: u16,
+    current: u16,
     time_left: u8,
     enabled: u64,
     paths: &Paths,
-    rates: &[u64],
-) -> (u64, u64) {
+    rates: &[u16],
+) -> (u16, u16) {
     let mut score = current;
     let mut best = best;
     for &(dst, cur_time) in paths[node as usize].iter() {
         if cur_time > time_left || ((1 << dst) & enabled) != 0 {
             continue;
         }
-        let new_time = (time_left - cur_time) as u64;
+        let new_time = (time_left - cur_time) as u16;
         let new_score = current + new_time * rates[dst as usize];
-        if new_score + new_time * 47 < best {
+        let optimistic = best_remaining(enabled | (1 << dst), rates);
+        if new_score + (new_time * new_time * optimistic) / 15 < best {
             continue;
         }
         let x = search(
@@ -94,14 +103,62 @@ fn search(
     (score, best.max(score))
 }
 
-pub fn part1(inp: &(Vec<GraphNode>, Paths)) -> u64 {
-    let rates: Vec<_> = inp.0.iter().map(|x| x.0 as u64).collect();
+fn search2(
+    me: u8,
+    you: u8,
+    best: u16,
+    current: u16,
+    time_left: u16,
+    enabled: u64,
+    budget: u16,
+    paths: &Paths,
+    rates: &[u16],
+) -> (u16, u16) {
+    let mut score = current;
+    let mut best = best;
+    for &(dst, cur_time) in paths[me as usize].iter() {
+        let cur_time = cur_time as u16;
+        if cur_time > time_left || ((1 << dst) & enabled) != 0 {
+            continue;
+        }
+        let (new_me, new_you, new_time_left, new_budget);
+        if budget < cur_time {
+            (new_me, new_you) = (you, dst);
+            (new_time_left, new_budget) = (time_left - budget, cur_time - budget);
+        } else {
+            (new_me, new_you) = (dst, you);
+            (new_time_left, new_budget) = (time_left - cur_time, budget - cur_time);
+        }
+        let new = current + (time_left - cur_time) * rates[dst as usize];
+        if new + (89 * time_left).saturating_sub(110 * cur_time + 65 * budget) < best {
+            continue;
+        }
+
+        let x = search2(
+            new_me,
+            new_you,
+            best,
+            new,
+            new_time_left,
+            enabled | (1 << dst),
+            new_budget,
+            paths,
+            rates,
+        );
+        best = x.1;
+        score = score.max(x.0);
+    }
+    (score, best.max(score))
+}
+
+pub fn part1(inp: &(Vec<GraphNode>, Paths)) -> u16 {
+    let rates: Vec<_> = inp.0.iter().map(|x| x.0 as u16).collect();
     search(16, 0, 0, 30, 0, &inp.1, &rates).0
 }
 
-pub fn part2(inp: &(Vec<GraphNode>, Paths)) -> u64 {
-    let rates: Vec<_> = inp.0.iter().map(|x| x.0 as u64).collect();
-    search(16, 0, 0, 30, 0, &inp.1, &rates).0
+pub fn part2(inp: &(Vec<GraphNode>, Paths)) -> u16 {
+    let rates: Vec<_> = inp.0.iter().map(|x| x.0 as u16).collect();
+    search2(16, 16, 0, 0, 26, 0, 0, &inp.1, &rates).0
 }
 
 pub fn run() -> (String, String) {
