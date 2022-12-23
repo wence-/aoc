@@ -25,7 +25,7 @@ fn allpaths(graph: &[GraphNode]) -> Paths {
             .iter()
             .enumerate()
             .filter_map(|(node, time)| {
-                (graph[node as usize].0 > 0).then_some((node as u8, *time + 1))
+                (graph[node].0 > 0).then_some((node as u8, *time + 1))
             })
             .enumerate()
         {
@@ -59,7 +59,7 @@ pub fn read(inp: &[u8]) -> (Vec<GraphNode>, Paths) {
         let offset = if line[47] == b' ' { 48 } else { 49 };
         let edges = line[offset..]
             .split(|&c| c == b',')
-            .map(|entry| *mapping.get(&entry[(entry[0] == b' ') as usize..]).unwrap() as u8)
+            .map(|entry| *mapping.get(&entry[(entry[0] == b' ') as usize..]).unwrap())
             .collect::<Vec<_>>();
         graph.push((rate, edges))
     }
