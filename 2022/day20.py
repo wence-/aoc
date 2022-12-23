@@ -60,8 +60,7 @@ def solve(inp: list[int], multiplier: int, rounds: int):
         for d in data:
             buckets.shift(d, d[1] % (N - 1))
 
-    zero_offset = buckets.index(zero)
-    return sum((buckets[(zero_offset + i * 1000) % N][1] for i in range(1, 4)))
+    return sum((buckets[(buckets.index(zero) + i * 1000) % N][1] for i in range(1, 4)))
 
 
 def part1(inp: list) -> int:

@@ -13,6 +13,7 @@ with open("../inputs/2022/day16.input") as f:
         inp[src] = (rate, list(s.strip() for s in edges))
 
 
+# This is just lucky, the order we visit things changes the relevant magic numbers
 @cache
 def paths(node: str) -> dict[str, int]:
     q: deque[tuple[int, str]] = deque([(0, node)])
@@ -66,7 +67,8 @@ def part2(inp: dict) -> int:
                 new_me, new_you = dst, you
                 new_time_left, new_budget = time_left - cur_time, budget - cur_time
             new = current + (time_left - cur_time) * inp[dst][0]
-            # magic number for A-* pruning
+            # magic number for A-* pruning (order dependent for path visiting)
+            # so not a general solution
             if new + (time_left - cur_time - budget) * 78 < best:
                 continue
             candidate, best = search(

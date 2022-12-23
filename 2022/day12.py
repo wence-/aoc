@@ -20,10 +20,6 @@ with open("../inputs/2022/day12.input") as f:
     inp = inp, (source, target)
 
 
-def keep(grid, node, neighbour):
-    return grid[node] - 1 <= grid[neighbour]
-
-
 def solve(grid, source, done):
     q: deque[tuple[tuple, int]] = deque([(source, 0)])
     seen = {source}
@@ -33,7 +29,7 @@ def solve(grid, source, done):
             return distance
         for (dx, dy) in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             neighbour = (node[0] + dx, node[1] + dy)
-            if neighbour not in seen and keep(grid, node, neighbour):
+            if neighbour not in seen and grid[node] - 1 <= grid[neighbour]:
                 seen.add(neighbour)
                 q.append((neighbour, distance + 1))
     raise ValueError
